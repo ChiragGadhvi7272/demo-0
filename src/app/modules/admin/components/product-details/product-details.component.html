@@ -1,0 +1,223 @@
+<div class="p-2">
+  <div class="text-primary h4 mb-0">Product Details</div>
+  <!-- <p class="text-secondary m-0">Enter the required details and save</p> -->
+</div>
+<form [formGroup]="productDetailsForm" novalidate>
+  <div class="card">
+    <div class="p-1">
+      <div class="row">
+        <!-- Operating Unit -->
+        <div class="col-md-3">
+          <div class="form-floating m-1">
+            <select
+              name="operatingUnit"
+              class="form-select form-select-sm select"
+              id="operatingUnit"
+              formControlName="operatingUnit"
+              #operatingUnit
+              [ngClass]="{
+                'is-invalid':
+                  productDetailsFormControls['operatingUnit'].errors &&
+                  productDetailsFormControls['operatingUnit'].touched
+              }"
+              (change)="getOrganizationList(operatingUnit.value)"
+            >
+              <option [defaultSelected]="true" value="">---Select---</option>
+              <option
+                *ngFor="let ou of operatingUnitList"
+                value="{{ ou.ORG_ID }}"
+              >
+                {{ ou.ORG_NAME }}
+              </option>
+            </select>
+            <label for="operatingUnit" class="fw-bold floatLabel">
+              {{ orgIdNameLabel }}<span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="
+              productDetailsFormControls['operatingUnit'].errors?.['required'] &&
+              productDetailsFormControls['operatingUnit'].touched
+              "
+              >Please select {{ orgIdNameLabel }}</small
+            >
+          </div>
+        </div>
+        <!-- Organization -->
+        <div class="col-md-3">
+          <div class="form-floating m-1">
+            <select
+              name="organization"
+              class="form-select form-select-sm select"
+              id="organization"
+              #organization
+              formControlName="organization"
+              [ngClass]="{
+                'is-invalid':
+                  productDetailsFormControls['organization'].errors &&
+                  productDetailsFormControls['organization'].touched
+              }"
+              (change)="onInvOrgIdChange()"
+            >
+              <option [defaultSelected]="true" value="">---Select---</option>
+              <option
+                *ngFor="let org of organizationList"
+                value="{{ org.INV_ORG_ID }}"
+              >
+                {{ org.INV_ORG_NAME }}
+              </option>
+            </select>
+            <label for="organization" class="fw-bold floatLabel">
+              {{ invOrgIdNameLabel }}<span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="
+              productDetailsFormControls['organization'].errors?.['required'] &&
+              productDetailsFormControls['organization'].touched
+              "
+              >Please select {{ invOrgIdNameLabel }}</small
+            >
+          </div>
+        </div>
+        <div class="col-md mt-1">
+          <div class="m-1">
+            <button
+              type="button"
+              class="btn btn-primary btn-sm me-3"
+              [disabled]="!productDetailsForm.valid"
+              (click)="
+                getProductDetails(organization.value, operatingUnit.value)
+              "
+            >
+              Go
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-primary me-3"
+              [disabled]="!productDetailsForm.valid"
+              data-bs-toggle="modal"
+              data-bs-target="#productDetails"
+              (click)="
+                createEditProductDetails(productDetails, organization.value)
+              "
+            >
+              Create
+              <fa-icon [icon]="faCircleUp"></fa-icon>
+            </button>
+            <!-- Upload Button -->
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              [disabled]="!productDetailsForm.valid"
+              (click)="
+                uploadProductDetails(organization.value, operatingUnit.value)
+              "
+            >
+              Upload
+              <fa-icon [icon]="faFile"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-2 pb-0 border-top" *ngIf="showTable">
+      <div class="table-responsive rounded-1 table-resp" [style]="tableHeight">
+        <table class="table table-hover table-bordered table-sm mb-1">
+          <thead
+            class="rowgroup bg-primary border-light text-white adminScrollWithIn"
+          >
+            <tr>
+              <th scope="col" class="w-auto text-nowrap">Edit</th>
+              <th scope="col" class="w-auto text-nowrap">Part ID</th>
+              <th scope="col" class="w-auto text-nowrap">Part Number</th>
+              <th scope="col" class="w-auto text-nowrap">Description</th>
+              <th scope="col" class="w-auto text-nowrap">Status</th>
+            </tr>
+          </thead>
+          <tbody class="table-group">
+            <tr
+              *ngFor="
+                let productDetails of productDetailsList
+                  | paginate : paginationConfig
+              "
+            >
+              <td scope="row">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#productDetails"
+                  (click)="
+                    createEditProductDetails(productDetails, organization.value)
+                  "
+                >
+                  <fa-icon [icon]="faEdit"></fa-icon>
+                </button>
+              </td>
+              <!-- Part ID -->
+              <td>{{ productDetails.partId }}</td>
+              <!-- Part Number -->
+              <td>{{ productDetails.partNumber }}</td>
+              <td>
+                {{ productDetails.description }}
+              </td>
+              <td>
+                <div
+                  *ngIf="productDetails.status === 'Y'; else isInActive"
+                  class="text-success"
+                >
+                  ACTIVE
+                </div>
+                <ng-template #isInActive
+                  ><div class="text-danger">INACTIVE</div></ng-template
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-footer text-center" *ngIf="showTable">
+      <div class="row">
+        <div class="col-md-1">
+          <div class="form-floating ms-1">
+            <select
+              class="form-select form-select-sm fw-bold"
+              (change)="showNoOfRows()"
+              name="changeRows"
+              id="changeRows"
+              formControlName="changeRows"
+            >
+              <option
+                *ngFor="let option of listPerPage; trackBy: trackByFn"
+                [value]="option"
+              >
+                {{ option }}
+              </option>
+            </select>
+            <label for="loggerMode" class="floatLabel">Rows </label>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <pagination-controls
+            (pageChange)="onPageChange($event)"
+          ></pagination-controls>
+        </div>
+        <div class="col-md-2 mt-2">
+          <div class="fw-bold">
+            No. of Rows: {{ productDetailsList.length }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-create-edit-products
+      [clientId]="clientId"
+      [orgId]="orgId"
+      [invOrgId]="invOrgId"
+    >
+    </app-create-edit-products>
+  </div>
+</form>

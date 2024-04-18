@@ -1,0 +1,25 @@
+<div [formGroup]="printerInfo">
+  <div class="h6 fw-bold mt-2 mb-1">Printer Details</div>
+  <div class="card border-primary">
+    <div class="card-body p-1 m-1">
+      <div class="row row-cols row-cols-md-3">
+        <div class="col mt-2 mb-2">
+          <div class="form-floating">
+            <select
+              class="form-select form-select-sm"
+              placeholder=" "
+              id="printerName"
+              name="printerName"
+              formControlName="printerName"
+            >
+              <option value="">Select</option>
+            </select>
+            <label class="floatLabel mb-0 me-md-0 me-2" for="type"
+              >Printer Name</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

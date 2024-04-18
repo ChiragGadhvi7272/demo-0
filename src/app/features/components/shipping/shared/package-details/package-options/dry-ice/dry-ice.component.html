@@ -1,0 +1,59 @@
+<form [formGroup]="dyIceInfoForm" novalidate>
+  <div class="card p-1 border-primary mb-3">
+    <div class="form-check mt-2 ms-2 text-start">
+        <input
+        type="checkbox"
+        class="form-check-input"
+        formControlName="dryIceFlag"
+        id="dryIceFlag"
+        (change)="enableRestFields()"
+        #dryIceFlag
+        />
+        <label for="dryIceFlag" class="form-check-label h6 text-primary">
+            Dry Ice Info
+        </label>
+      </div> 
+    <div class="card-body pt-0" *ngIf="dryIceFlag.checked">
+      <div class="row row-cols p-0 mb-2 row-cols-md-2">
+        <div class="col-sm">
+          <div class="input-group ms-0 mb-1 m-1">
+            <span class="form-floating leftFloat">
+              <input
+                type="text"
+                placeholder=""
+                name="weight"
+                class="form-control form-control-sm"
+                id="weight"
+                formControlName="weight"
+                [ngClass]="{
+                  'is-invalid':
+                    dryIceInfoControls['weight'].touched &&
+                    dryIceInfoControls['weight'].errors
+                }"
+              />
+              <label for="weight" class="floatLabel"> Weight </label>
+            </span>
+            <span class="form-floating">
+              <select
+                name="weightUnits"
+                class="form-select form-select-sm select rightFloat"
+                id="weightUnits"
+                formControlName="weightUnits"
+                [ngClass]="{
+                  'is-invalid':
+                    dryIceInfoControls['weightUnits'].touched &&
+                    dryIceInfoControls['weightUnits'].errors
+                }"
+              >
+                <option value="LBS" [selected]="true">LBS</option>
+              </select>
+              <label for="weightUnits" class="floatLabel">
+                Weight Units <span class="text-danger">*</span>
+              </label>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,14 @@
+{
+    "production": false,
+    "demo": false,
+    "dev": true,
+    "ENVIRONMENT": "prod",
+    "apiUrl": "http://prod:8765/ShipConsoleCloudAPI",
+    "authApiUrl": "http://prod:9092/AuthServer",
+    "oauthUserName": "sc-admin",
+    "oauthPassword": "sc-admin",
+    "version": "1.18",
+    "localStorageEncryptionKey": "9ce7e387143d7ba7d7e017cfdb57b249",
+    "copyrights": "2024 ShipConsole. All rights reserved"
+  }
+  

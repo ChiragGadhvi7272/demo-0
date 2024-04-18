@@ -1,0 +1,63 @@
+<form [formGroup]="adhocShipFormGroup" novalidate>
+  <div class="">
+    <div class="p-2">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="text-primary h4 mt-1">Adhoc Shipping</div>
+        </div>
+        <div class="col-lg-5">
+          <div class="row">
+            <div class="col-lg">
+              <button class="btn btn-outline-primary ps-3 pe-3 rounded-3">
+                <fa-icon [icon]="faPrint"></fa-icon>
+                Re-print
+              </button>
+            </div>
+            <div class="col-lg mt-2 mt-md-0">
+              <button class="btn btn-primary ps-3 pe-3 rounded-3">
+                <fa-icon [icon]="faTruck"></fa-icon> Ship
+              </button>
+            </div>
+            <div class="col-lg mt-2 mt-md-0">
+              <button class="btn btn-outline-primary ps-3 pe-3 rounded-3">
+                <fa-icon [icon]="faBan"></fa-icon>
+                Void
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-1">
+    <div class="col-md-3">
+      <div class="card pb-1">
+        <div class="card-body pt-1 pb-1 p-3">
+          <app-adhoc-ship-from
+            [shipFromAddrInfo]="getShipFromAddrInfo"
+          ></app-adhoc-ship-from>
+          <app-adhoc-ship-to
+            [shipToAddrInfo]="getShipToAddrInfo"
+          ></app-adhoc-ship-to>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <app-adhoc-shared
+        [shipmentHeadersInfo]="adhocShipFormGroup"
+        [clientId]="clientId"
+        [orgId]="orgId"
+        [invOrgId]="invOrgId"
+        [shipFlag]="shipFlag"
+        [paymethodsList]="paymethodsList"
+        [accountNumbersList]="accountNumbersList"
+        [erpType]="erpType"
+        [packageCount]="noOfPackages"
+        [freightShoppingFlag]="freightShoppingFlag"
+        [defaultFocus]="defaultFocus"
+        (addPackageEvent)="addPackage($event)"
+        (removePackageEvent)="removePackage($event)"
+      ></app-adhoc-shared>
+    </div>
+  </div>
+</form>

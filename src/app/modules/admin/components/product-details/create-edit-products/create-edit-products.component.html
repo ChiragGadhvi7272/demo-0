@@ -1,0 +1,769 @@
+<div
+  class="modal fade"
+  id="productDetails"
+  tabindex="-1"
+  role="dialog"
+  [formGroup]="createEditProductDetailsForm"
+  novalidate
+  autocomplete="off"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-light bg-primary p-2 ps-3">
+        <div class="modal-title h5" id="productDetails">
+          {{ this.createUpdate }}
+        </div>
+        <span style="float: right;">
+          <button type="button" class="btn-close btn-close-white p-2 me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+        </span>
+      </div>
+      <div class="modal-body">
+        <div class="row row-cols-sm-1 row-cols-md-3 row-cols-lg-3">
+          <!--2. Part Number -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="partNumber"
+                class="form-control form-control-sm"
+                id="partNumber"
+                formControlName="partNumber"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditProductDetailsFormControls['partNumber'].errors &&
+                    createEditProductDetailsFormControls['partNumber'].touched
+                }"
+              />
+              <label for="partNumber" class="fw-bold" class="floatLabel"
+                >Part Number<span class="text-danger">*</span>
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                  createEditProductDetailsFormControls['partNumber'].errors?.['required'] &&
+                  createEditProductDetailsFormControls['partNumber'].touched
+                "
+                >Please enter part number</small
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['partNumber'].errors?.['maxlength'] &&
+                createEditProductDetailsFormControls['partNumber'].touched
+              "
+                >Exceeded maximum length of characters(500)</small
+              >
+            </div>
+          </div>
+          <!--1. Part Id-->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="partId"
+                class="form-control form-control-sm"
+                id="partId"
+                formControlName="partId"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditProductDetailsFormControls['partId'].errors &&
+                    createEditProductDetailsFormControls['partId'].touched
+                }"
+              />
+              <label for="partId" class="fw-bold" class="floatLabel"
+                >Part Id<span class="text-danger">*</span>
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['partId'].errors?.['required'] &&
+                createEditProductDetailsFormControls['partId'].touched
+              "
+                >Please enter Part Id</small
+              ><small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['partId'].errors?.['maxlength'] &&
+                createEditProductDetailsFormControls['partId'].touched
+              "
+                >Exceeded maximum length of characters(500)</small
+              >
+            </div>
+          </div>
+          <!--2. Description -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                name="description"
+                placeholder=""
+                class="form-control form-control-sm"
+                id="description"
+                formControlName="description"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditProductDetailsFormControls['description']
+                      .errors &&
+                    createEditProductDetailsFormControls['description'].touched
+                }"
+              />
+              <label for="description" class="fw-bold" class="floatLabel"
+                >Description<span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['description'].errors?.['required'] &&
+                createEditProductDetailsFormControls['description'].touched
+              "
+                >Please enter description</small
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['description'].errors?.['maxlength'] &&
+                createEditProductDetailsFormControls['description'].touched
+              "
+                >Exceeded maximum length of characters(500)</small
+              >
+            </div>
+          </div>
+          <!--3. Currency Code -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <select
+                name="currencyCode"
+                class="form-select form-select-sm select"
+                id="currencyCode"
+                formControlName="currencyCode"
+              >
+                <option [defaultSelected]="true" value="">---Select---</option>
+                <option
+                  *ngFor="let currency of currencyCodesList"
+                  [value]="currency.currencyCode"
+                >
+                  {{ currency.currencyCode }}
+                </option>
+              </select>
+              <label for="currencyCode" class="fw-bold" class="floatLabel"
+                >Currency Code
+              </label>
+            </div>
+          </div>
+          <!--2. Description -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <select
+                name="status"
+                id="status"
+                class="form-select form-select-sm bg-white"
+                formControlName="status"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditProductDetailsFormControls['status'].errors &&
+                    createEditProductDetailsFormControls['status'].touched
+                }"
+              >
+                <option
+                  *ngFor="let status of statusList"
+                  [value]="status.lookupCode"
+                >
+                  {{ status.meaning }}
+                </option>
+              </select>
+              <label for="description" class="fw-bold" class="floatLabel"
+                >Status<span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                  createEditProductDetailsFormControls['status'].errors &&
+                  createEditProductDetailsFormControls['status'].touched
+                "
+                >Please select the status</small
+              >
+            </div>
+          </div>
+          <!--4. Hts Code -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="htsCode"
+                class="form-control form-control-sm"
+                id="htsCode"
+                formControlName="htsCode"
+              />
+              <label for="htsCode" class="fw-bold" class="floatLabel"
+                >Hts Code
+              </label>
+              <small
+                class="text-danger"
+                *ngIf="
+                createEditProductDetailsFormControls['htsCode'].touched &&
+                createEditProductDetailsFormControls['htsCode'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(100)</small
+              >
+            </div>
+          </div>
+          <!--3. Quantity -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="quantity"
+                class="form-control form-control-sm"
+                id="quantity"
+                formControlName="quantity"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditProductDetailsFormControls['quantity'].errors &&
+                    createEditProductDetailsFormControls['quantity'].touched
+                }"
+              />
+              <label for="quantity" class="fw-bold" class="floatLabel"
+                >Quantity
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="createEditProductDetailsFormControls['quantity'].touched &&
+                  createEditProductDetailsFormControls['quantity'].errors?.['pattern']"
+              >
+                Only numbers and decimals are allowed
+              </small>
+            </div>
+          </div>
+          <!--5. Quantity Unit Code -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <select
+                name="quantityUnitCode"
+                class="form-select form-select-sm select"
+                id="quantityUnitCode"
+                formControlName="quantityUnitCode"
+              >
+                <option [defaultSelected]="true" value="">---Select---</option>
+                <option *ngFor="let uom of uomlist" [value]="uom.lookupCode">
+                  {{ uom.meaning }}
+                </option>
+              </select>
+              <label for="quantityUnitCode" class="fw-bold" class="floatLabel"
+                >Quantity Unit Code
+              </label>
+            </div>
+          </div>
+          <!--4. eCCN -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="eCCN"
+                class="form-control form-control-sm"
+                id="eCCN"
+                formControlName="eCCN"
+              />
+              <label for="eCCN" class="fw-bold" class="floatLabel">eCCN </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['eCCN'].touched &&
+                createEditProductDetailsFormControls['eCCN'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(100)</small
+              >
+            </div>
+          </div>
+          <!--6. Net Weight -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="netWeight"
+                class="form-control form-control-sm"
+                id="netWeight"
+                formControlName="netWeight"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditProductDetailsFormControls['netWeight'].touched &&
+                    createEditProductDetailsFormControls['netWeight'].errors
+                }"
+              />
+              <label for="netWeight" class="fw-bold" class="floatLabel"
+                >Net Weight
+              </label>
+              <small
+                class="text-danger"
+                *ngIf="createEditProductDetailsFormControls['netWeight'].touched &&
+                  createEditProductDetailsFormControls['netWeight'].errors?.['pattern']"
+              >
+                Only numbers and decimals are allowed
+              </small>
+            </div>
+          </div>
+          <!--5. List Price -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="listPrice"
+                class="form-control form-control-sm"
+                id="listPrice"
+                formControlName="listPrice"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditProductDetailsFormControls['listPrice'].touched &&
+                    createEditProductDetailsFormControls['listPrice'].errors
+                }"
+              />
+              <label for="listPrice" class="fw-bold" class="floatLabel"
+                >List Price
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="createEditProductDetailsFormControls['listPrice'].touched &&
+                  createEditProductDetailsFormControls['listPrice'].errors?.['pattern']"
+              >
+                Only numbers and decimals are allowed
+              </small>
+            </div>
+          </div>
+          <!--7. Unit Value -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="unitValue"
+                class="form-control form-control-sm"
+                id="unitValue"
+                formControlName="unitValue"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditProductDetailsFormControls['unitValue'].touched &&
+                    createEditProductDetailsFormControls['unitValue'].errors
+                }"
+              />
+              <label for="unitValue" class="fw-bold" class="floatLabel"
+                >Unit Value
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="createEditProductDetailsFormControls['unitValue'].touched &&
+                  createEditProductDetailsFormControls['unitValue'].errors?.['pattern']"
+              >
+                Only numbers and decimals are allowed
+              </small>
+            </div>
+          </div>
+          <!--6. Weight Unit Code -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <select
+                name="weightUnitCode"
+                class="form-select form-select-sm select"
+                id="weightUnitCode"
+                formControlName="weightUnitCode"
+              >
+                <option [defaultSelected]="true" value="">---Select---</option>
+                <option
+                  *ngFor="let unit of weightUnitsList"
+                  [value]="unit.lookupCode"
+                >
+                  {{ unit.description }}
+                </option>
+              </select>
+              <label for="weightUnitCode" class="fw-bold" class="floatLabel"
+                >Weight Unit Code
+              </label>
+            </div>
+          </div>
+          <!--8. Prouduct Family -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="productFamily"
+                class="form-control form-control-sm"
+                id="productFamily"
+                formControlName="productFamily"
+              />
+              <label for="productFamily" class="fw-bold" class="floatLabel"
+                >Product Family
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['productFamily'].touched &&
+                createEditProductDetailsFormControls['productFamily'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(100)</small
+              >
+            </div>
+          </div>
+          <!--8. Legal Desc -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="legalDesc"
+                class="form-control form-control-sm"
+                id="legalDesc"
+                formControlName="legalDesc"
+              />
+              <label for="legalDesc" class="fw-bold" class="floatLabel"
+                >Legal Desc
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['legalDesc'].touched &&
+                createEditProductDetailsFormControls['legalDesc'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(500)</small
+              >
+            </div>
+          </div>
+          <!--9. List Main Ics -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="listMainIcs"
+                class="form-control form-control-sm"
+                id="listMainIcs"
+                formControlName="listMainIcs"
+              />
+              <label for="listMainIcs" class="fw-bold" class="floatLabel"
+                >List Main Ics
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['listMainIcs'].touched &&
+                createEditProductDetailsFormControls['listMainIcs'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(100)</small
+              >
+            </div>
+          </div>
+          <!--9. Country of Origin -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <select
+                name="countryOfOrigin"
+                class="form-select form-select-sm select"
+                id="countryOfOrigin"
+                formControlName="countryOfOrigin"
+              >
+                <option [defaultSelected]="true" value="">---Select---</option>
+                <option
+                  *ngFor="let country of countryCodesList"
+                  [value]="country.countryCode"
+                >
+                  {{ country.countryName }}
+                </option>
+              </select>
+              <label for="countryOfOrigin" class="fw-bold" class="floatLabel"
+                >Country of Origin
+              </label>
+            </div>
+          </div>
+          <!--10 fpgasOrcplds -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="fpgasOrcplds"
+                class="form-control form-control-sm"
+                id="fpgasOrcplds"
+                formControlName="fpgasOrcplds"
+              />
+              <label for="fpgasOrcplds" class="fw-bold" class="floatLabel"
+                >FpgasOrcplds
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['fpgasOrcplds'].touched &&
+                createEditProductDetailsFormControls['fpgasOrcplds'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(10)</small
+              >
+            </div>
+          </div>
+          <!--10. Encryption -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="encryption"
+                class="form-control form-control-sm"
+                id="encryption"
+                formControlName="encryption"
+              />
+              <label for="encryption" class="fw-bold" class="floatLabel"
+                >Encryption
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['encryption'].touched &&
+                createEditProductDetailsFormControls['encryption'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(10)</small
+              >
+            </div>
+          </div>
+          <!--11. Lot Serial Number -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="lotSerialNumber"
+                class="form-control form-control-sm"
+                id="lotSerialNumber"
+                formControlName="lotSerialNumber"
+              />
+              <label for="lotSerialNumber" class="fw-bold" class="floatLabel"
+                >Lot Serial Number
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['lotSerialNumber'].touched &&
+                createEditProductDetailsFormControls['lotSerialNumber'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(100)</small
+              >
+            </div>
+          </div>
+          <!--11. Wireless Function -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="wirelessFunction"
+                class="form-control form-control-sm"
+                id="wirelessFunction"
+                formControlName="wirelessFunction"
+              />
+              <label for="wirelessFunction" class="fw-bold" class="floatLabel"
+                >Wireless Function
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['wirelessFunction'].touched &&
+                createEditProductDetailsFormControls['wirelessFunction'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(10)</small
+              >
+            </div>
+          </div>
+          <!--12. Manual Hold -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="manualHold"
+                class="form-control form-control-sm"
+                id="manualHold"
+                formControlName="manualHold"
+              />
+              <label for="manualHold" class="fw-bold" class="floatLabel"
+                >Manual Hold
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['manualHold'].touched &&
+                createEditProductDetailsFormControls['manualHold'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(10)</small
+              >
+            </div>
+          </div>
+          <!--12. Total -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="total"
+                class="form-control form-control-sm"
+                id="total"
+                formControlName="total"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditProductDetailsFormControls['total'].touched &&
+                    createEditProductDetailsFormControls['total'].errors
+                }"
+              />
+              <label for="total" class="fw-bold" class="floatLabel"
+                >Total
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="createEditProductDetailsFormControls['total'].touched &&
+                  createEditProductDetailsFormControls['total'].errors?.['pattern']"
+              >
+                Only numbers and decimals are allowed
+              </small>
+            </div>
+          </div>
+          <!--13. Eod Org Code -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="eodOrgCode"
+                class="form-control form-control-sm"
+                id="eodOrgCode"
+                formControlName="eodOrgCode"
+              />
+              <label for="eodOrgCode" class="fw-bold" class="floatLabel"
+                >Eod Org Code
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['eodOrgCode'].touched &&
+                createEditProductDetailsFormControls['eodOrgCode'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(100)</small
+              >
+            </div>
+          </div>
+          <!--13. Export Uom -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="exportUom"
+                class="form-control form-control-sm"
+                id="exportUom"
+                formControlName="exportUom"
+              />
+              <label for="exportUom" class="fw-bold" class="floatLabel"
+                >Export Uom
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['exportUom'].touched &&
+                createEditProductDetailsFormControls['exportUom'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(50)</small
+              >
+            </div>
+          </div>
+          <!--14. Company Name -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="companyCode"
+                class="form-control form-control-sm"
+                id="companyCode"
+                formControlName="companyCode"
+              />
+              <label for="companyCode" class="fw-bold" class="floatLabel"
+                >Company Name
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['companyCode'].touched &&
+                createEditProductDetailsFormControls['companyCode'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(100)</small
+              >
+            </div>
+          </div>
+          <!------------------------------------------------------------->
+          <!--14. License Number -->
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="licenseNumber"
+                class="form-control form-control-sm"
+                id="licenseNumber"
+                formControlName="licenseNumber"
+              />
+              <label for="licenseNumber" class="fw-bold" class="floatLabel"
+                >License Number
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createEditProductDetailsFormControls['licenseNumber'].touched &&
+                createEditProductDetailsFormControls['licenseNumber'].errors?.['maxlength']
+              "
+                >Exceeded maximum length of characters(100)</small
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center p-1 modal-footer d-inline">
+        <!-- Save Button -->
+        <button
+          name="submit"
+          type="submit"
+          class="btn btn-primary btn-sm me-3"
+          [disabled]="createEditProductDetailsForm.invalid"
+          [hidden]="isDisabled"
+          (click)="onSubmit()"
+          data-bs-dismiss="modal"
+        >
+          Save
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+        <!-- Update Button -->
+        <button
+          name="submit"
+          type="submit"
+          class="btn btn-primary btn-sm me-3"
+          [disabled]="createEditProductDetailsForm.invalid"
+          [hidden]="!isDisabled"
+          (click)="onSubmit()" 
+          data-bs-dismiss="modal"
+        >
+          Update
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+        <!-- Clear Button -->
+        <button
+          type="reset"
+          class="btn btn-primary btn-sm me-3"
+          (click)="resetForms()"
+          [hidden]="isDisabled"
+        >
+          Reset
+          <fa-icon [icon]="faRefresh"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

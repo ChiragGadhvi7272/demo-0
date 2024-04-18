@@ -1,0 +1,194 @@
+<div *ngIf="" novalidate autocomplete="off"></div>
+<div class="p-1 pb-0">
+  <div class="table-responsive rounded-1 table-resp table-height">
+    <table class="table table-sm table-bordered-costom">
+      <thead class="rowgroup scrollWithIn table-head">
+        <tr class="text-center">
+          <th scope="col" class="w-auto text-nowrap">Product Description</th>
+          <th scope="col" class="w-auto text-nowrap">Tariff Code</th>
+          <th scope="col" class="w-auto text-nowrap">Country Of Manufacture</th>
+          <th scope="col" class="w-auto text-nowrap">Number Of Units</th>
+          <th scope="col" class="w-auto text-nowrap">Price per unit</th>
+          <th scope="col" class="w-auto text-nowrap">Unit Of Measurement</th>
+          <th scope="col" class="w-auto text-nowrap">Export License Number</th>
+          <th scope="col" class="w-auto text-nowrap">ECCN</th>
+          <th scope="col" class="w-auto text-nowrap">#Pkgs Per Commodity</th>
+          <th scope="col" class="w-auto text-nowrap ps-4 pe-4">Package Weight</th>
+        </tr>
+      </thead>
+      <tbody class="table-group" *ngIf="shipmentLinesInfoList">
+        <tr
+          class="text-center"
+          *ngFor="let line of shipmentLinesInfoList.controls; let i = index"
+          [formGroup]="getGroup(i)"
+        >
+          <!-- <td>
+            <select
+              name="upsSelCommItems"
+              id="upsSelCommItemsID"
+              class="form-select form-select-sm selectInp"
+            >
+              <option value="Paper" selected="selected">Select</option>
+            </select>
+          </td> -->
+          <td>
+            <input
+              type="text"
+              class="form-control form-control-sm table-controls"
+              placeholder=""
+              formControlName="itemDescription"
+              [id]="'itemDescription' + i"
+              [name]="'itemDescription' + i"
+              [ngClass]="{
+                'is-invalid':
+                  line.get('itemDescription')?.touched &&
+                  line.get('itemDescription')?.errors
+              }"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              class="form-control form-control-sm table-controls"
+              placeholder=""
+              formControlName="htsCode"
+              id="htsCode"
+            />
+          </td>
+          <td>
+            <select
+              class="form-select form-select-sm select table-controls"
+              id="countryOfManufacture"
+              formControlName="countryOfManufacture"
+            >
+              <option value="">---Select---</option>
+              <option
+                *ngFor="let country of countryCodesList; trackBy: trackByFn"
+                [value]="country.countryCode"
+              >
+                {{ country.countryCode }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <input
+              type="text"
+              class="form-control form-control-sm table-controls"
+              [ngClass]="{
+                'is-invalid':
+                  line.get('shippedQuantity')?.touched &&
+                  line.get('shippedQuantity')?.errors
+              }"
+              placeholder=""
+              formControlName="shippedQuantity"
+              id="shippedQuantity"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              class="form-control form-control-sm table-controls"
+              placeholder=""
+              formControlName="unitPrice"
+              id="unitPrice"
+            />
+          </td>
+          <td>
+            <select
+              name="quantityUom"
+              class="form-select form-select-sm select table-controls"
+              id="quantityUom"
+              formControlName="quantityUom"
+              [ngClass]="{
+                'is-invalid':
+                  line.get('quantityUom')?.touched &&
+                  line.get('quantityUom')?.errors
+              }"
+            >
+              <option [defaultSelected]="true" value="">---Select---</option>
+              <option
+                *ngFor="let uom of uomList; trackBy: trackByFn"
+                [value]="uom.lookupValue"
+              >
+                {{ uom.lookupValue }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <input
+              type="text"
+              class="form-control form-control-sm table-controls"
+              placeholder=""
+              formControlName="exportLicenseNumber"
+              id="exportLicenseNumber"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              class="form-control form-control-sm table-controls"
+              placeholder=""
+              formControlName="eccn"
+              id="eccn"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              class="form-control form-control-sm table-controls"
+              placeholder=""
+              formControlName="noOfPieces"
+              id="noOfPieces"
+            />
+          </td>
+          <td class="text-center pt-1 p-0 ps-1 pe-1">
+            <div class="d-flex">
+              <input
+                type="text"
+                class="form-control form-control-sm me-1 table-controls"
+                placeholder=""
+                formControlName="itemWeight"
+                id="itemWeight"
+                [ngClass]="{
+                  'is-invalid':
+                    line.get('itemWeight')?.touched &&
+                    line.get('itemWeight')?.errors
+                }"
+              />
+              <select
+                class="form-select form-select-sm ms-1 table-controls"
+                formControlName="weightUom"
+                [id]="'weightUomCode' + i"
+                [name]="'weightUomCode' + i"
+                style="width: 90%"
+                [ngClass]="{
+                  'is-invalid':
+                    line.get('weightUom')?.touched &&
+                    line.get('weightUom')?.errors
+                }"
+              >
+                <option
+                  *ngFor="let weightUOM of weightUomList; trackBy: trackByFn"
+                  [value]="weightUOM.lookupCode"
+                >
+                  {{ weightUOM.meaning }}
+                </option>
+              </select>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="p-0 mt-1">
+    <!-- <button class="btn btn-sm btn-primary">
+      <fa-icon [icon]="faCirclePlus"></fa-icon>
+    </button>
+    <button class="btn btn-sm btn-primary ms-3">
+      <fa-icon [icon]="faTrash"></fa-icon>
+    </button> -->
+    <!-- <button class="btn btn-sm btn-outline-primary ms-3">
+      <fa-icon [icon]="faCopy"></fa-icon> Copy ACE Details
+    </button> -->
+  </div>
+</div>

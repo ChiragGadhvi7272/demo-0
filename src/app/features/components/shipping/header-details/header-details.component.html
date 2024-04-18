@@ -1,0 +1,579 @@
+<div
+  *ngIf="shipmentHeadersInfo"
+  [formGroup]="shipmentHeadersInfo"
+  novalidate
+  autocomplete="off"
+>
+  <div class="h6 headersDetails fw-bold">Destination</div>
+  <div class="card border-primary">
+    <div class="card-body p-1">
+      <div [style]="adressDetailsCss">
+        <div
+          class="card-text pt-0 pb-0 p-1 headerAddress"
+          *ngIf="addressDetails"
+        >
+          {{ addressDetails }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-5">
+          <label class="floatLabel" for="residentialFlag">
+            <input
+              type="checkbox"
+              id="residentialFlag"
+              name="residentialFlag"
+              formControlName="residentialFlag"
+              class="form-check-input"
+            />
+            Residential
+          </label>
+        </div>
+        <div class="col-lg-7 col-lg-7 text-md-end">
+          <button
+            type="button"
+            class="btn btn-sm btn-primary me-2"
+            data-bs-toggle="modal"
+            data-bs-target="#addressValidationModal"
+            (click)="onAddressValidation()"
+            [disabled]="!avActiveFlag || shipFlag"
+            [hidden]="!addressValidationFlag"
+          >
+            Validate
+            <fa-icon [icon]="faCheckSquare"></fa-icon>
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-primary ms-md-1"
+            data-bs-toggle="modal"
+            data-bs-target="#editAddress"
+          >
+            Edit
+            <fa-icon [icon]="faPencilSquare"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <div class="row" formGroupName="shipToAddrInfo">
+        <!-- Phone Number -->
+        <div class="col-md-6 mt-2">
+          <div class="form-floating">
+            <input
+              class="form-control form-control-sm"
+              type="text"
+              placeholder=""
+              id="phoneNumber"
+              name="phoneNumber"
+              formControlName="phoneNumber"
+              [ngClass]="{
+                'is-invalid':
+                  shipmentHeadersInfo.get('shipToAddrInfo')?.get('phoneNumber')
+                    ?.touched &&
+                  shipmentHeadersInfo.get('shipToAddrInfo')?.get('phoneNumber')
+                    ?.errors
+              }"
+            />
+            <label class="floatLabel" for="phoneNumber">Phone Number <span class="text-danger">*</span></label>
+            <small
+              class="text-danger"
+              *ngIf="
+                shipmentHeadersInfo.get('shipToAddrInfo')?.get('phoneNumber')
+                  ?.touched &&
+                shipmentHeadersInfo.get('shipToAddrInfo')?.get('phoneNumber')
+                  ?.errors
+              "
+            >
+              Please enter a valid phone number.
+            </small>
+          </div>
+        </div>
+
+        <!-- Contact Name -->
+        <div class="col-md-6 mt-2">
+          <div class="form-floating">
+            <input
+              class="form-control form-control-sm"
+              type="text"
+              placeholder=""
+              id="contactName"
+              name="contactName"
+              formControlName="contactName"
+              [ngClass]="{
+                'is-invalid':
+                  shipmentHeadersInfo.get('shipToAddrInfo')?.get('contactName')
+                    ?.touched &&
+                  shipmentHeadersInfo.get('shipToAddrInfo')?.get('contactName')
+                    ?.errors
+              }"
+            />
+            <label class="floatLabel" for="contactName">Contact Name <span class="text-danger">*</span></label>
+            <small
+              class="text-danger"
+              *ngIf="
+                shipmentHeadersInfo.get('shipToAddrInfo')?.get('contactName')
+                  ?.touched &&
+                shipmentHeadersInfo.get('shipToAddrInfo')?.get('contactName')
+                  ?.errors
+              "
+            >
+              Please enter a contact name.
+            </small>
+          </div>
+        </div>
+      </div>
+      <!--  <app-address-validation></app-address-validation> -->
+    </div>
+  </div>
+  <div class="h6 headersDetails fw-bold">Carrier Details</div>
+  <div class="card border-primary">
+    <div class="card-body p-1 m-1">
+      <div class="row">
+        <div class="d-flex">
+          <div class="form-floating" [style]="shipMethodCss">
+            <select
+              class="form-select-sm form-select"
+              formControlName="shipMethod"
+              id="shipMethod"
+              name="shipMethod"
+              #shipMethod
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              (change)="onshipMethodChange(shipMethod.value)"
+              [title]="this.shipmentHeadersInfo.get('shipMethod')?.value"
+              [ngClass]="{
+                'is-invalid':
+                  this.shipmentHeadersInfo.get('shipMethod')?.touched &&
+                  this.shipmentHeadersInfo.get('shipMethod')?.errors,
+                'disabled-input': !shipMethodFlag
+              }"
+              [attr.readOnly]="!shipMethodFlag"
+            >
+              <option value="" [defaultSelected]>--Select--</option>
+              <option
+                *ngFor="let shipMethodMappingInfo of shipMethodMappingInfoList"
+                [value]="shipMethodMappingInfo.shippingMethod"
+              >
+                {{ shipMethodMappingInfo.userShipMethodMeaning }}
+              </option>
+            </select>
+
+            <label class="floatLabel" for="shipMethod">
+              Select Ship Method<span class="text-danger">*</span>
+            </label>
+          </div>
+          <div class="position-relative">
+            <button
+              class="mt-1 btn btn-sm btn-white p-0 border-0 shadow-none"
+              *ngIf="carrierCode == 110"
+              data-bs-toggle="modal"
+              data-bs-target="#carrierDetails"
+            >
+              <fa-icon
+                [icon]="faUpRightFromSquare"
+                class="ms-1 fw-bold text-primary fa-icon"
+              ></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-12 mt-2 ps-2 d-flex">
+          <div class="form-floating ms-1" [style]="carrierPayCodeCss">
+            <select
+              class="form-select-sm form-select"
+              formControlName="carrierPayCode"
+              id="carrierPayCode"
+              name="carrierPayCode"
+              #carrierPayCode
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              [title]="this.shipmentHeadersInfo.get('carrierPayCode')?.value"
+              [ngClass]="{
+                'is-invalid':
+                  this.shipmentHeadersInfo.get('carrierPayCode')?.touched &&
+                  this.shipmentHeadersInfo.get('carrierPayCode')?.errors,
+                'disabled-input': !payMethodFlag
+              }"
+              [attr.readOnly]="!payMethodFlag"
+              (change)="onPaymethodChange(carrierPayCode.value)"
+            >
+              <option value="" [defaultSelected]>--Select--</option>
+              <option
+                *ngFor="let paymethod of paymethodsList; trackBy: trackByFn"
+                [value]="paymethod.lookupValue"
+              >
+                {{ paymethod.meaning }}
+              </option>
+            </select>
+
+            <label class="floatLabel" for="carrierPayCode"
+              >Pay Method<span class="text-danger">*</span></label
+            >
+          </div>
+          <div
+            class="position-relative"
+            *ngIf="
+              carrierPayCode.value == 'RECIPIENT' ||
+              carrierPayCode.value == 'THIRD PARTY BILLING'
+            "
+          >
+            <button
+              type="button"
+              class="mt-1 btn btn-sm btn-white p-0 border-0 shadow-none"
+              data-bs-toggle="modal"
+              data-bs-target="#payTermInfo"
+              (click)="loadPaymethodDetails(carrierPayCode.value)"
+            >
+              <fa-icon
+                [icon]="faUpRightFromSquare"
+                class="ms-1 fw-bold text-primary fa-icon"
+              ></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-12 mt-2">
+          <div class="form-floating">
+            <select
+              *ngIf="carrierPayCode.value == 'PREPAID'"
+              class="form-select-sm form-select"
+              formControlName="carrierAccountNo"
+              id="carrierAccountNo"
+              name="carrierAccountNo"
+              #carrierAccountNo
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              [title]="this.shipmentHeadersInfo.get('carrierAccountNo')?.value"
+              [ngClass]="{
+                'is-invalid':
+                  this.shipmentHeadersInfo.get('carrierAccountNo')?.touched &&
+                  this.shipmentHeadersInfo.get('carrierAccountNo')?.errors
+              }"
+              (change)="updateAccountDetailsInfo()"
+            >
+              <option value="" [defaultSelected]>--Select--</option>
+              <option
+                *ngFor="
+                  let accountNumber of accountNumbersList;
+                  trackBy: trackByFn
+                "
+                [value]="accountNumber.accountNumber"
+              >
+                {{ accountNumber.accountNumber }}
+              </option>
+            </select>
+            <input
+              *ngIf="carrierPayCode.value != 'PREPAID'"
+              class="form-control form-control-sm"
+              type="text"
+              placeholder=" "
+              id="carrierAccountNo"
+              name="carrierAccountNo"
+              formControlName="carrierAccountNo"
+              (change)="updateAccountDetailsInfo()"
+              [ngClass]="{
+                'is-invalid':
+                  shipmentHeadersInfo.get('carrierAccountNo')?.touched &&
+                  shipmentHeadersInfo.get('carrierAccountNo')?.errors
+              }"
+            />
+
+            <label class="floatLabel" for="carrierAccountNo">A/C Number</label>
+          </div>
+        </div>
+        <!-- <p>address validation works!</p> -->
+        <div
+          class="modal fade"
+          id="carrierDetails"
+          tabindex="-1"
+          aria-labelledby="selectCarrierDetails"
+          aria-hidden="true"
+          novalidate
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="selectCarrierDetails">
+                  More Carrier Details
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white p-2 me-1"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <select
+                        class="form-select-sm form-select"
+                        formControlName="pickUpType"
+                        id="pickUpType"
+                        name="pickUpType"
+                        #pickUpType
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        [title]="
+                          this.shipmentHeadersInfo.get('pickUpType')?.value
+                        "
+                        [ngClass]="{
+                          'is-invalid':
+                            this.shipmentHeadersInfo.get('pickUpType')
+                              ?.touched &&
+                            this.shipmentHeadersInfo.get('pickUpType')?.errors
+                        }"
+                      >
+                        <option value="" [defaultSelected]>--Select--</option>
+                        <option value="Fedex priority overnight" selected>
+                          Fedex priority overnight
+                        </option>
+                        <option value="2">Boston</option>
+                        <option value="3">Ohaio</option>
+                        <option value="4">New York</option>
+                        <option value="5">Washington</option>
+                      </select>
+
+                      <label class="floatLabel" for="pickUpType">
+                        DropOff Type
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <select
+                        class="form-select-sm form-select"
+                        formControlName="packaging"
+                        id="packaging"
+                        name="packaging"
+                        #packaging
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        [title]="
+                          this.shipmentHeadersInfo.get('packaging')?.value
+                        "
+                        [ngClass]="{
+                          'is-invalid':
+                            this.shipmentHeadersInfo.get('packaging')
+                              ?.touched &&
+                            this.shipmentHeadersInfo.get('packaging')?.errors
+                        }"
+                      >
+                        <option value="" [defaultSelected]>--Select--</option>
+                        <option value="Fedex priority overnight" selected>
+                          Fedex priority overnight
+                        </option>
+                        <option value="2">Boston</option>
+                        <option value="3">Ohaio</option>
+                        <option value="4">New York</option>
+                        <option value="5">Washington</option>
+                      </select>
+
+                      <label class="floatLabel" for="packaging">
+                        Packaging
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-primary me-3"
+                  data-bs-dismiss="modal"
+                >
+                  Save
+                  <fa-icon [icon]="faCircleCheck"></fa-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-2">
+        <div class="form-floating">
+          <input
+            class="form-control form-control-sm"
+            type="datetime-local"
+            placeholder=" "
+            id="shipmentDate"
+            name="shipmentDate"
+            formControlName="shipmentDate"
+            [ngClass]="{
+              'is-invalid':
+                this.shipmentHeadersInfo.get('shipmentDate')?.touched &&
+                this.shipmentHeadersInfo.get('shipmentDate')?.errors
+            }"
+          />
+          <label class="floatLabel mb-0 me-md-0 me-2" for="shipmentDate">
+            Shipment Date<span class="text-danger">*</span>
+          </label>
+        </div>
+      </div>
+      <div class="mt-1">
+        <span class="d-flex mb-1">
+          <input
+            type="checkbox"
+            id="saturdayShipFlag"
+            name="saturdayShipFlag"
+            formControlName="saturdayShipFlag"
+            class="form-check-input me-1"
+            *ngIf="saturdayShipFalg"
+          />
+          <label class="floatLabel mb-0 me-5" *ngIf="saturdayShipFalg">
+            Saturday Delivery
+          </label>
+          <label
+            class="floatLabel mb-0 me-md-0 me-2"
+            for="worldEaseFlag"
+            *ngIf="false"
+          >
+            <input
+              type="checkbox"
+              id="worldEaseFlag"
+              name="worldEaseFlag"
+              formControlName="worldEaseFlag"
+              class="form-check-input"
+            />
+            World Ease
+          </label>
+        </span>
+        <div formGroupName="emailNotificationInfo">
+          <input
+            type="checkbox"
+            id="emailNotificationFlag"
+            name="emailNotificationFlag"
+            formControlName="emailNotificationFlag"
+            class="form-check-input me-1"
+            #emailNotificationFlag
+            (change)="showEmailNotification(emailNotificationFlag.checked)"
+          />
+          <label class="floatLabel mb-0 me-1">
+            Email Notification
+            <span
+              *ngIf="emailNotificationFlag.checked"
+              class="text-danger fw-bold"
+              >*</span
+            ></label
+          >
+          <button
+            class="btn btn-sm btn-white p-0 border-0 shadow-none"
+            [disabled]="!emailNotificationFlag.checked"
+            data-bs-toggle="modal"
+            data-bs-target="#emailNotification"
+          >
+            <fa-icon
+              [icon]="faUpRightFromSquare"
+              class="text-primary ms-1 position-relative fa-icon"
+              style="bottom: 2px"
+            ></fa-icon>
+          </button>
+        </div>
+      </div>
+      <div class="row mt-0">
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input
+              class="form-control form-control-sm"
+              type="text"
+              placeholder=" "
+              id="reference1"
+              name="reference1"
+              formControlName="reference1"
+              [ngClass]="{
+                'is-invalid':
+                  shipmentHeadersInfo.get('reference1')?.touched &&
+                  shipmentHeadersInfo.get('reference1')?.errors
+              }"
+            />
+            <label class="floatLabel" for="reference1">Reference 1</label>
+          </div>
+        </div>
+        <div class="col-md-6 mt-2 mt-md-0">
+          <div class="form-floating">
+            <input
+              class="form-control form-control-sm"
+              type="text"
+              placeholder=" "
+              id="reference2"
+              name="reference2"
+              formControlName="reference2"
+              [ngClass]="{
+                'is-invalid':
+                  this.shipmentHeadersInfo.get('reference2')?.touched &&
+                  this.shipmentHeadersInfo.get('reference2')?.errors
+              }"
+            />
+            <label class="floatLabel" for="reference2">Reference 2</label>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div formGroupName="additionalShipmentInfo">
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              placeholder=""
+              id="additionalShipmentInstructions"
+              name="additionalShipmentInstructions"
+              formControlName="additionalShipmentInstructions"
+              rows="2"
+            />
+            <label class="floatLabel" for="additionalShipmentInstructions">
+              Additional Information/Shipping Instructions
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="h6 headersDetails fw-bold">Source</div>
+  <div class="card border-primary">
+    <div class="card-body p-1" formGroupName="shipFromAddrInfo">
+      <div class="form-floating">
+        <select
+          class="form-select-sm form-select"
+          id="locationName"
+          name="locationName"
+          formControlName="locationName"
+          (change)="changeShipFromAddress()"
+          [ngClass]="{
+            'is-invalid':
+              shipmentHeadersInfo.get('shipFromAddrInfo')?.get('locationName')
+                ?.touched &&
+              shipmentHeadersInfo.get('shipFromAddrInfo')?.get('locationName')
+                ?.errors
+          }"
+        >
+          <option value="" [defaultSelected]>--Select--</option>
+          <option
+            *ngFor="let shipFromLocation of shipFromLocationsInfoList"
+            [value]="shipFromLocation.locationName"
+          >
+            {{ shipFromLocation.locationName }}
+          </option>
+        </select>
+        <label class="floatLabel" for="locationName"
+          >Select Source<span class="text-danger">*</span></label
+        >
+      </div>
+    </div>
+  </div>
+
+  <app-destination-address
+    [shipToAddrInfo]="getShipToAddrInfo"
+    [shipFlag]="shipFlag"
+    [isEdit]="!editFlag"
+    (updateDestinationEvent)="updateDestinationAddress()"
+  ></app-destination-address>
+  <app-email-notification
+    [emailInfo]="getEmailNotificationInfo"
+    [checkEmailNotification]="emailNotificationFlag.checked"
+    [shipFlag]="shipFlag"
+  ></app-email-notification>
+  <app-payterm-details [paytermInfo]="getPaytermInfo"></app-payterm-details>
+  <app-address-validation
+    [proposedAddressList]="proposedAddressList"
+    [addressType]="addressType"
+    [addressClassification]="addressClassification"
+    (shipToAddress)="onUpdateShipToAddress($event)"
+  >
+  </app-address-validation>
+</div>

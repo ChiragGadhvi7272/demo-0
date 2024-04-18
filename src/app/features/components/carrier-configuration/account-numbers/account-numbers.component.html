@@ -1,0 +1,458 @@
+<div
+  class="modal fade"
+  id="accountDetailsModel"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div
+        class="modal-header p-2 ps-3 text-light bg-primary"
+        [hidden]="hideOnCreate"
+      >
+        <h5 class="modal-title" id="exampleModalLabel">Account Numbers</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white p-2 me-1"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="row p-1 m-1 me-0" [hidden]="hideOnCreate">
+          <div class="col-md text-md-end" [hidden]="hideOnCreate">
+            <button
+              class="btn btn-primary btn-sm me-3"
+              (click)="
+                createEditAccountNumbers(carrierAcctNumbersInfo, 'create')
+              "
+              [hidden]="hideOnCreate"
+            >
+              Create
+              <fa-icon [icon]="faCircleUp"></fa-icon>
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              (click)="updateAccountNumber(carrierAcctNumbersInfoList)"
+              [hidden]="hideOnCreate"
+            >
+              Update
+              <fa-icon [icon]="faArrowAltCircleUp"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div class="row table-responsive rounded-1 m-1" [hidden]="hideOnCreate">
+          <table class="table table-hover table-bordered table-sm h6">
+            <thead class="rowgroup bg-primary border-light text-white">
+              <tr>
+                <th scope="col" class="w-auto text-nowrap">Edit</th>
+                <th scope="col" class="w-auto text-nowrap">Account Number</th>
+                <th
+                  scope="col"
+                  class="w-auto text-nowrap"
+                  *ngIf="carrierCode == 110 || carrierCode == 111"
+                >
+                  Meter Number
+                </th>
+                <th
+                  scope="col"
+                  class="w-auto text-nowrap"
+                  *ngIf="
+                    carrierCode == 110 ||
+                    carrierCode == 111 ||
+                    carrierCode == 112 ||
+                    carrierCode == 100
+                  "
+                >
+                  Account User Name
+                </th>
+                <th
+                  scope="col"
+                  class="w-auto text-nowrap"
+                  *ngIf="
+                    carrierCode == 110 ||
+                    carrierCode == 111 ||
+                    carrierCode == 112 ||
+                    carrierCode == 100
+                  "
+                >
+                  Account Password
+                </th>
+                <th scope="col" class="w-auto text-nowrap">Negotiated Flag</th>
+                <th scope="col" class="w-auto text-nowrap">Negotiated Rates</th>
+                <th
+                  scope="col"
+                  class="w-auto text-nowrap"
+                  *ngIf="carrierCode == 100"
+                >
+                  Account Registered
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Ship From Country
+                </th>
+                <th scope="col" class="w-auto text-nowrap">Active</th>
+                <th scope="col" class="w-auto text-nowrap">Default</th>
+              </tr>
+            </thead>
+            <tbody class="table-group">
+              <tr
+                *ngFor="
+                  let carrierAcctNumbersInfo of carrierAcctNumbersInfoList;
+                  let i = index
+                "
+              >
+                <td scope="row">
+                  <button
+                    class="btn btn-primary btn-sm"
+                    style="float: right"
+                    (click)="
+                      createEditAccountNumbers(carrierAcctNumbersInfo, 'edit')
+                    "
+                  >
+                    <fa-icon [icon]="faEdit"></fa-icon>
+                  </button>
+                </td>
+                <td>{{ carrierAcctNumbersInfo.accountNumber }}</td>
+                <td *ngIf="carrierCode == 110 || carrierCode == 111">
+                  {{ carrierAcctNumbersInfo.meterNumber }}
+                </td>
+                <td
+                  *ngIf="
+                    carrierCode == 110 ||
+                    carrierCode == 111 ||
+                    carrierCode == 112 ||
+                    carrierCode == 100
+                  "
+                >
+                  {{ carrierAcctNumbersInfo.accountUserName }}
+                </td>
+                <td
+                  *ngIf="
+                    carrierCode == 110 ||
+                    carrierCode == 111 ||
+                    carrierCode == 112 ||
+                    carrierCode == 100
+                  "
+                >
+                  {{ carrierAcctNumbersInfo.accountPassword }}
+                </td>
+                <td>
+                  <input
+                    class="accountNumberNegotiatedFlag"
+                    type="checkbox"
+                    id="accountNumberNegotiatedFlag"
+                    [checked]="
+                      carrierAcctNumbersInfo.accountNumberNegotiatedFlag
+                    "
+                    (change)="
+                      updateNegotiatedFlag(carrierAcctNumbersInfo, $event)
+                    "
+                  />
+                </td>
+                <td>
+                  <input
+                    class="negotiatedRates"
+                    type="checkbox"
+                    id="negotiatedRates"
+                    [checked]="carrierAcctNumbersInfo.negotiatedRates"
+                    (change)="
+                      updateNegotiatedRates(carrierAcctNumbersInfo, $event)
+                    "
+                  />
+                </td>
+                <td *ngIf="carrierCode == 100">
+                  <input
+                    class="registrationStatus"
+                    type="checkbox"
+                    id="registrationStatus"
+                    [checked]="carrierAcctNumbersInfo.registrationStatus"
+                    (change)="
+                      updateAccountNumberRegistered(
+                        carrierAcctNumbersInfo,
+                        $event
+                      )
+                    "
+                  />
+                </td>
+                <td>
+                  {{ carrierAcctNumbersInfo.shipFromCountryCode }}
+                </td>
+                <td>
+                  <input
+                    class="accountActive"
+                    type="checkbox"
+                    id="accountActive"
+                    [checked]="carrierAcctNumbersInfo.accountActive"
+                    (change)="updateActive(carrierAcctNumbersInfo, $event)"
+                  />
+                </td>
+                <td>
+                  <input
+                    name="default"
+                    class="accountDefault"
+                    type="radio"
+                    id="accountDefault"
+                    [checked]="carrierAcctNumbersInfo.accountDefault"
+                    [disabled]="!carrierAcctNumbersInfo.accountActive"
+                    (change)="updateDefault(carrierAcctNumbersInfo, $event)"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card border-0" [hidden]="showOnCreate">
+          <div class="card-header p-2 ps-1 text-light bg-primary row m-0">
+            <div class="col-md h5 mt-1 m-0">
+              {{ this.createUpdate }}
+            </div>
+            <span class="col-md text-end">
+              <button
+                type="button"
+                class="btn-close btn-close-white mt-1"
+                (click)="hideCreate()"
+              ></button>
+            </span>
+          </div>
+          <div
+            #myform="ngForm"
+            [formGroup]="createEditAccountNumberForm"
+            novalidate
+          >
+            <div class="card-body row row-cols p-0 mt-1 m-3 row-cols-md-3">
+              <!--1. Account Number -->
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    type="text"
+                    name="accountNumber"
+                    maxlength="50"
+                    class="form-control form-control-sm"
+                    id="accountNumber"
+                    formControlName="accountNumber"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted &&
+                        createEditAccountNumberForm.get('accountNumber')
+                          ?.errors &&
+                        createEditAccountNumberForm.get('accountNumber')
+                          ?.touched
+                    }"
+                    required
+                    [readonly]="is_disabled"
+                    placeholder=""
+                  />
+                  <label for="accountNumber" class="floatLabel">
+                    Account Number
+                    <span class="text-danger">*</span>
+                  </label>
+                  <small
+                    class="text-danger"
+                    *ngIf="
+                      submitted &&
+                      createEditAccountNumberForm.get('accountNumber')
+                        ?.errors &&
+                      createEditAccountNumberForm.get('accountNumber')?.touched
+                    "
+                  >
+                    Please enter Account Number
+                  </small>
+                </div>
+              </div>
+              <!--3. Meter Number -->
+              <div
+                class="col-md"
+                *ngIf="carrierCode == 110 || carrierCode == 111"
+              >
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    type="text"
+                    name="meterNumber"
+                    class="form-control form-control-sm"
+                    id="meterNumber"
+                    formControlName="meterNumber"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted &&
+                        createEditAccountNumberForm.get('meterNumber')
+                          ?.errors &&
+                        createEditAccountNumberForm.get('meterNumber')?.touched
+                    }"
+                    placeholder=""
+                  />
+                  <label for="meterNumber" class="floatLabel">
+                    Meter Number
+                    <span class="text-danger">*</span>
+                  </label>
+                  <small
+                    class="text-danger"
+                    *ngIf="
+                      submitted &&
+                      createEditAccountNumberForm.get('meterNumber')?.errors &&
+                      createEditAccountNumberForm.get('meterNumber')?.touched
+                    "
+                  >
+                    Please enter Meter Number
+                  </small>
+                </div>
+              </div>
+              <!--4. Account User Name -->
+              <div
+                class="col-md"
+                *ngIf="
+                  carrierCode == 110 ||
+                  carrierCode == 111 ||
+                  carrierCode == 112 ||
+                  carrierCode == 100
+                "
+              >
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    type="text"
+                    name="accountUserName"
+                    class="form-control form-control-sm"
+                    id="accountUserName"
+                    formControlName="accountUserName"
+                    placeholder=""
+                  />
+                  <label for="accountUserName" class="floatLabel">
+                    Account User Name
+                  </label>
+                </div>
+              </div>
+              <!--5. Account Password -->
+              <div
+                class="col-md"
+                *ngIf="
+                  carrierCode == 110 ||
+                  carrierCode == 111 ||
+                  carrierCode == 112 ||
+                  carrierCode == 100
+                "
+              >
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    name="accountPassword"
+                    class="form-control form-control-sm"
+                    id="accountPassword"
+                    formControlName="accountPassword"
+                    placeholder=""
+                  />
+                  <label for="accountPassword" class="floatLabel">
+                    Account Password
+                  </label>
+                </div>
+              </div>
+              <!--shipFromCountryCode -->
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <select
+                    class="form-select form-select-sm"
+                    formControlName="shipFromCountryCode"
+                    id="shipFromCountryCode"
+                  >
+                    <option value="" [defaultSelected]="true">
+                      ---Select---
+                    </option>
+                    <option
+                      *ngFor="let countryCode of countryCodesList"
+                      value="{{ countryCode.countryCode }}"
+                    >
+                      {{ countryCode.countryName }}
+                    </option>
+                  </select>
+                  <label for="shipFromCountryCode" class="floatLabel">
+                    Ship From Country
+                  </label>
+                </div>
+              </div>
+              <!--6. Is Account Registered ? -->
+              <div class="col-md" *ngIf="carrierCode == 100">
+                <div class="form-check mt-3">
+                  <input
+                    type="checkbox"
+                    name="registrationStatus"
+                    class="form-check-input"
+                    id="registrationStatus"
+                    formControlName="registrationStatus"
+                    placeholder=""
+                  />
+                  <label for="registrationStatus" class="form-check-label">
+                    Is Account Registered ?
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-check mt-3">
+                  <input
+                    type="checkbox"
+                    name="accountNumberNegotiatedFlag"
+                    class="form-check-input"
+                    id="accountNumberNegotiatedFlag"
+                    formControlName="accountNumberNegotiatedFlag"
+                    placeholder=""
+                  />
+                  <label
+                    for="accountNumberNegotiatedFlag"
+                    class="form-check-label"
+                  >
+                    Account Number Negotiated Flag
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-check mt-3">
+                  <input
+                    type="checkbox"
+                    name="negotiatedRates"
+                    class="form-check-input"
+                    id="negotiatedRates"
+                    formControlName="negotiatedRates"
+                    placeholder=""
+                  />
+                  <label for="negotiatedRates" class="form-check-label">
+                    Negotiated Rates
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer p-1 text-center">
+            <button
+              name="submit"
+              type="submit"
+              class="btn btn-primary btn-sm me-3"
+              [disabled]="!myform.valid"
+              [hidden]="is_disabled"
+              (click)="onSubmit()"
+            >
+              Save
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+            <button
+              name="submit"
+              type="submit"
+              class="btn btn-primary btn-sm me-3"
+              [disabled]="!myform.valid"
+              [hidden]="is_update_disabled"
+              (click)="onSubmit()"
+            >
+              Update
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+            <button
+              type="reset"
+              class="btn btn-primary btn-sm me-3"
+              (click)="resetForms()"
+              [hidden]="is_disabled"
+            >
+              Clear
+              <fa-icon [icon]="faArrowAltCircleLeft"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

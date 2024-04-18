@@ -1,0 +1,229 @@
+<div
+  *ngIf="ciDetailsFlag"
+  [formGroup]="intlSoldToInfo"
+  novalidate
+  autocomplete="off"
+>
+  <div class="card mt-1">
+    <div class="card-body p-1">
+      <div
+        class="btn btn-sm fw-bold border-0 text-primary text-start shadow-none w-100"
+        (click)="toggleSoldTo()"
+      >
+        Sold To Details
+        <span class="float-end">
+          <fa-icon
+            [icon]="soldToDetailsFlag ? faChevronUp : faChevronDown"
+          ></fa-icon>
+        </span>
+      </div>
+
+      <div class="border-top" *ngIf="soldToDetailsFlag">
+        <div class="row">
+          <!-- <div class="col-sm-4">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                class="form-select form-select-sm"
+                id="selImporterName"
+                name="selImporterName"
+                formControlName="contactName"
+              >
+                <option value="ImporterName">Importer Name</option>
+              </select>
+              <label for="selImporterName" class="floatLabel">
+                Select Sold To
+              </label>
+            </div>
+          </div> -->
+          <div class="col-sm-4">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="companyName"
+                name="companyName"
+                placeholder=""
+                formControlName="customerName"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    intlSoldToInfo.get('customerName')?.touched &&
+                    intlSoldToInfo.get('customerName')?.errors
+                }"
+              />
+              <label for="companyName" class="floatLabel">
+                Company Name <span class="text-danger">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="address"
+                name="address"
+                placeholder=""
+                formControlName="addressLine1"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    intlSoldToInfo.get('addressLine1')?.touched &&
+                    intlSoldToInfo.get('addressLine1')?.errors
+                }"
+              />
+              <label for="address" class="floatLabel">
+                Address Line <span class="text-danger">*</span></label
+              >
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="city"
+                name="city"
+                placeholder=""
+                formControlName="city"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    intlSoldToInfo.get('city')?.touched &&
+                    intlSoldToInfo.get('city')?.errors
+                }"
+              />
+              <label for="city" class="floatLabel"
+                >City <span class="text-danger">*</span></label
+              >
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="state"
+                name="state"
+                placeholder=""
+                formControlName="state"
+              />
+              <label for="state" class="floatLabel">State</label>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="postalCode"
+                name="postalCode"
+                placeholder=""
+                formControlName="postalCode"
+              />
+              <label for="postalCode" class="floatLabel">Postal Code</label>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                class="form-select form-select-sm select"
+                id="countryCode"
+                formControlName="countryCode"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    intlSoldToInfo.get('countryCode')?.touched &&
+                    intlSoldToInfo.get('countryCode')?.errors
+                }"
+              >
+                <option value="">---Select---</option>
+                <option
+                  *ngFor="let country of countryCodesList; trackBy: trackByFn"
+                  [value]="country.countryCode"
+                >
+                  {{ country.countryName }}
+                </option>
+              </select>
+
+              <label for="countryCode" class="floatLabel"
+                >Country <span class="text-danger">*</span></label
+              >
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="attentionName"
+                name="attentionName"
+                formControlName="contactName"
+                placeholder=""
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    intlSoldToInfo.get('contactName')?.touched &&
+                    intlSoldToInfo.get('contactName')?.errors
+                }"
+              />
+              <label for="attentionName" class="floatLabel"
+                >Attention Name <span class="text-danger">*</span></label
+              >
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="phoneNumber"
+                name="phoneNumber"
+                formControlName="phoneNumber"
+                placeholder=""
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    intlSoldToInfo.get('phoneNumber')?.touched &&
+                    intlSoldToInfo.get('phoneNumber')?.errors
+                }"
+              />
+              <label for="phoneNumber" class="floatLabel">Phone Number</label>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="soldToTaxId"
+                name="soldToTaxId"
+                formControlName="taxId"
+                placeholder=""
+              />
+              <label for="soldToTaxId" class="floatLabel">Sold To Tax Id</label>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <!-- <div class="col-sm-4">
+            <div class="form-check mt-3 d-flex">
+              <input
+                class="form-check-input me-2"
+                type="checkbox"
+                id="addOrEditSoldTo"
+                formControlName="addOrEditSoldTo"
+              />
+              <label for="addOrEditSoldTo" class="form-check-label">
+                Save/update this Importer Detail
+              </label>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

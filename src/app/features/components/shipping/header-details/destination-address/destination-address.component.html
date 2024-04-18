@@ -1,0 +1,272 @@
+<div
+  class="modal fade"
+  id="editAddress"
+  tabindex="-1"
+  aria-labelledby="editAddressLabel"
+  aria-hidden="true"
+  *ngIf="shipToAddrInfo"
+  [formGroup]="shipToAddrInfo"
+  novalidate
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-light bg-primary p-2 ps-3">
+        <h5 class="modal-title" id="editAddressLabel">Edit Address</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white p-2 me-1"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="customerName"
+                name="customerName"
+                formControlName="customerName"
+                class="form-control form-control-sm"
+                placeholder=""
+                [ngClass]="{
+                  'is-invalid':
+                    shipToAddrInfoControls['customerName'].touched &&
+                    shipToAddrInfoControls['customerName'].errors,
+                  'disabled-input': isEdit
+                }"
+                [readOnly]="isEdit"
+              /><label for="customerName" class="floatLabel"
+                >Customer Name<span class="text-danger">*</span></label
+              >
+            </div>
+            <small
+              class="text-danger text-center"
+              *ngIf="
+                shipToAddrInfoControls['customerName'].touched &&
+                shipToAddrInfoControls['customerName'].errors
+              "
+              >Please enter Customer Name</small
+            >
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="addressLine1"
+                name="addressLine1"
+                formControlName="addressLine1"
+                class="form-control form-control-sm"
+                placeholder="Address Line 1"
+                [ngClass]="{
+                  'is-invalid':
+                    shipToAddrInfoControls['addressLine1'].touched &&
+                    shipToAddrInfoControls['addressLine1'].errors,
+                  'disabled-input': isEdit
+                }"
+                [readOnly]="isEdit"
+              /><label for="addressLine1" class="floatLabel"
+                >Address Line1<span class="text-danger">*</span></label
+              >
+            </div>
+            <small
+              class="text-danger text-center"
+              *ngIf="
+                shipToAddrInfoControls['addressLine1'].touched &&
+                shipToAddrInfoControls['addressLine1'].errors
+              "
+              >Please enter Address Line 1</small
+            >
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="addressLine2"
+                name="addressLine2"
+                formControlName="addressLine2"
+                class="form-control form-control-sm"
+                placeholder="Address Line 2"
+                [ngClass]="{
+                  'disabled-input': isEdit
+                }"
+                [readOnly]="isEdit"
+              /><label for="addressLine2" class="floatLabel"
+                >Address Line2</label
+              >
+            </div>
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="addressLine3"
+                name="addressLine3"
+                formControlName="addressLine3"
+                class="form-control form-control-sm"
+                placeholder="Address Line 3"
+                [ngClass]="{
+                  'disabled-input': isEdit
+                }"
+                [readOnly]="isEdit"
+              />
+              <label for="addressLine3" class="floatLabel">Address Line3</label>
+            </div>
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="city"
+                name="city"
+                formControlName="city"
+                class="form-control form-control-sm"
+                placeholder="city"
+                [ngClass]="{
+                  'is-invalid':
+                    shipToAddrInfoControls['city'].touched &&
+                    shipToAddrInfoControls['city'].errors,
+                  'disabled-input': isEdit
+                }"
+                [readOnly]="isEdit"
+              />
+              <label for="city" class="floatLabel"
+                >City<span class="text-danger">*</span></label
+              >
+            </div>
+            <small
+              class="text-danger text-center"
+              *ngIf="
+                shipToAddrInfoControls['city'].touched &&
+                shipToAddrInfoControls['city'].errors
+              "
+              >Please enter City</small
+            >
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="state"
+                name="state"
+                formControlName="state"
+                class="form-control form-control-sm"
+                placeholder="state"
+                [ngClass]="{
+                  'is-invalid':
+                    shipToAddrInfoControls['state'].touched &&
+                    shipToAddrInfoControls['state'].errors,
+                  'disabled-input': isEdit
+                }"
+                [readOnly]="isEdit"
+              /><label for="state" class="floatLabel"
+                >State<span class="text-danger">*</span></label
+              >
+            </div>
+            <small
+              class="text-danger text-center"
+              *ngIf="
+                shipToAddrInfoControls['state'].touched &&
+                shipToAddrInfoControls['state'].errors
+              "
+              >Please enter State</small
+            >
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="postalCode"
+                name="postalCode"
+                formControlName="postalCode"
+                class="form-control form-control-sm"
+                placeholder="postalCode"
+                [ngClass]="{
+                  'is-invalid':
+                    shipToAddrInfoControls['postalCode'].touched &&
+                    shipToAddrInfoControls['postalCode'].errors,
+                  'disabled-input': isEdit
+                }"
+                [readOnly]="isEdit"
+              /><label for="postalCode" class="floatLabel"
+                >Postal Code<span class="text-danger">*</span></label
+              >
+            </div>
+            <small
+              class="text-danger text-center"
+              *ngIf="
+                shipToAddrInfoControls['postalCode'].touched &&
+                shipToAddrInfoControls['postalCode'].errors
+              "
+              >Please enter Postal Code</small
+            >
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <select
+                class="form-select form-select-sm"
+                id="countryCode"
+                name="countryCode"
+                formControlName="countryCode"
+                [ngClass]="{
+                  'is-invalid':
+                    shipToAddrInfoControls['countryCode'].touched &&
+                    shipToAddrInfoControls['countryCode'].errors,
+                  'disabled-input': isEdit
+                }"
+                [attr.readonly]="isEdit"
+              >
+                <option value="" [selected]="true">--Select--</option>
+                <option
+                  *ngFor="let country of countryCodesList"
+                  [value]="country.countryCode"
+                >
+                  {{ country.countryName }}
+                </option>
+              </select>
+              <label for="country" class="floatLabel">
+                Country
+                <span class="text-danger">*</span>
+              </label>
+            </div>
+            <small
+              class="text-danger text-center"
+              *ngIf="
+                shipToAddrInfoControls['countryCode'].touched &&
+                shipToAddrInfoControls['countryCode'].errors
+              "
+              >Please Select Country </small
+            >
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer d-inline p-2">
+        <div class="row">
+          <div class="col-md-8 h6 text-danger fw-bold ps-3">
+            Note: Please save the popup with the required details before ship
+          </div>
+          <div class="col-md-4 text-end">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary me-3"
+              data-bs-dismiss="modal"
+              (click)="updateDetails()"
+              [disabled]="editFlag || shipFlag || isEdit"
+            >
+              Save
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

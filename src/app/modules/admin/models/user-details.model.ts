@@ -1,0 +1,34 @@
+export class UserDetails {
+  userId: number = 0;
+  clientId: number = 0;
+  userName: string = '';
+  password: string = '';
+  retypePassword: string = '';
+  roleId: number = 0;
+  orgId: string = '';
+  invOrgId: string = '';
+  oracleUserId: number = 0;
+  oracleResponsibilityId: number = 0;
+  status: string = '';
+  emailId: string = '';
+  superUser: boolean = false;
+  firstName: string = '';
+  lastName: string = '';
+  weighingScaleName: string = '';
+  shippingDocumentsAccess: boolean = false;
+  uploadDocumentsAccess: boolean = false;
+  captureVehicle: boolean = false;
+  captureSignAndUpdateBol: boolean = false;
+  driverAttendance: boolean = false;
+  shipperName: string = '';
+  zplPrinter: string = '';
+  pdfPrinter: string = '';
+  gifPrinter: string = '';
+  dgFormPrinter: string = '';
+  op900Printer: string = '';
+  eplPrinter: string = '';
+  shipFromLocation: string = '';
+  userTokenId: string = '';
+  userTokenSecret: string = '';
+  roleName: any = '';
+}

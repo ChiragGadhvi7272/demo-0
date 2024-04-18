@@ -1,0 +1,112 @@
+<div novalidate autocomplete="off">
+  <div class="p-1">
+    <label for="name" class="floatLabel" style="font-weight: medium">
+      Show/HideAllLines
+    </label>
+    <input
+      class="form-check-input mt-2 ms-2"
+      type="checkbox"
+      id="showOrHideAllLines"
+      #showOrHideAllLines
+      (change)="showAllLines($event)"
+    />
+    <div class="table-responsive rounded-1 table-resp table-height">
+      <table class="table table-sm table-bordered-costom">
+        <thead class="rowgroup scrollWithIn table-head text-center">
+          <tr>
+            <th scope="col" class="w-auto text-nowrap">S No.</th>
+            <th scope="col" class="w-auto text-nowrap">Fulfillment ID</th>
+            <th scope="col" class="w-auto text-nowrap">Status</th>
+            <th scope="col" class="w-auto text-nowrap">Error Message</th>
+            <th scope="col" class="w-auto text-nowrap">Show/Hide Line Items</th>
+          </tr>
+        </thead>
+        <tbody class="table-group text-center">
+          <ng-container
+            *ngFor="
+              let childHeader of childShipmentHeaderList.controls;
+              let i = index
+            "
+            [formGroup]="getGroup(i)"
+          >
+            <tr>
+              <td>
+                <small>{{ i + 1 }}</small>
+              </td>
+
+              <td><input type="text" formControlName="deliveryId" /></td>
+
+              <td></td>
+
+              <td></td>
+
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-primary fw-bold"
+                  (click)="onButtonClick(i)"
+                >
+                  <fa-icon [icon]="faAngleDown"></fa-icon>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="showLineItems[i] && autoConsolidation">
+              <td
+                colspan="5"
+                style="padding: 0.5rem 8rem 0.5rem 8rem !important"
+              >
+                <div class="table-responsive rounded-1 table-resp table-height">
+                  <table class="table table-sm table-bordered-costom">
+                    <thead class="rowgroup scrollWithIn table-head">
+                      <tr>
+                        <th scope="col">Fulfillment Id</th>
+                        <th scope="col">Fulfillment Lines</th>
+                        <th scope="col">Item#</th>
+                        <th scope="col">Picked Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-group text-center">
+                      <tr
+                        *ngFor="
+                          let childline of getChildLines(childHeader).controls;
+                          let j = index
+                        "
+                      >
+                        <td>
+                          <div [formGroup]="getLineGroup(i, j)">
+                            <input type="text" formControlName="deliveryId" />
+                          </div>
+                        </td>
+
+                        <td>
+                          <div [formGroup]="getLineGroup(i, j)">
+                            <input type="text" formControlName="lineNumber" />
+                          </div>
+                        </td>
+
+                        <td>
+                          <div [formGroup]="getLineGroup(i, j)">
+                            <input type="text" formControlName="itemnumber" />
+                          </div>
+                        </td>
+
+                        <td>
+                          <div [formGroup]="getLineGroup(i, j)">
+                            <input
+                              type="text"
+                              formControlName="orderedQuantity"
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

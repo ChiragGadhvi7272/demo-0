@@ -1,0 +1,104 @@
+<div
+  class="modal fade"
+  [formGroup]="shipmentLineInfo"
+  id="lotAndSerial"
+  tabindex="-1"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-light bg-primary p-2 ps-3">
+        <h5 class="modal-title" id="editAddressLabel">Lot and Serial Number</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white p-2 me-1"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-sm table-bordered-costom">
+          <thead class="rowgroup scrollWithIn table-head">
+            <tr class="text-center">
+              <th scope="col" width="10%">S No.</th>
+              <th scope="col">serial/lot</th>
+              <th scope="col">quantity</th>
+              <th scope="col">back order</th>
+              <th scope="col">Serial Number Id</th>
+            </tr>
+          </thead>
+          <tbody class="table-group">
+            <tr
+              class="text-center"
+              *ngFor="
+                let item of shipmentItemControlsInfoList.controls;
+                let i = index
+              "
+              [formGroup]="getGroup(i)"
+            >
+              <td>
+                <input
+                  readonly
+                  type="number"
+                  [id]="'lot' + i"
+                  [name]="'lot' + i"
+                  class="form-control form-control-sm bg-light"
+                  [value]="i + 1"
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  formControlName="serialNumber"
+                  [id]="'serialNumber' + i"
+                  [name]="'serialNumber' + i"
+                  class="form-control form-control-sm bg-light"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  formControlName="quantity"
+                  [id]="'quantity' + i"
+                  [name]="'quantity' + i"
+                  class="form-control form-control-sm bg-light"
+                />
+              </td>
+
+              <td>
+                <input
+                  type="checkbox"
+                  formControlName="backorderFlag"
+                  [id]="'backorderFlag' + i"
+                  [name]="'backorderFlag' + i"
+                  class="form-check-input"
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  formControlName="serialNumberId"
+                  [id]="'serialNumberId' + i"
+                  [name]="'serialNumberId' + i"
+                  class="form-control form-control-sm bg-light"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer p-1">
+        <button
+          [disabled]="shipFlag"
+          class="btn btn-sm btn-primary me-3"
+          data-bs-dismiss="modal"
+          (click)="saveLotandSerial()"
+        >
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

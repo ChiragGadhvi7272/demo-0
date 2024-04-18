@@ -1,0 +1,160 @@
+<div class="p-2">
+  <div class="text-primary h4 mb-0">Erp Sync with ShipConsole</div>
+  <!-- <p class="text-secondary m-0">Enter the required details and save</p> -->
+</div>
+
+<div [formGroup]="erpSync" novalidate>
+  <div class="border-primary">
+    <div class="row">
+      <!-- From Date -->
+      <div class="col-sm">
+        <div class="form-floating ms-0 mb-1 m-1">
+          <input
+            type="date"
+            formControlName="fromDate"
+            id="fromDate"
+            #fromDate
+            class="form-control form-control-sm"
+            (change)="showToDate()"
+            [ngClass]="{
+              'is-invalid':
+                submitted &&
+                erpSync.get('fromDate')?.errors &&
+                erpSync.get('fromDate')?.touched
+            }"
+            required
+          />
+          <label for="fromDate" class="fw-bold" class="floatLabel">
+            From Date<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+          erpSyncControls['fromDate'].touched &&
+          erpSyncControls['fromDate'].errors?.['required']
+          "
+          >Please select the Date
+        </small>
+      </div>
+      <!-- To Date -->
+      <div class="col-sm">
+        <div class="form-floating ms-0 mb-1 m-1">
+          <input
+            type="date"
+            id="toDate"
+            #toDate
+            formControlName="toDate"
+            (change)="dateValidation(fromDate.value, toDate.value)"
+            class="form-control form-control-sm"
+            [ngClass]="{
+              'is-invalid':
+                submitted &&
+                erpSync.get('toDate')?.errors &&
+                erpSync.get('toDate')?.touched
+            }"
+            required
+          />
+          <label for="toDate" class="fw-bold" class="floatLabel">
+            To Date<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="erpSyncControls['toDate'].touched && erpSyncControls['toDate'].errors?.['required'] && !dateFlag"
+        >
+          Please select the Date
+        </small>
+
+        <small
+          class="text-danger text-center"
+          *ngIf="erpSyncControls['toDate'].touched && (erpSyncControls['toDate'].errors?.['required'] || dateFlag) && !erpSyncControls['toDate'].errors?.['required']"
+        >
+          To Date must be greater than From Date
+        </small>
+      </div>
+      <!-- go -->
+      <div class="col-sm-7">
+        <button
+          type="button"
+          name="SyncButton"
+          id="SyncButton"
+          value="Sync"
+          [disabled]="syncED"
+          (click)="performErpSync()"
+          class="btn btn-primary mt-2 btn-sm text-light"
+        >
+          Sync
+          <fa-icon [icon]="faRefresh"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-primary bg-white mt-2">
+    <div class="p-1">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="form-floating m-1">
+            <select
+              class="form-select form-select-sm fw-bold"
+              (change)="showNoOfRows()"
+              name="changeRows"
+              id="changeRows"
+              formControlName="changeRows"
+            >
+              <option *ngFor="let option of listPerPage" [value]="option">
+                {{ option }}
+              </option>
+            </select>
+            <label class="fw-bold" class="floatLabel">Rows</label>
+          </div>
+        </div>
+        <div class="col-md text-primary text-center h5 mt-2">
+          Delivery Information
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    </div>
+    <div class="card-body p-1">
+      <div class="p-0 table-responsive rounded-1 table-scroll">
+        <table class="table table-sm table-bordered">
+          <thead
+            class="rowgroup bg-primary border-white text-white text-center"
+          >
+            <tr> 
+              <th scope="col">Delivery Name</th>
+              <th scope="col">Delivery Status in Oracle</th>
+            </tr>
+          </thead>
+          <tbody class="table-group">
+            <tr
+              *ngFor="
+                let deliveryDetail of deliveryDetailsList
+                  | paginate : paginationConfig;
+              "
+              class="text-center"
+            > 
+              <td>{{ deliveryDetail.deliveryId }}</td>
+              <td>{{ deliveryDetail.deliveryStatus }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer text-center pt-1">
+      <div class="row">
+        <div class="col-md-10">
+          <pagination-controls
+            (pageChange)="onPageChange($event)"
+          ></pagination-controls>
+        </div>
+        <div class="col-md-2">
+          <div class="fw-bold">
+            No. of Rows: {{ deliveryDetailsList.length }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

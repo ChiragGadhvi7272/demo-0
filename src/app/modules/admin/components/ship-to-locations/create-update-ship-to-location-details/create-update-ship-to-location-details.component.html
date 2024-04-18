@@ -1,0 +1,576 @@
+<div
+  class="modal fade"
+  id="shipToLocationDetails"
+  tabindex="-1"
+  role="dialog"
+  [formGroup]="createUpdateShipToLocationForm"
+  novalidate
+  autocomplete="off"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-light bg-primary p-2 ps-3">
+        <div class="modal-title h5" id="exampleModalLabel">
+          {{ this.createUpdate }}
+        </div>
+        <span style="float: right;">
+          <button type="button" class="btn-close btn-close-white p-2 me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+        </span>
+      </div>
+      <div class="modal-body row row-cols-sm-1 row-cols-md-3 row-cols-lg-3">
+        <!--1. Customer Name -->
+        <div class="col-sm">
+          
+          <div class="form-floating d-flex mb-0 m-1"> 
+              <select
+                *ngIf="!showNewCompanyInput"
+                name="companyName"
+                class="form-select form-select-sm me-2"
+                id="companyName"
+                formControlName="companyName"
+                #companyName
+                style="width:72%"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateShipToLocationFormControls['companyName']
+                      .errors &&
+                    createUpdateShipToLocationFormControls['companyName']
+                      .touched
+                }"
+              >
+                <option [defaultSelected]="true" value="">---Select---</option>
+                <option
+                *ngFor="let company of companyNamesList; trackBy: trackByFn"
+                  [value]="company"
+                >
+                  {{ company }}
+                </option>
+              </select>
+              
+              <input
+                class="form-control form-control-sm me-2"
+                formControlName="companyName"
+                placeholder="Enter here"
+                *ngIf="showNewCompanyInput"
+                type="text"
+                style="width:72%"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateShipToLocationFormControls['companyName']
+                      .errors &&
+                    createUpdateShipToLocationFormControls['companyName']
+                      .touched
+                }"
+              /> 
+              <label for="companyName" class="fw-bold" class="floatLabel"
+            >Customer Name<span class="text-danger">*</span></label
+          >
+              <button
+                class="btn btn-primary btn-sm"
+                *ngIf="showNewCompanyInput"
+                (click)="addNewCustomer('s')"
+              >
+                <small class="me-1">Select</small>
+                <fa-icon [icon]="faArrowCircleLeft"></fa-icon>
+              </button>
+              
+              <button
+                class="btn btn-primary btn-sm"
+                *ngIf="!showNewCompanyInput"
+                (click)="addNewCustomer('')"
+              >
+                <small class="me-1">Add</small>
+                <fa-icon
+                  *ngIf="!showNewCompanyInput"
+                  [icon]="faPlusCircle"
+                ></fa-icon>
+              </button> 
+        </div>
+        
+        <small
+        class="ps-1 text-danger text-center"
+        *ngIf="
+        createUpdateShipToLocationFormControls['companyName'].errors?.['required'] &&
+        createUpdateShipToLocationFormControls['companyName'].touched
+        "
+        >Please select/enter the Customer Name</small
+      >
+      <small
+        class="ps-1 text-danger text-center"
+        *ngIf="
+        createUpdateShipToLocationFormControls['companyName'].errors?.['pattern'] &&
+        createUpdateShipToLocationFormControls['companyName'].touched
+        "
+        >Numbers and Special characters not allowed</small
+      > 
+      </div>
+
+        <!--2. Location Name -->
+        <div class="col-sm">
+          
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="locationName"
+              class="form-control form-control-sm"
+              id="locationName"
+              formControlName="locationName"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipToLocationFormControls['locationName']
+                    .errors &&
+                  createUpdateShipToLocationFormControls['locationName'].touched
+              }"
+              [readonly]="isDisabled"
+            />
+            <label for="locationName" class="floatLabel"
+            >Location Name<span class="text-danger">*</span></label
+          >
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['locationName'].touched && 
+              createUpdateShipToLocationFormControls['locationName'].errors?.['required']"
+            >
+              Please enter Location Name
+            </small>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['locationName'].touched && 
+              createUpdateShipToLocationFormControls['locationName'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(240)
+            </small>
+          </div>
+        </div>
+
+        <!--1. Contact Name -->
+        <div class="col-sm">
+          
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="contactName"
+              class="form-control form-control-sm"
+              id="contactName"
+              formControlName="contactName"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipToLocationFormControls['contactName']
+                    .errors &&
+                  createUpdateShipToLocationFormControls['contactName'].touched
+              }"
+            />
+            <label for="contactName" class="floatLabel"
+            >Contact Name<span class="text-danger">*</span></label
+          >
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['contactName'].touched && 
+              createUpdateShipToLocationFormControls['contactName'].errors?.['required']"
+            >
+              Please enter Contact Name
+            </small>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['contactName'].touched && 
+              createUpdateShipToLocationFormControls['contactName'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(200)
+            </small>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['contactName'].touched && 
+              createUpdateShipToLocationFormControls['contactName'].errors?.['pattern']"
+            >
+              Numbers and Special characters not allowed
+            </small>
+          </div>
+        </div>
+
+        <!--2. Address Line 1 -->
+        <div class="col-sm">
+          
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="address1"
+              class="form-control form-control-sm"
+              id="address1"
+              formControlName="address1"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipToLocationFormControls['address1'].errors &&
+                  createUpdateShipToLocationFormControls['address1'].touched
+              }"
+            />
+            <label for="address1" class="floatLabel"
+            >Address Line1<span class="text-danger">*</span></label
+          >
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['address1'].touched && 
+              createUpdateShipToLocationFormControls['address1'].errors?.['required']"
+            >
+              Please enter Address Line1
+            </small>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['address1'].touched && createUpdateShipToLocationFormControls['address1'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(240)
+            </small>
+          </div>
+        </div>
+
+        <!--3. Address Line 2 -->
+        <div class="col-sm">
+         
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="address2"
+              class="form-control form-control-sm"
+              id="address2"
+              formControlName="address2"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipToLocationFormControls['address2'].errors &&
+                  createUpdateShipToLocationFormControls['address2'].touched
+              }"
+            />
+            <label for="address2" class="floatLabel"
+            >Address Line2
+          </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['address2'].touched && createUpdateShipToLocationFormControls['address2'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(240)
+            </small>
+          </div>
+        </div>
+
+        <!--3. Address Line 3 -->
+        <div class="col-sm">
+          
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="address3"
+              class="form-control form-control-sm"
+              id="address3"
+              formControlName="address3"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipToLocationFormControls['address3'].errors &&
+                  createUpdateShipToLocationFormControls['address3'].touched
+              }"
+            />
+            <label for="address3" class="floatLabel"
+            >Address Line3
+          </label>
+            <small
+              class="text-danger"
+              *ngIf="createUpdateShipToLocationFormControls['address3'].touched && createUpdateShipToLocationFormControls['address3'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(240)
+            </small>
+          </div>
+        </div>
+
+        <!--4. Address Line 4 -->
+        <div class="col-sm">
+         
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="address4"
+              class="form-control form-control-sm"
+              id="address4"
+              formControlName="address4"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipToLocationFormControls['address4'].errors &&
+                  createUpdateShipToLocationFormControls['address4'].touched
+              }"
+            />
+            <label for="address4" class="floatLabel">
+              Address Line4
+            </label>
+            <small
+              class="text-danger"
+              *ngIf="createUpdateShipToLocationFormControls['address4'].touched && createUpdateShipToLocationFormControls['address4'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(240)
+            </small> 
+          </div>
+        </div>
+
+        <!--4. City -->
+        <div class="col-sm">
+         
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="city"
+              class="form-control form-control-sm"
+              id="city"
+              formControlName="city"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipToLocationFormControls['city'].errors &&
+                  createUpdateShipToLocationFormControls['city'].touched
+              }"
+            />
+            <label for="city" class="floatLabel"
+            >City<span class="text-danger">*</span></label
+          >
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['city'].touched && createUpdateShipToLocationFormControls['city'].errors?.['required']"
+            >
+              Please enter City
+            </small>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['city'].touched && createUpdateShipToLocationFormControls['city'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(200)
+            </small> 
+          </div>
+        </div>
+
+        <!--4. stateProvinceCode -->
+        <div class="col-sm">
+          
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="stateProvinceCode"
+              maxlength="2"
+              class="form-control form-control-sm text-uppercase"
+              id="stateProvinceCode"
+              formControlName="stateProvinceCode"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipToLocationFormControls['stateProvinceCode']
+                    .errors &&
+                  createUpdateShipToLocationFormControls['stateProvinceCode']
+                    .touched
+              }"
+            />
+            <label for="stateProvinceCode" class="floatLabel"
+            >State<span class="text-danger">*</span></label
+          >
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['stateProvinceCode'].touched && createUpdateShipToLocationFormControls['stateProvinceCode'].errors?.['required']"
+            >
+              Please enter State / Province Code
+            </small>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['stateProvinceCode'].touched && createUpdateShipToLocationFormControls['stateProvinceCode'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(2)
+            </small> 
+          </div>
+        </div>
+
+        <!--5. countryCode     -->
+        <div class="col-sm">
+        
+          <div class="form-floating m-1">
+            <select
+              name="countryCode"
+              class="form-select form-select-sm select"
+              id="countryCode"
+              formControlName="countryCode"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipToLocationFormControls['countryCode']
+                    .errors &&
+                  createUpdateShipToLocationFormControls['countryCode'].touched
+              }"
+            >
+              <option [defaultSelected]="true" value="">
+                ---Select Country---
+              </option>
+              <option
+                *ngFor="let country of countryCodesList; trackBy: trackByFn"
+                [value]="country.countryName"
+              >
+                {{ country.countryName }}
+              </option>
+            </select>
+            <label for="countryCode" class="floatLabel">
+              Country<span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['countryCode'].touched && createUpdateShipToLocationFormControls['countryCode'].errors?.['required']"
+            >
+              Please select Country
+            </small>
+          </div>
+        </div>
+
+        <!--5. Postal Code -->
+        <div class="col-sm">
+         
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="postalCode"
+              class="form-control form-control-sm"
+              id="postalCode"
+              formControlName="postalCode"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipToLocationFormControls['postalCode'].errors &&
+                  createUpdateShipToLocationFormControls['postalCode'].touched
+              }"
+            />
+            <label for="postalCode" class="floatLabel"
+            >Postal Code<span class="text-danger">*</span></label
+          >
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['postalCode'].touched && createUpdateShipToLocationFormControls['postalCode'].errors?.['required']"
+            >
+              Please enter Postal Code
+            </small>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['postalCode'].touched && createUpdateShipToLocationFormControls['postalCode'].errors?.['pattern']"
+            >
+              Please enter valid Postal Code
+            </small>
+            <small class="text-danger"
+              *ngIf="createUpdateShipToLocationFormControls['postalCode'].touched && createUpdateShipToLocationFormControls['postalCode'].errors?.['maxlength']">
+              Exceeded maximum length of characters(60)
+            </small>
+          </div>
+        </div>
+
+        <!--6. Phone Number -->
+        <div class="col-sm">
+          
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              name="phoneNumber"
+              class="form-control form-control-sm"
+              id="phoneNumber"
+              formControlName="phoneNumber"
+              placeholder=""           
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipToLocationFormControls['phoneNumber']
+                    .errors &&
+                  createUpdateShipToLocationFormControls['phoneNumber'].touched
+              }"
+            />
+            <label for="phoneNumber" class="floatLabel"
+            >Phone Number<span class="text-danger">*</span></label
+          >
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['phoneNumber'].touched && createUpdateShipToLocationFormControls['phoneNumber'].errors?.['required']"
+            >
+              Please enter Phone Number
+            </small>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['phoneNumber'].touched && createUpdateShipToLocationFormControls['phoneNumber'].errors?.['pattern']"
+            >
+              Please enter valid Phone Number
+            </small>
+          </div>
+        </div>
+
+        <!--6. Email Address -->
+        <div class="col-sm">
+          
+          <div class="form-floating m-1">
+            <input
+              type="email"
+              name="emailId"
+              class="form-control form-control-sm"
+              id="emailId"
+              formControlName="emailId"
+              placeholder=""
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipToLocationFormControls['emailId'].errors &&
+                  createUpdateShipToLocationFormControls['emailId'].touched
+              }"
+            />
+            <label for="emailId" class="floatLabel"
+            >Email Address</label
+          >
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['emailId'].touched && createUpdateShipToLocationFormControls['emailId'].errors?.['required']"
+            >
+              Please enter Email Address
+            </small>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipToLocationFormControls['emailId'].touched && createUpdateShipToLocationFormControls['emailId'].errors?.['pattern']"
+            >
+              Please enter valid Email Address
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="text-center modal-footer d-inline p-1">
+        <!-- Save Button -->
+        <button
+          type="submit"
+          class="btn btn-primary btn-sm me-3"
+          [disabled]="createUpdateShipToLocationForm.invalid"
+          [hidden]="isDisabled"
+          (click)="onSubmit()" data-bs-dismiss="modal"          
+        >
+          Save
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+
+        <!-- Update Button -->
+        <button
+          type="submit"
+          class="btn btn-primary btn-sm me-3"
+          [disabled]="createUpdateShipToLocationForm.invalid"
+          [hidden]="!isDisabled"
+          (click)="onSubmit()"
+          data-bs-dismiss="modal"           
+        >
+          Update
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+
+        <!-- Clear Button -->
+        <button
+          type="reset"
+          class="btn btn-primary btn-sm me-3"
+          (click)="resetForms()"
+          [hidden]="isDisabled"
+        >
+          Reset
+          <fa-icon [icon]="faRefresh"></fa-icon>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,2028 @@
+<div class="p-2">
+  <div class="text-primary h4 mb-0">
+    {{ createUpdate }}
+  </div>
+  <!--<p class="text-secondary m-0">Enter the required* details and save</p>-->
+</div>
+<form [formGroup]="customerForm" autocomplete="off">
+  <div class="card mb-3 rounded bg-body border-primary">
+    <div class="m-1 mt-2 ps-4 h5 text-primary">Customer Details</div>
+    <div class="card-body row row-cols p-0 mt-1 m-3 row-cols-md-4">
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="companyName"
+            class="form-control form-control-sm"
+            placeholder=" "
+            id="companyName"
+            formControlName="companyName"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['companyName'].touched &&
+                customerFormControls['companyName'].errors
+            }"
+          />
+          <label for="companyName" class="floatLabel"
+            >Company Name <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['companyName'].touched && customerFormControls['companyName'].errors?.['required']"
+        >
+          Please enter Company Name
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['companyName'].touched && customerFormControls['companyName'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['companyName'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="contactName"
+            class="form-control form-control-sm"
+            placeholder=" "
+            id="contactName"
+            formControlName="contactName"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['contactName'].touched &&
+                customerFormControls['contactName'].errors
+            }"
+          />
+          <label for="contactName" class="floatLabel"
+            >Contact Name <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['contactName'].touched && customerFormControls['contactName'].errors?.['required']"
+        >
+          Please enter Contact Name
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['contactName'].touched && customerFormControls['contactName'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['contactName'].errors?.['pattern']"
+        >
+          Invalid input. Please enter alphabetic characters only.
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="addressLine1"
+            class="form-control form-control-sm"
+            placeholder=" "
+            id="addressLine1"
+            formControlName="addressLine1"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['addressLine1'].touched &&
+                customerFormControls['addressLine1'].errors
+            }"
+          />
+          <label for="addressLine1" class="floatLabel"
+            >Address Line1 <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['addressLine1'].touched && customerFormControls['addressLine1'].errors?.['required']"
+        >
+          Please enter Address Line1
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['addressLine1'].touched && customerFormControls['addressLine1'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['addressLine1'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="addressLine2"
+            class="form-control form-control-sm"
+            placeholder=" "
+            id="addressLine2"
+            formControlName="addressLine2"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['addressLine2'].touched &&
+                customerFormControls['addressLine2'].errors
+            }"
+          />
+          <label for="addressLine2" class="floatLabel">Address Line2</label>
+        </div>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="city"
+            class="form-control form-control-sm"
+            placeholder=" "
+            id="city"
+            formControlName="city"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['city'].touched &&
+                customerFormControls['city'].errors
+            }"
+          />
+          <label for="city" class="floatLabel"
+            >City <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['city'].touched && customerFormControls['city'].errors?.['required']"
+        >
+          Please enter City
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['city'].touched && customerFormControls['city'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['city'].errors?.['pattern']"
+        >
+          Invalid input. Please enter alphabetic characters only.
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="state"
+            class="form-control form-control-sm"
+            placeholder=" "
+            id="state"
+            formControlName="state"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['state'].touched &&
+                customerFormControls['state'].errors
+            }"
+          />
+          <label for="state" class="floatLabel">
+            State / Province Code
+            <span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['state'].touched && customerFormControls['state'].errors?.['required']"
+        >
+          Please enter State / Province Code
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['state'].touched && customerFormControls['state'].errors?.['maxlength']"
+        >
+          Maximum length of characters should not exceed 2 characters
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['state'].errors?.['pattern']"
+        >
+          Invalid input. Please enter alphabetic characters only.
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="postalCode"
+            class="form-control form-control-sm"
+            placeholder=" "
+            id="postalCode"
+            formControlName="postalCode"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['postalCode'].touched &&
+                customerFormControls['postalCode'].errors
+            }"
+          />
+          <label for="postalCode" class="floatLabel"
+            >Postal Code<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['postalCode'].touched && customerFormControls['postalCode'].errors?.['required']"
+        >
+          Please enter Postal Code
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['postalCode'].touched && customerFormControls['postalCode'].errors?.['pattern']"
+        >
+          Please enter valid Postal Code
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['postalCode'].touched && customerFormControls['postalCode'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <select
+            name="country"
+            id="country"
+            class="form-select form-select-sm"
+            formControlName="country"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['country'].touched &&
+                customerFormControls['country'].errors
+            }"
+          >
+            <option value="" [defaultSelected]="true">--Select--</option>
+            <option
+              *ngFor="let country of countryCodesList; trackBy: trackByFn"
+              [value]="country.countryCode"
+          >
+              {{ country.countryName }}
+            </option>
+          </select>
+          <label for="country" class="floatLabel">
+            Country
+            <span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['country'].touched && customerFormControls['country'].errors?.['required']"
+        >
+          Please select Country
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="contactPhoneNumber"
+            class="form-control form-control-sm"
+            placeholder=" "
+            id="contactPhoneNumber"
+            formControlName="contactPhoneNumber"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['contactPhoneNumber'].touched &&
+                customerFormControls['contactPhoneNumber'].errors
+            }"
+          />
+          <label for="contactPhoneNumber" class="floatLabel"
+            >Phone Number<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['contactPhoneNumber'].touched && customerFormControls['contactPhoneNumber'].errors?.['required']"
+        >
+          Please enter Phone Number
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['contactPhoneNumber'].touched && customerFormControls['contactPhoneNumber'].errors?.['maxlength']"
+        >
+          Exceeded the maximum length of numbers
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['contactPhoneNumber'].touched && customerFormControls['contactPhoneNumber'].errors?.['pattern']"
+        >
+          Please enter valid Phone Number
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-3 rounded bg-body border-primary">
+    <div class="m-1 mt-2 ps-4 h5 text-primary">WebService Details</div>
+    <div class="card-body row row-cols p-0 mt-1 m-3 row-cols-md-4">
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <select
+            name="erpType"
+            id="erpType"
+            class="form-select form-select-sm"
+            formControlName="erpType"
+            #erpType
+            (change)="
+              this.sharedCustomerService.onErpTypeChange(
+                erpType.value,
+                this.customerForm
+              )
+            "
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['erpType'].touched &&
+                customerFormControls['erpType'].errors
+            }"
+          >
+            <option value="" [defaultSelected]="true">--Select--</option>
+            <option
+              *ngFor="let erp of erpTypeList; trackBy: trackByFn"
+              [value]="erp.lookupCode"
+            >
+              {{ erp.meaning }}
+            </option>
+          </select>
+          <label for="erpType" class="floatLabel"
+            >Erp Type<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['erpType'].touched && customerFormControls['erpType'].errors?.['required']"
+        >
+          Please select Client Type
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value != 'NS'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="authUserName"
+            class="form-control form-control-sm"
+            id="authUserName"
+            placeholder=" "
+            formControlName="authUserName"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['authUserName'].touched &&
+                customerFormControls['authUserName'].errors
+            }"
+          />
+          <label for="authUserName" class="floatLabel"
+            >Auth User Name <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['authUserName'].touched && customerFormControls['authUserName'].errors?.['required']"
+        >
+          Please enter Auth User Name
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['authUserName'].touched && customerFormControls['authUserName'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(50)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['authUserName'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value != 'NS'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="authPassword"
+            class="form-control form-control-sm"
+            id="authPassword"
+            formControlName="authPassword"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['authPassword'].touched &&
+                customerFormControls['authPassword'].errors
+            }"
+          />
+          <label for="authPassword" class="floatLabel"
+            >Auth Password<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['authPassword'].touched && customerFormControls['authPassword'].errors?.['required']"
+        >
+          Please enter Auth Password
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['authPassword'].touched && customerFormControls['authPassword'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(50)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['authPassword'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'NS'">
+        <div class="form-floating m-1 mb-0">
+          <select
+            name="authorizationType"
+            id="authorizationType"
+            class="form-select form-select-sm"
+            formControlName="authorizationType"
+          >
+            <option [defaultSelected]="true" value="OAuth1.0">OAuth1.0</option>
+          </select>
+          <label for="authorizationType" class="floatLabel"
+            >Authorization Type</label
+          >
+        </div>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <select
+            name="authProtocol"
+            id="authProtocol"
+            class="form-select form-select-sm"
+            formControlName="authProtocol"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['authProtocol'].touched &&
+                customerFormControls['authProtocol'].errors
+            }"
+          >
+            <option value="" [defaultSelected]="true">--Select--</option>
+            <option
+              *ngFor="let protocal of protocolsList; trackBy: trackByFn"
+              [value]="protocal.lookupCode"
+            >
+              {{ protocal.meaning }}
+            </option>
+          </select>
+          <label for="authProtocol" class="floatLabel"
+            >Protocol<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['authProtocol'].touched &&
+              customerFormControls['authProtocol'].errors?.['required']"
+        >
+          Please select Protocal
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="authUrl"
+            class="form-control form-control-sm"
+            id="authUrl"
+            formControlName="authUrl"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['authUrl'].touched &&
+                customerFormControls['authUrl'].errors
+            }"
+          />
+          <label for="authUrl" class="floatLabel"
+            >URL <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['authUrl'].touched && customerFormControls['authUrl'].errors?.['required']"
+        >
+          Please enter URL
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['authUrl'].touched && customerFormControls['authUrl'].errors?.['maxlength']"
+        >
+          Maximum length of characters should not exceed 1000 characters
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['authUrl'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'NS'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="accountId"
+            class="form-control form-control-sm"
+            id="accountId"
+            formControlName="accountId"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['accountId'].touched &&
+                customerFormControls['accountId'].errors
+            }"
+          />
+          <label for="accountId" class="floatLabel"
+            >Account Id <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['accountId'].touched && customerFormControls['accountId'].errors?.['required']"
+        >
+          Please enter Account Id
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['accountId'].touched && customerFormControls['accountId'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['accountId'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'NS'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="tokenSecret"
+            class="form-control form-control-sm"
+            id="tokenSecret"
+            formControlName="tokenSecret"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['tokenSecret'].touched &&
+                customerFormControls['tokenSecret'].errors
+            }"
+          />
+          <label for="tokenSecret" class="floatLabel"
+            >Token Secret <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['tokenSecret'].touched && customerFormControls['tokenSecret'].errors?.['required']"
+        >
+          Please enter Token Secret
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['tokenSecret'].touched && customerFormControls['tokenSecret'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['tokenSecret'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'NS'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="tokenKey"
+            class="form-control form-control-sm"
+            id="tokenKey"
+            formControlName="tokenKey"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['tokenKey'].touched &&
+                customerFormControls['tokenKey'].errors
+            }"
+          />
+          <label for="tokenKey" class="floatLabel"
+            >Token Key <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['tokenKey'].touched && customerFormControls['tokenKey'].errors?.['required']"
+        >
+          Please enter Token Key
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['tokenKey'].touched && customerFormControls['tokenKey'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['tokenKey'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'NS'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="consumerKey"
+            class="form-control form-control-sm"
+            id="consumerKey"
+            formControlName="consumerKey"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['consumerKey'].touched &&
+                customerFormControls['consumerKey'].errors
+            }"
+          />
+          <label for="consumerKey" class="floatLabel"
+            >Consumer Key <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['consumerKey'].touched && customerFormControls['consumerKey'].errors?.['required']"
+        >
+          Please enter Consumer Key
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['consumerKey'].touched && customerFormControls['consumerKey'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['consumerKey'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'NS'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="consumerSecret"
+            class="form-control form-control-sm"
+            id="consumerSecret"
+            formControlName="consumerSecret"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['consumerSecret'].touched &&
+                customerFormControls['consumerSecret'].errors
+            }"
+          />
+          <label for="consumerSecret" class="floatLabel"
+            >Customer Secret <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['consumerSecret'].touched && customerFormControls['consumerSecret'].errors?.['required']"
+        >
+          Please enter Customer Secret
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['consumerSecret'].touched && customerFormControls['consumerSecret'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['consumerSecret'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'NS'">
+        <div class="form-floating m-1 mb-0">
+          <select
+            name="signatureMethod"
+            class="form-select form-select-sm"
+            id="signatureMethod"
+            formControlName="signatureMethod"
+          >
+            <option [defaultSelected]="true" value="HMAC-SHA256">
+              HMAC-SHA256
+            </option>
+          </select>
+          <label for="signatureMethod" class="floatLabel"
+            >Signature Method</label
+          >
+        </div>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'JDE'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="jdeCarrierType"
+            class="form-control form-control-sm"
+            id="jdeCarrierType"
+            formControlName="jdeCarrierType"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['jdeCarrierType'].touched &&
+                customerFormControls['jdeCarrierType'].errors
+            }"
+          />
+          <label for="jdeCarrierType" class="floatLabel"
+            >Carrier Type <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['jdeCarrierType'].touched && 
+              customerFormControls['jdeCarrierType'].errors?.['required']"
+        >
+          Please enter Carrier Type
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['jdeCarrierType'].touched && 
+              customerFormControls['jdeCarrierType'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['jdeCarrierType'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'JDE'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="jdeMotProductCode"
+            class="form-control form-control-sm"
+            id="jdeMotProductCode"
+            formControlName="jdeMotProductCode"
+            placeholder=""
+          />
+          <label for="jdeMotProductCode" class="floatLabel"
+            >Mot Product Code
+          </label>
+        </div>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'JDE'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="jdeMotUserDefinedCode"
+            class="form-control form-control-sm"
+            id="jdeMotUserDefinedCode"
+            formControlName="jdeMotUserDefinedCode"
+            placeholder=""
+          /><label for="jdeMotUserDefinedCode" class="floatLabel"
+            >Mot User Defined Code
+          </label>
+        </div>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'JDE'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="jdeCarrierProductCode"
+            class="form-control form-control-sm"
+            id="jdeCarrierProductCode"
+            formControlName="jdeCarrierProductCode"
+            placeholder=""
+          />
+          <label for="jdeCarrierProductCode" class="floatLabel"
+            >Carrier Product Code
+          </label>
+        </div>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'JDE'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="jdeCarrierUserDefinedCode"
+            class="form-control form-control-sm"
+            id="jdeCarrierUserDefinedCode"
+            formControlName="jdeCarrierUserDefinedCode"
+            placeholder=""
+          />
+          <label for="jdeCarrierUserDefinedCode" class="floatLabel"
+            >Carrier User Defined Code
+          </label>
+        </div>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'JDE'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="jdeProductCode"
+            class="form-control form-control-sm"
+            id="jdeProductCode"
+            formControlName="jdeProductCode"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['jdeProductCode'].touched &&
+                customerFormControls['jdeProductCode'].errors
+            }"
+            placeholder=""
+          />
+          <label for="jdeProductCode" class="floatLabel"
+            >Product Code <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['jdeProductCode'].touched && 
+              customerFormControls['jdeProductCode'].errors?.['required']"
+        >
+          Please enter Product Code
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['jdeProductCode'].touched && 
+              customerFormControls['jdeProductCode'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['jdeProductCode'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'JDE'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="jdeUserDefinedCode"
+            class="form-control form-control-sm"
+            id="jdeUserDefinedCode"
+            formControlName="jdeUserDefinedCode"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['jdeUserDefinedCode'].touched &&
+                customerFormControls['jdeUserDefinedCode'].errors
+            }"
+            placeholder=""
+          />
+          <label for="jdeUserDefinedCode" class="floatLabel"
+            >User Defined Code <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['jdeUserDefinedCode'].touched && 
+              customerFormControls['jdeUserDefinedCode'].errors?.['required']"
+        >
+          Please enter User Defined Code
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['jdeUserDefinedCode'].touched && 
+              customerFormControls['jdeUserDefinedCode'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['jdeUserDefinedCode'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-3 rounded bg-body border-primary">
+    <div class="m-1 mt-2 ps-4 h5 text-primary">Pricing Details</div>
+    <div class="card-body row row-cols p-0 mt-1 m-3 row-cols-md-4">
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="date"
+            class="form-control form-control-sm"
+            startKey="start"
+            endKey="end"
+            selected="selected"
+            placeholder="Start Date"
+            name="licenseStartDate"
+            id="licenseStartDate"
+            formControlName="licenseStartDate"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['licenseStartDate'].touched &&
+                customerFormControls['licenseStartDate'].errors
+            }"
+            (input)="
+              this.sharedCustomerService.showLicenseEndDateValidation(
+                this.customerForm
+              )
+            "
+          />
+          <label for="licenseStartDate" class="floatLabel"
+            >License Start Date<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['licenseStartDate'].touched && customerFormControls['licenseStartDate'].errors?.['required']"
+        >
+          Please select valid License Start Date
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="date"
+            class="form-control form-control-sm"
+            startKey="start"
+            endKey="end"
+            selected="selected"
+            placeholder="End Date"
+            name="licenseEndDate"
+            id="licenseEndDate"
+            formControlName="licenseEndDate"
+            [min]="this.sharedCustomerService.nextDayofStart"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['licenseEndDate'].touched &&
+                customerFormControls['licenseEndDate'].errors
+            }"
+            (input)="
+              this.sharedCustomerService.showLicenseEndDateValidation(
+                this.customerForm
+              )
+            "
+          />
+          <label for="licenseEndDate" class="floatLabel"
+            >License End Date<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['licenseEndDate'].touched && 
+            customerFormControls['licenseEndDate'].errors?.['required']
+            "
+        >
+          Please select valid License End Date
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="date"
+            class="form-control form-control-sm"
+            selected="selected"
+            name="subscriptionDate"
+            id="subscriptionDate"
+            formControlName="subscriptionDate"
+            (input)="
+              this.sharedCustomerService.showLicenseEndDateValidation(
+                this.customerForm
+              )
+            "
+            [min]="this.sharedCustomerService.sameDayofStart"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['subscriptionDate'].touched &&
+                customerFormControls['subscriptionDate'].errors
+            }"
+          />
+          <label for="subscriptionDate" class="floatLabel"
+            >Subscription Date<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['subscriptionDate'].touched && customerFormControls['subscriptionDate'].errors?.['required']"
+        >
+          Please select the Subscription Date
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="number"
+            name="transactionRange"
+            class="form-control form-control-sm"
+            id="transactionRange"
+            formControlName="transactionRange"
+            placeholder=""
+            min="0"
+          />
+          <label for="transactionRange" class="floatLabel"
+            >Expected Annual Transaction Count</label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="
+              customerFormControls['transactionRange'].touched &&
+              customerFormControls['transactionRange'].errors?.['min']
+                "
+          >Please enter the value greater than or equal to 0</small
+        >
+      </div>
+    </div>
+  </div>
+  <div class="card mb-3 rounded bg-body border-primary">
+    <div class="m-1 mt-2 ps-4 h5 text-primary">User Details</div>
+    <div
+      class="card-body row row-cols p-0 mt-1 m-3 row-cols-md-4"
+      formGroupName="userInfo"
+    >
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="firstName"
+            class="form-control form-control-sm"
+            id="firstName"
+            formControlName="firstName"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid':
+                userInfoControls.get('firstName')?.touched &&
+                userInfoControls.get('firstName')?.errors
+            }"
+          />
+          <label for="firstName" class="floatLabel"
+            >First Name <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="
+            userInfoControls.get('firstName')?.touched &&
+            userInfoControls.get('firstName')?.errors
+          "
+          >Please enter First Name</small
+        >
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="lastName"
+            class="form-control form-control-sm"
+            id="lastName"
+            formControlName="lastName"
+            placeholder=""
+          />
+          <label for="lastName" class="floatLabel">Last Name</label>
+        </div>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="userName"
+            class="form-control form-control-sm"
+            id="userName"
+            formControlName="userName"
+            [readOnly]="isDisabled"
+            [ngClass]="{
+              'is-invalid':
+                userInfoControls.get('userName')?.touched &&
+                userInfoControls.get('userName')?.errors
+            }"
+            placeholder=""
+          />
+          <label for="userName" class="floatLabel"
+            >User Name <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="
+            userInfoControls.get('userName')?.touched &&
+            userInfoControls.get('userName')?.errors
+          "
+          >Please enter UserName</small
+        >
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="email"
+            name="emailId"
+            class="form-control form-control-sm"
+            id="emailId"
+            formControlName="emailId"
+            [readOnly]="isDisabled"
+            [ngClass]="{
+              'is-invalid':
+                userInfoControls.get('emailId')?.touched &&
+                userInfoControls.get('emailId')?.errors
+            }"
+            placeholder=""
+          /><label for="emailId" class="floatLabel"
+            >Email Id<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="
+                userInfoControls.get('emailId')?.touched &&
+                userInfoControls.get('emailId')?.errors?.['required']
+                "
+          >Please enter Email Id</small
+        >
+        <small
+          class="text-danger"
+          *ngIf="
+                userInfoControls.get('emailId')?.touched &&
+                userInfoControls.get('emailId')?.errors?.['pattern']
+              "
+          >Please enter valid Email Id</small
+        >
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="password"
+            name="password"
+            class="form-control form-control-sm"
+            id="password"
+            title="Password should be atleast 8 characters long and should contain one number,one uppercase,one lowercase and one special character"
+            formControlName="password"
+            [readOnly]="isDisabled"
+            [ngClass]="{
+              'is-invalid':
+                userInfoControls.get('password')?.touched &&
+                userInfoControls.get('password')?.errors
+            }"
+            (input)="checkPassword()"
+            title="Password should be atleast 8 characters long and should contain one number,one uppercase,one lowercase and one special character"
+            placeholder=""
+          />
+          <label for="password" class="floatLabel"
+            >Password <span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="
+                  userInfoControls.get('password')?.touched &&
+                  userInfoControls.get('password')?.errors?.['required']
+                  "
+        >
+          Please enter Password
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="
+              userInfoControls.get('password')?.touched &&
+              userInfoControls.get('password')?.errors?.['pattern']"
+        >
+          Please enter valid password
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" [hidden]="isDisabled">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="password"
+            name="retypePassword"
+            class="form-control form-control-sm"
+            id="retypePassword"
+            formControlName="retypePassword"
+            (input)="checkPassword()"
+            compare="password"
+            [ngClass]="{
+              'is-invalid':
+                userInfoControls.get('retypePassword')?.touched &&
+                userInfoControls.get('retypePassword')?.errors
+            }"
+            placeholder=""
+          />
+          <label for="retypePassword" class="floatLabel"
+            >Re-enter password <span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="
+                  userInfoControls.get('retypePassword')?.touched && 
+                  userInfoControls.get('retypePassword')?.errors?.['required']
+                "
+          >Please Re-enter password</small
+        >
+        <small
+          class="text-danger"
+          *ngIf="
+            userInfoControls.get('retypePassword')?.touched &&
+            userInfoControls
+              .get('retypePassword')
+              ?.hasError('confirmedValidator')
+          "
+        >
+          Password and Re-entered Passwords don't match
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-3 rounded bg-body border-primary">
+    <div class="m-1 mt-2 ps-4 h5 text-primary">Other Details</div>
+    <div class="card-body row row-cols p-0 mt-1 m-3 row-cols-md-4">
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="labelPath"
+            class="form-control form-control-sm"
+            id="labelPath"
+            formControlName="labelPath"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['labelPath'].errors &&
+                customerFormControls['labelPath'].touched
+            }"
+            placeholder=""
+          />
+          <label for="labelPath" class="floatLabel"
+            >Cloud Label Path<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="
+                  customerFormControls['labelPath'].touched &&
+                  customerFormControls['labelPath'].errors?.['required']
+                "
+          >Please enter Cloud Label Path</small
+        >
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['labelPath'].touched && customerFormControls['labelPath'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(50)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['labelPath'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'EBS'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="webserviceLabelPath"
+            class="form-control form-control-sm"
+            id="webserviceLabelPath"
+            formControlName="webserviceLabelPath"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['webserviceLabelPath'].errors &&
+                customerFormControls['webserviceLabelPath'].touched
+            }"
+            placeholder=""
+          /><label for="webserviceLabelPath" class="floatLabel"
+            >Webservice Label Path<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="
+                customerFormControls['webserviceLabelPath'].touched &&
+                customerFormControls['webserviceLabelPath'].errors?.['required']
+                "
+          >Please enter Webservice Label Path</small
+        >
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['webserviceLabelPath'].touched && customerFormControls['webserviceLabelPath'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['webserviceLabelPath'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="number"
+            name="maxInventoryOrganizations"
+            class="form-control form-control-sm"
+            id="maxInventoryOrganizations"
+            formControlName="maxInventoryOrganizations"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['maxInventoryOrganizations'].errors &&
+                customerFormControls['maxInventoryOrganizations'].touched
+            }"
+            placeholder=""
+            min="1"
+            max="99"
+          />
+          <label for="maxInventoryOrganizations" class="floatLabel"
+            >Maximum Inv Orgs<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf=" 
+                customerFormControls['maxInventoryOrganizations'].touched &&
+                customerFormControls['maxInventoryOrganizations'].errors?.['required']
+                "
+          >Please enter Maximum Inv Orgs</small
+        >
+        <small
+          class="text-danger"
+          *ngIf=" 
+                customerFormControls['maxInventoryOrganizations'].touched &&
+                (customerFormControls['maxInventoryOrganizations'].errors?.['min'] ||
+                customerFormControls['maxInventoryOrganizations'].errors?.['max'])
+                "
+          >Number should be between 1 and 99</small
+        >
+      </div>
+      <div class="col-md p-2 pt-0 pb-2" *ngIf="erpType.value == 'SCM'">
+        <div class="form-floating m-1 mb-0">
+          <input
+            type="text"
+            name="reportPath"
+            class="form-control form-control-sm"
+            id="reportPath"
+            formControlName="reportPath"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['reportPath'].errors &&
+                customerFormControls['reportPath'].touched
+            }"
+            placeholder=""
+          />
+          <label for="reportPath" class="floatLabel"
+            >Report Path<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="
+                customerFormControls['reportPath'].touched &&
+                customerFormControls['reportPath'].errors?.['required']
+                "
+          >Please enter Report Path</small
+        >
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['reportPath'].touched && customerFormControls['reportPath'].errors?.['maxlength']"
+        >
+          Exceeded maximum length of characters(100)
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="customerFormControls['reportPath'].errors?.['pattern']"
+        >
+          White Spaces are not allowed
+        </small>
+      </div>
+      <div class="col-md p-2 pt-0 pb-2">
+        <div class="form-floating m-1 mb-0">
+          <select
+            name="status"
+            class="form-select form-select-sm"
+            id="status"
+            formControlName="status"
+            [ngClass]="{
+              'is-invalid':
+                customerFormControls['status'].errors &&
+                customerFormControls['status'].touched
+            }"
+          >
+            <option
+              *ngFor="let status of statusList"
+              [value]="status.lookupCode"
+            >
+              {{ status.meaning }}
+            </option>
+          </select>
+          <label for="status" class="floatLabel"
+            >Status<small class="text-danger">*</small></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="
+                customerFormControls['status'].touched &&
+                customerFormControls['status'].errors?.['required']
+                "
+          >Please select Status</small
+        >
+      </div>
+    </div>
+  </div>
+  <div class="card mb-3 rounded bg-body border-primary">
+    <div class="m-1 mt-2 ps-4 h5 text-primary">Service Subscription</div>
+    <div
+      class="card-body row row-cols p-0 mt-1 m-3 row-cols-md-4"
+      formArrayName="clientSubscriptionInfoList"
+    >
+      <div
+        class="col-3 p-2 pt-1 pb-1 row small"
+        *ngFor="let service of addonServicesList; let i = index"
+        [formGroupName]="i"
+      >
+        <label
+          class="form-check-label text-md-end col-md-9"
+          [for]="i"
+          *ngIf="service.status"
+        >
+          {{ service.serviceDescription }}
+          <span
+            [hidden]="this.sharedCustomerService.showACE"
+            class="text-danger"
+            *ngIf="service.serviceName == 'ACE'"
+            >*</span
+          >
+          <span
+            [hidden]="this.sharedCustomerService.showEOD"
+            class="text-danger"
+            *ngIf="service.serviceName == 'EOD'"
+            >*</span
+          >
+        </label>
+        <div class="col-md-1" *ngIf="service.status">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            [name]="i"
+            [id]="i"
+            #activeFlag
+            formControlName="activeFlag"
+            (change)="
+              this.sharedCustomerService.showInfoIcons(
+                service.serviceName,
+                activeFlag.checked,
+                this.customerForm
+              )
+            "
+          />
+        </div>
+        <div class="col-2">
+          <fa-icon
+            [icon]="faUpRightFromSquare"
+            [hidden]="this.sharedCustomerService.showACE"
+            *ngIf="service.serviceName == 'ACE'"
+            class="ms-1 fw-bold text-primary fa-icon"
+            data-bs-toggle="modal"
+            data-bs-target="#aceFiling"
+          ></fa-icon>
+          <fa-icon
+            [icon]="faUpRightFromSquare"
+            [hidden]="this.sharedCustomerService.showDS"
+            *ngIf="service.serviceName == 'DS'"
+            class="ms-1 fw-bold text-primary fa-icon"
+            data-bs-toggle="modal"
+            data-bs-target="#documentStorageAPI"
+          ></fa-icon>
+          <fa-icon
+            [icon]="faUpRightFromSquare"
+            [hidden]="this.sharedCustomerService.showEOD"
+            *ngIf="service.serviceName == 'EOD'"
+            class="ms-1 fw-bold text-primary fa-icon"
+            data-bs-toggle="modal"
+            data-bs-target="#EOD"
+          ></fa-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center mb-4">
+    <button
+      type="submit"
+      class="btn btn-primary btn-sm me-3"
+      [hidden]="isDisabled"
+      (click)="onSubmit('create')"
+    >
+      Save
+      <fa-icon [icon]="faCircleCheck"></fa-icon>
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary btn-sm updateButton me-3"
+      [hidden]="!isDisabled"
+      (click)="onSubmit('update')"
+    >
+      Update
+      <fa-icon [icon]="faCircleCheck"></fa-icon>
+    </button>
+    <button
+      type="reset"
+      class="btn btn-primary btn-sm me-3"
+      (click)="resetForms()"
+      [hidden]="isDisabled"
+    >
+      Clear <fa-icon [icon]="faArrowAltCircleLeft"></fa-icon>
+    </button>
+    <a
+      type="button"
+      routerLink="/{{ role }}/customerDetails"
+      class="btn btn-primary btn-sm"
+      >Back
+      <fa-icon [icon]="faCircleXmark"></fa-icon>
+    </a>
+  </div>
+  <!--Document Storage API-->
+  <div
+    class="documentStorageAPI modal fade"
+    id="documentStorageAPI"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" style="max-width: 45%">
+      <div class="modal-content">
+        <div class="modal-header p-2 ps-3 text-light bg-primary">
+          <h5 class="modal-title" id="exampleModalLabel">
+            Document Storage Details
+          </h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white p-2 me-1"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating m-1 mb-0">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  id="documentStorageAccessKey"
+                  name="documentStorageAccessKey"
+                  formControlName="documentStorageAccessKey"
+                  [ngClass]="{
+                    'is-invalid':
+                      customerFormControls['documentStorageAccessKey']
+                        .touched &&
+                      customerFormControls['documentStorageAccessKey'].errors
+                  }"
+                  placeholder=""
+                />
+                <label for="documentStorageAccessKey" class="floatLabel"
+                  >Access Key</label
+                >
+              </div>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['documentStorageAccessKey'].touched && customerFormControls['documentStorageAccessKey'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(240)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['documentStorageAccessKey'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating m-1 mb-0">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  id="documentStorageSecureKey"
+                  name="documentStorageSecureKey"
+                  formControlName="documentStorageSecureKey"
+                  [ngClass]="{
+                    'is-invalid':
+                      customerFormControls['documentStorageSecureKey']
+                        .touched &&
+                      customerFormControls['documentStorageSecureKey'].errors
+                  }"
+                  placeholder=""
+                />
+                <label for="documentStorageSecureKey" class="floatLabel"
+                  >Secure Key</label
+                >
+              </div>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['documentStorageSecureKey'].touched && customerFormControls['documentStorageSecureKey'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(240)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['documentStorageSecureKey'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating m-1 mb-0">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  id="documentStorageRegion"
+                  name="documentStorageRegion"
+                  formControlName="documentStorageRegion"
+                  [ngClass]="{
+                    'is-invalid':
+                      customerFormControls['documentStorageRegion'].touched &&
+                      customerFormControls['documentStorageRegion'].errors
+                  }"
+                  placeholder=""
+                />
+                <label for="documentStorageRegion" class="floatLabel"
+                  >Region</label
+                >
+              </div>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['documentStorageRegion'].touched && customerFormControls['documentStorageRegion'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(240)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['documentStorageRegion'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating m-1 mb-0">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  id="documentStorageBucketName"
+                  name="documentStorageBucketName"
+                  formControlName="documentStorageBucketName"
+                  [ngClass]="{
+                    'is-invalid':
+                      customerFormControls['documentStorageBucketName']
+                        .touched &&
+                      customerFormControls['documentStorageBucketName'].errors
+                  }"
+                  placeholder=""
+                />
+                <label for="documentStorageBucketName" class="floatLabel"
+                  >Bucket Name</label
+                >
+              </div>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['documentStorageBucketName'].touched && customerFormControls['documentStorageBucketName'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(240)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['documentStorageBucketName'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating m-1 mb-0">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  id="documentPath"
+                  name="documentPath"
+                  formControlName="documentPath"
+                  [ngClass]="{
+                    'is-invalid':
+                      customerFormControls['documentPath'].touched &&
+                      customerFormControls['documentPath'].errors
+                  }"
+                  placeholder=""
+                />
+                <label for="documentPath" class="floatLabel"
+                  >Document Path</label
+                >
+              </div>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['documentPath'].touched && customerFormControls['documentPath'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(240)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['documentPath'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer p-1">
+          <button
+            type="button"
+            class="btn btn-primary btn-sm me-3"
+            data-bs-dismiss="modal"
+          >
+            Save <fa-icon [icon]="faCircleCheck"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Document Storage API-->
+  <!--ACE Filling-->
+  <div
+    class="modal fade"
+    id="aceFiling"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+    role="dialog"
+  >
+    <div class="modal-dialog" role="document" style="max-width: 45%">
+      <div class="modal-content">
+        <div class="modal-header p-2 ps-3 text-light bg-primary">
+          <h5 class="modal-title" id="exampleModalLabel">
+            ACE Filling Details
+          </h5>
+          <button type="button" class="btn-close btn-close-white p-2 me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-2">
+            <div class="form-floating m-1 mb-0">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="aceShipmentFilingUrl"
+                name="aceShipmentFilingUrl"
+                formControlName="aceShipmentFilingUrl"
+                [ngClass]="{
+                  'is-invalid':
+                    customerFormControls['aceShipmentFilingUrl'].touched &&
+                    customerFormControls['aceShipmentFilingUrl'].errors
+                }"
+                placeholder=""
+              />
+              <label for="aceShipmentFilingUrl" class="floatLabel"
+                >ACE Shipment Filing URL<span class="text-danger"
+                  >*</span
+                ></label
+              >
+            </div>
+            <small
+              class="text-danger"
+              *ngIf="
+                  customerFormControls['aceShipmentFilingUrl'].touched &&
+                  customerFormControls['aceShipmentFilingUrl'].errors?.['required']
+                "
+              >Please enter ACE Shipment Filing URL</small
+            >
+            <small
+              class="text-danger"
+              *ngIf="customerFormControls['aceShipmentFilingUrl'].touched && customerFormControls['aceShipmentFilingUrl'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(250)
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="customerFormControls['aceShipmentFilingUrl'].errors?.['pattern']"
+            >
+              White Spaces are not allowed
+            </small>
+          </div>
+          <div class="">
+            <div class="form-floating m-1 mb-0">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="aceShipmentInquiryUrl"
+                name="aceShipmentInquiryUrl"
+                formControlName="aceShipmentInquiryUrl"
+                [ngClass]="{
+                  'is-invalid':
+                    customerFormControls['aceShipmentInquiryUrl'].touched &&
+                    customerFormControls['aceShipmentInquiryUrl'].errors
+                }"
+                placeholder=""
+              />
+              <label for="aceShipmentInquiryUrl" class="floatLabel"
+                >ACE Shipment Inquiry URL<span class="text-danger"
+                  >*</span
+                ></label
+              >
+            </div>
+            <small
+              class="text-danger"
+              *ngIf="
+                  customerFormControls['aceShipmentInquiryUrl'].touched &&
+                  customerFormControls['aceShipmentInquiryUrl'].errors?.['required']
+                "
+              >Please enter ACE Shipment Inquiry URL</small
+            >
+            <small
+              class="text-danger"
+              *ngIf="customerFormControls['aceShipmentInquiryUrl'].touched && customerFormControls['aceShipmentInquiryUrl'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(250)
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="customerFormControls['aceShipmentInquiryUrl'].errors?.['pattern']"
+            >
+              White Spaces are not allowed
+            </small>
+          </div>
+        </div>
+        <div class="modal-footer p-1">
+          <button
+            type="button"
+            class="btn btn-primary btn-sm me-3"
+            data-bs-dismiss="modal"
+          >
+            Save <fa-icon [icon]="faCircleCheck"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--ACE Filling-->
+  <!--EOD Compliance(S3)-->
+  <div
+    class="EOD modal fade"
+    id="EOD"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" style="max-width: 45%">
+      <div class="modal-content">
+        <div class="modal-header p-2 ps-3 text-light bg-primary">
+          <h5 class="modal-title" id="exampleModalLabel">
+            EOD Compliance(S3) Details
+          </h5>
+          <button type="button" class="btn-close btn-close-white p-2 me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-floating m-1 mb-0">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  id="eodUserName"
+                  name="eodUserName"
+                  formControlName="eodUserName"
+                  [ngClass]="{
+                    'is-invalid':
+                      customerFormControls['eodUserName'].touched &&
+                      customerFormControls['eodUserName'].errors
+                  }"
+                  placeholder=""
+                />
+                <label for="eodUserName" class="floatLabel"
+                  >EOD Username<span class="text-danger">*</span></label
+                >
+              </div>
+              <small
+                class="text-danger"
+                *ngIf="
+                  customerFormControls['eodUserName'].touched &&
+                  customerFormControls['eodUserName'].errors?.['required']
+                "
+                >Please enter EOD Username</small
+              >
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['eodUserName'].touched && customerFormControls['eodUserName'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(100)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['eodUserName'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating m-1 mb-0">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  id="eodPassword"
+                  name="eodPassword"
+                  formControlName="eodPassword"
+                  [ngClass]="{
+                    'is-invalid':
+                      customerFormControls['eodPassword'].touched &&
+                      customerFormControls['eodPassword'].errors
+                  }"
+                  placeholder=""
+                />
+                <label for="eodPassword" class="floatLabel"
+                  >EOD Password<span class="text-danger">*</span></label
+                >
+              </div>
+              <small
+                class="text-danger"
+                *ngIf="
+                  customerFormControls['eodPassword'].touched &&
+                  customerFormControls['eodPassword'].errors?.['required']
+                "
+                >Please enter EOD Password</small
+              >
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['eodPassword'].touched && customerFormControls['eodPassword'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(100)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['eodPassword'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+            <div class="col-md-12">
+              <div class="form-floating m-1 mb-0">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  id="eodURL"
+                  name="eodURL"
+                  formControlName="eodURL"
+                  [ngClass]="{
+                    'is-invalid':
+                      customerFormControls['eodURL'].touched &&
+                      customerFormControls['eodURL'].errors
+                  }"
+                  placeholder=""
+                />
+                <label for="eodURL" class="floatLabel"
+                  >EOD URL<span class="text-danger">*</span></label
+                >
+              </div>
+              <small
+                class="text-danger"
+                *ngIf="
+                  customerFormControls['eodURL'].touched &&
+                  customerFormControls['eodURL'].errors?.['required']
+                "
+                >Please enter EOD Password</small
+              >
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['eodURL'].touched && customerFormControls['eodURL'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(100)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="customerFormControls['eodURL'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer p-1">
+          <button
+            type="button"
+            class="btn btn-primary btn-sm me-3"
+            data-bs-dismiss="modal"
+          >
+            Save <fa-icon [icon]="faCircleCheck"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--EOD Compliance(S3)-->
+</form>

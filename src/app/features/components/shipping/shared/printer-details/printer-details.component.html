@@ -1,0 +1,86 @@
+<div class="card shadow">
+  <div class="h6 mt-2 ps-2 mb-0 text-muted fw-bold">Printer Details</div>
+  <div class="card-body p-1" [formGroup]="printerInfo">
+    <div class="row row-cols">
+      <div class="col-sm" *ngIf="erpType == 'EBS'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select-sm form-select me-6"
+            id="printerName"
+            name="printerName"
+            formControlName="printerName"
+          >
+            <option value="" [defaultSelected]>select printer</option>
+            <option
+              *ngFor="let printer of printersList"
+              [value]="printer.printerName"
+            >
+              {{ printer.printerName }}
+            </option>
+          </select>
+          <label for="printerName" class="floatLabel"> Printer Name </label>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="number"
+            name="noOfLabelsToPrint"
+            id="noOfLabelsToPrint"
+            class="form-control form-control-sm"
+            placeholder=""
+            formControlName="noOfLabelsToPrint"
+          />
+          <label for="noOfLabelsToPrint" class="floatLabel">
+            No. of labels to print
+          </label>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="number"
+            name="noOfCopiesPrinted"
+            id="noOfCopiesPrinted"
+            class="form-control form-control-sm"
+            placeholder=""
+            formControlName="noOfCopiesPrinted"
+          />
+          <label for="noOfCopiesPrinted" class="floatLabel">
+            Labels printed
+          </label>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="number"
+            name="printFromPage"
+            formControlName="printFromPage"
+            id="printFromPage"
+            class="form-control form-control-sm"
+            placeholder=""
+            formControlName="printFromPage"
+          />
+          <label for="printFromPage" class="floatLabel">
+            Print From Page
+          </label>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="number"
+            name="printToPage"
+            id="printToPage"
+            formControlName="printToPage"
+            class="form-control form-control-sm"
+            placeholder=""
+            formControlName="printToPage"
+          />
+          <label for="printToPage" class="floatLabel"> Print To Page </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

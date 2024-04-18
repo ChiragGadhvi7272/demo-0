@@ -1,0 +1,624 @@
+<div
+  class="modal fade"
+  id="shipFromLocationDetails"
+  tabindex="-1"
+  role="dialog"
+  [formGroup]="createUpdateShipFromLocationForm"
+  novalidate
+  autocomplete="off"
+  #myModal
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-light bg-primary p-2 ps-3">
+        <div class="modal-title h5" id="exampleModalLabel">
+          {{ this.createUpdate }}
+        </div>
+        <span style="float: right;">
+          <button type="button" class="btn-close btn-close-white p-2 me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+        </span>
+      </div>
+      <div class="modal-body row row-cols-sm-1 row-cols-md-3 row-cols-lg-3">
+        <!--1. Location Name -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="locationName"
+              class="form-control form-control-sm"
+              id="locationName"
+              formControlName="locationName"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['locationName']
+                    .errors &&
+                  createUpdateShipFromLocationFormControls['locationName']
+                    .touched
+              }"
+              [readonly]="isDisabled"
+            />
+            <label for="locationName" class="floatLabel">
+              Location Name
+              <span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['locationName'].touched && createUpdateShipFromLocationFormControls['locationName'].errors?.['required']"
+            >
+              Please enter Location Name
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="createUpdateShipFromLocationFormControls['locationName'].touched && createUpdateShipFromLocationFormControls['locationName'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(240)
+            </small>
+          </div>
+        </div>
+        <!--1. Contact Name -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="contactName"
+              class="form-control form-control-sm"
+              id="contactName"
+              formControlName="contactName"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['contactName']
+                    .errors &&
+                  createUpdateShipFromLocationFormControls['contactName']
+                    .touched
+              }"
+            />
+            <label for="contactName" class="floatLabel">
+              Contact Name<span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['contactName'].touched && createUpdateShipFromLocationFormControls['contactName'].errors?.['required']"
+            >
+              Please enter Contact Name
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="createUpdateShipFromLocationFormControls['contactName'].touched && createUpdateShipFromLocationFormControls['contactName'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(200)
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="createUpdateShipFromLocationFormControls['contactName'].touched && createUpdateShipFromLocationFormControls['contactName'].errors?.['pattern']"
+            >
+              Numbers are not allowed
+            </small>
+          </div>
+        </div>
+
+        <!--companyName -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="companyName"
+              class="form-control form-control-sm"
+              id="companyName"
+              formControlName="companyName"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['companyName']
+                    .errors &&
+                  createUpdateShipFromLocationFormControls['companyName']
+                    .touched
+              }"
+            />
+            <label for="companyName" class="floatLabel">
+              Company Name<span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['companyName'].touched && createUpdateShipFromLocationFormControls['companyName'].errors?.['required']"
+            >
+              Please enter Company Name
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="createUpdateShipFromLocationFormControls['companyName'].touched && createUpdateShipFromLocationFormControls['companyName'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(200)
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="createUpdateShipFromLocationFormControls['companyName'].touched && createUpdateShipFromLocationFormControls['companyName'].errors?.['pattern']"
+            >
+              Numbers are not allowed
+            </small>
+          </div>
+        </div>
+        <!--2. Address Line 1 -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="address1"
+              class="form-control form-control-sm"
+              id="address1"
+              formControlName="address1"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['address1'].errors &&
+                  createUpdateShipFromLocationFormControls['address1'].touched
+              }"
+            />
+            <label for="address1" class="floatLabel">
+              Address Line1<span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['address1'].touched && createUpdateShipFromLocationFormControls['address1'].errors?.['required']"
+            >
+              Please enter Address Line1
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="createUpdateShipFromLocationFormControls['address1'].touched && createUpdateShipFromLocationFormControls['address1'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(240)
+            </small>
+          </div>
+        </div>
+
+        <!--2. Address Line 2  -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="address2"
+              class="form-control form-control-sm"
+              id="address2"
+              formControlName="address2"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['address2'].errors &&
+                  createUpdateShipFromLocationFormControls['address2'].touched
+              }"
+            />
+            <label for="address2" class="floatLabel"> Address Line2 </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['address2'].touched && createUpdateShipFromLocationFormControls['address2'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(240)
+            </small>
+          </div>
+        </div>
+        <!--3. Address Line 3 -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="address3"
+              class="form-control form-control-sm"
+              id="address3"
+              formControlName="address3"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['address3'].errors &&
+                  createUpdateShipFromLocationFormControls['address3'].touched
+              }"
+            />
+            <label for="address3" class="floatLabel"> Address Line3 </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['address3'].touched && createUpdateShipFromLocationFormControls['address3'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(240)
+            </small>
+          </div>
+        </div>
+
+        <!--4. Address Line 4 -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="address4"
+              class="form-control form-control-sm"
+              id="address4"
+              formControlName="address4"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['address4'].errors &&
+                  createUpdateShipFromLocationFormControls['address4'].touched
+              }"
+            />
+            <label for="address4" class="floatLabel"> Address Line4 </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['address4'].touched && createUpdateShipFromLocationFormControls['address4'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(240)
+            </small>
+          </div>
+        </div>
+
+        <!--3. City -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="city"
+              class="form-control form-control-sm"
+              id="city"
+              formControlName="city"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['city'].errors &&
+                  createUpdateShipFromLocationFormControls['city'].touched
+              }"
+            />
+            <label for="city" class="floatLabel">
+              City<span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['city'].touched && createUpdateShipFromLocationFormControls['city'].errors?.['required']"
+            >
+              Please enter City
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="createUpdateShipFromLocationFormControls['city'].touched && createUpdateShipFromLocationFormControls['city'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(200)
+            </small>
+          </div>
+        </div>
+
+        <!--5. State -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="stateProvinceCode"
+              class="form-control form-control-sm text-uppercase"
+              id="stateProvinceCode"
+              maxlength="2"
+              formControlName="stateProvinceCode"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['stateProvinceCode']
+                    .errors &&
+                  createUpdateShipFromLocationFormControls['stateProvinceCode']
+                    .touched
+              }"
+            />
+            <label for="stateProvinceCode" class="floatLabel">
+              State / Province Code<span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['stateProvinceCode'].touched && createUpdateShipFromLocationFormControls['stateProvinceCode'].errors?.['required']"
+            >
+              Please enter State / Province Code
+            </small>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['stateProvinceCode'].touched && createUpdateShipFromLocationFormControls['stateProvinceCode'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(2)
+            </small>
+          </div>
+        </div>
+
+        <!--6. Country Code -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <select
+              name="countryCode"
+              class="form-select form-select-sm select"
+              id="countryCode"
+              formControlName="countryCode"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['countryCode']
+                    .errors &&
+                  createUpdateShipFromLocationFormControls['countryCode']
+                    .touched
+              }"
+            >
+              <option [defaultSelected]="defaultSelect" value="">
+                ---Select---
+              </option>
+              <option
+                *ngFor="let country of countryCodesList"
+                [value]="country.countryCode"
+              >
+                {{ country.countryName }}
+              </option>
+            </select>
+            <label for="countryCode" class="floatLabel">
+              Country<span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['countryCode'].touched && createUpdateShipFromLocationFormControls['countryCode'].errors?.['required']"
+            >
+              Please select Country
+            </small>
+          </div>
+        </div>
+
+        <!--4. Postal Code -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="postalCode"
+              class="form-control form-control-sm"
+              id="postalCode"
+              formControlName="postalCode"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['postalCode']
+                    .errors &&
+                  createUpdateShipFromLocationFormControls['postalCode'].touched
+              }"
+            />
+            <label for="postalCode" class="floatLabel"
+              >Postal Code<span class="text-danger">*</span></label
+            >
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['postalCode'].touched && createUpdateShipFromLocationFormControls['postalCode'].errors?.['required']"
+            >
+              Please enter Postal Code
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="createUpdateShipFromLocationFormControls['postalCode'].touched && createUpdateShipFromLocationFormControls['postalCode'].errors?.['pattern']"
+            >
+              Please enter valid Postal Code
+            </small>
+            <small class="text-danger"
+              *ngIf="createUpdateShipFromLocationFormControls['postalCode'].touched && createUpdateShipFromLocationFormControls['postalCode'].errors?.['maxlength']">
+              Exceeded maximum length of characters(60)
+            </small>
+          </div>
+        </div>
+
+        <!--7. Contact Number -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="phoneNumber"
+              class="form-control form-control-sm"
+              id="phoneNumber"
+              formControlName="phoneNumber"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['phoneNumber']
+                    .errors &&
+                  createUpdateShipFromLocationFormControls['phoneNumber']
+                    .touched
+              }"
+            />
+            <label for="phoneNumber" class="floatLabel"
+              >Phone Number<span class="text-danger">*</span></label
+            >
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['phoneNumber'].touched && createUpdateShipFromLocationFormControls['phoneNumber'].errors?.['required']"
+            >
+              Please enter Phone Number
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="createUpdateShipFromLocationFormControls['phoneNumber'].touched && createUpdateShipFromLocationFormControls['phoneNumber'].errors?.['pattern']"
+            >
+              Please enter valid Phone Number
+            </small>
+          </div>
+        </div>
+
+        <!--5. Email Address -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <input
+              type="email"
+              placeholder=""
+              name="emailId"
+              class="form-control form-control-sm"
+              id="emailId"
+              formControlName="emailId"
+              [ngClass]="{
+                'is-invalid':
+                  createUpdateShipFromLocationFormControls['emailId'].errors &&
+                  createUpdateShipFromLocationFormControls['emailId'].touched
+              }"
+            />
+            <label for="emailId" class="floatLabel">
+              Email Address<span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="createUpdateShipFromLocationFormControls['emailId'].touched && createUpdateShipFromLocationFormControls['emailId'].errors?.['required']"
+            >
+              Please enter Email Address
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="createUpdateShipFromLocationFormControls['emailId'].touched && createUpdateShipFromLocationFormControls['emailId'].errors?.['pattern']"
+            >
+              Please enter valid Email Address
+            </small>
+          </div>
+        </div>
+
+        <!--8. FDXG Account No -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <select
+              name="fdxgAcctNo"
+              class="form-select form-select-sm select"
+              id="fdxgAcctNo"
+              formControlName="fdxgAcctNo"
+            >
+              <option [defaultSelected]="defaultSelect" value="">
+                ---Select---
+              </option>
+              <option
+                *ngFor="let fdxgAccountNumer of fdxgAccountNumersList"
+                [value]="fdxgAccountNumer.accountNumber"
+              >
+                {{ fdxgAccountNumer.accountNumber }}
+              </option>
+            </select>
+            <label for="fdxgAcctNo" class="floatLabel"> FDXG Account No </label>
+          </div>
+        </div>
+
+        <!--8. DHL Account No -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <select
+              name="dhlAcctNo"
+              class="form-select form-select-sm select"
+              id="dhlAcctNo"
+              formControlName="dhlAcctNo"
+            >
+              <option [defaultSelected]="defaultSelect" value="">
+                ---Select---
+              </option>
+              <option
+                *ngFor="let dhlAccountNumer of dhlAccountNumersList"
+                [value]="dhlAccountNumer.accountNumber"
+              >
+                {{ dhlAccountNumer.accountNumber }}
+              </option>
+            </select>
+            <label for="dhlAcctNo" class="floatLabel"> DHL Account No </label>
+          </div>
+        </div>
+
+        <!--7. FDXE Account No -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <select
+              name="fdxeAcctNo"
+              class="form-select form-select-sm select"
+              id="fdxeAcctNo"
+              formControlName="fdxeAcctNo"
+            >
+              <option [defaultSelected]="defaultSelect" value="">
+                ---Select---
+              </option>
+              <option
+                *ngFor="let fdxeAccountNumer of fdxeAccountNumersList"
+                [value]="fdxeAccountNumer.accountNumber"
+              >
+                {{ fdxeAccountNumer.accountNumber }}
+              </option>
+            </select>
+            <label for="fdxeAcctNo" class="floatLabel"> FDXE Account No </label>
+          </div>
+        </div>
+
+        <!--8. UPS Account No -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <select
+              name="upsAcctNo"
+              class="form-select form-select-sm select"
+              id="upsAcctNo"
+              formControlName="upsAcctNo"
+            >
+              <option [defaultSelected]="defaultSelect" value="">
+                ---Select---
+              </option>
+              <option
+                *ngFor="let upsAccountNumer of upsAccountNumersList"
+                [value]="upsAccountNumer.accountNumber"
+              >
+                {{ upsAccountNumer.accountNumber }}
+              </option>
+            </select>
+            <label for="upsAcctNo" class="floatLabel"> UPS Account No </label>
+          </div>
+        </div>
+        <!-- 6. Shipper Name -->
+        <div class="col-sm">
+          <div class="form-floating m-1">
+            <select
+              name="shipperName"
+              class="form-select form-select-sm select"
+              id="shipperName"
+              formControlName="shipperName"
+            >
+              <option [defaultSelected]="defaultSelect" value="">
+                ---Select---
+              </option>
+              <option
+                *ngFor="let shipperName of shipperNamesList"
+                [value]="shipperName.shipperName"
+              >
+                {{ shipperName.shipperName }}
+              </option>
+            </select>
+            <label for="shipperName" class="floatLabel"> Shipper Name </label>
+          </div>
+        </div>
+      </div>
+      <div class="text-center modal-footer d-inline">
+        <!-- Save Button -->
+        <button
+          type="submit"
+          class="btn btn-primary btn-sm me-3"
+          [disabled]="createUpdateShipFromLocationForm.invalid"
+          [hidden]="isDisabled"
+          (click)="onSubmit()"
+        >
+          Save
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+
+        <!-- Update Button -->
+        <button
+          type="submit"
+          class="btn btn-sm btn-primary me-3"
+          [disabled]="createUpdateShipFromLocationForm.invalid"
+          [hidden]="!isDisabled"
+          (click)="onSubmit()"
+          data-bs-dismiss="modal"
+        >
+          Update
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+        <!-- Clear Button -->
+        <button
+          type="reset"
+          class="btn btn-sm btn-primary me-3"
+          (click)="resetForms()"
+          [hidden]="isDisabled"
+        >
+          Reset
+          <fa-icon [icon]="faRefresh"></fa-icon>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>

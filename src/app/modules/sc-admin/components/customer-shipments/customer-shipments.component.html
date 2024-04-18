@@ -1,0 +1,305 @@
+<div class="p-2">
+  <div class="text-primary h4 mb-0">Customer Shipments</div>
+  <!-- <p class="text-secondary m-0">Enter the required details and save</p> -->
+</div>
+<div [formGroup]="customerShipments" novalidate>
+  <div class="card border-primary">
+    <div class="row p-1">
+      <!-- Customer Name -->
+      <div class="col-sm-2">
+        <div class="form-floating ms-1 mb-1 m-1">
+          <select
+            name="clientId"
+            id="clientId"
+            class="form-select-sm form-select"
+            formControlName="clientId"
+            #clientId
+            (change)="showOrgId(clientId.value)"
+            [ngClass]="{
+              'is-invalid':
+                customerShipmentControls['clientId'].touched &&
+                customerShipmentControls['clientId'].errors
+            }"
+          >
+            <option [selected]="true" value="">--Select--</option>
+            <option value="0">ALL</option>
+            <option
+              *ngFor="let clients of customerNamesList"
+              [value]="clients.CLIENT_ID"
+            >
+              {{ clients.COMPANY_NAME }}
+            </option>
+          </select>
+          <label class="floatLabel" for="clientId" class="floatLabel"
+            >Customer Name<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+          customerShipmentControls['clientId'].touched &&
+          customerShipmentControls['clientId'].errors?.['required']
+          "
+          >Please select Customer Name</small
+        >
+      </div>
+
+      <!-- Organization -->
+      <div class="col-sm-2">
+        <div class="form-floating ms-0 mb-1 m-1">
+          <select
+            name="orgId"
+            id="orgId"
+            class="form-select-sm form-select"
+            formControlName="orgId"
+            #orgId
+            (change)="showInvOrgId(orgId.value)"
+            [ngClass]="{
+              'is-invalid':
+                customerShipmentControls['orgId'].touched &&
+                customerShipmentControls['orgId'].errors?.['required']
+            }"
+          >
+            <option [selected]="true" value="">--Select--</option>
+            <option value="0">ALL</option>
+            <option *ngFor="let orgId of orgIdList" [value]="orgId.ORG_ID">
+              {{ orgId.ORG_NAME }}
+            </option>
+          </select>
+          <label class="floatLabel" for="orgId" class="floatLabel"
+            >Operating Unit<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            customerShipmentControls['orgId'].touched &&
+            customerShipmentControls['orgId'].errors?.['required']
+            "
+          >Please select Operating Unit</small
+        >
+      </div>
+      <!-- Inventory Organization -->
+      <div class="col-sm-2">
+        <div class="form-floating ms-0 mb-1 m-1">
+          <select
+            name="invOrgId"
+            id="invOrgId"
+            class="form-select-sm form-select"
+            formControlName="invOrgId"
+            (change)="showFromDate(invOrgId.value)"
+            #invOrgId
+            [ngClass]="{
+              'is-invalid':
+                customerShipmentControls['invOrgId'].touched &&
+                customerShipmentControls['invOrgId'].errors?.['required']
+            }"
+          >
+            <option [selected]="true" value="">--Select--</option>
+            <option value="0">ALL</option>
+            <option
+              *ngFor="let invOrgId of invOrgIdList"
+              [value]="invOrgId.INV_ORG_ID"
+            >
+              {{ invOrgId.INV_ORG_NAME }}
+            </option>
+          </select>
+          <label class="floatLabel" for="invOrgId" class="floatLabel"
+            >Organization<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+        customerShipmentControls['invOrgId'].touched &&
+        customerShipmentControls['invOrgId'].errors?.['required']
+        "
+          >Please select Organization</small
+        >
+      </div>
+
+      <!-- From Date -->
+      <div class="col-sm-2">
+        <div class="form-floating ms-0 mb-1 m-1">
+          <input
+            type="date"
+            formControlName="fromDate"
+            #fromDate
+            class="form-control form-control-sm"
+            (change)="showToDate(fromDate.value)"
+            [ngClass]="{
+              'is-invalid':
+                submitted &&
+                customerShipments.get('fromDate')?.errors &&
+                customerShipments.get('fromDate')?.touched
+            }"
+            required
+          />
+          <label for="fromDate" class="fw-bold" class="floatLabel">
+            From Date<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+        customerShipmentControls['fromDate'].touched &&
+        customerShipmentControls['fromDate'].errors?.['required']
+        "
+          >Please select the Date
+        </small>
+      </div>
+      <!-- To Date -->
+      <div class="col-sm-2">
+        <div class="form-floating ms-0 mb-1 m-1">
+          <input
+            type="date"
+            #toDate
+            formControlName="toDate"
+            class="form-control form-control-sm"
+            (change)="dateValidation(fromDate.value, toDate.value)"
+            [ngClass]="{
+              'is-invalid':
+                submitted &&
+                customerShipments.get('toDate')?.errors?.['required'] &&
+                customerShipments.get('toDate')?.touched
+            }"
+          />
+          <label for="toDate" class="fw-bold" class="floatLabel">
+            To Date<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="customerShipmentControls['toDate'].touched && customerShipmentControls['toDate'].errors?.['required']"
+        >
+          Please select the Date
+        </small>
+
+        <small
+          class="text-danger text-center"
+          *ngIf="(customerShipmentControls['toDate'].errors?.['required'] || dateFlag) && !customerShipmentControls['toDate'].errors?.['required']"
+        >
+          To Date must be greater than From Date
+        </small>
+      </div>
+      <!-- Go Button -->
+      <div class="col-sm-2 mt-2">
+        <button
+          type="button"
+          name="GoButton"
+          id="GoButton"
+          value="Go"
+          [disabled]="goED"
+          class="btn btn-primary btn-sm text-light"
+          (click)="
+            getCustomerShipmentDetails(
+              clientId.value,
+              orgId.value,
+              invOrgId.value,
+              fromDate.value,
+              toDate.value
+            )
+          "
+        >
+          Go
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card border-primary bg-white mt-2" *ngIf="responseData">
+    <div class="row m-0 border-bottom">
+      <div class="col-sm-2">
+        <div class="form-floating mt-2 mb-2" [formGroup]="searchForm">
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            placeholder="Search Here"
+            #searchInput
+            formControlName="searchInput"
+            (input)="filterData()"
+            autocomplete="off"
+          />
+          <label for="searchInput" class="floatLabel">Search</label>
+        </div>
+      </div>
+      <div class="col-sm-9"></div>
+      <div class="col-sm-1 mt-2 text-md-end">
+        <button
+          class="btn btn-sm btn-primary"
+          type="button"
+          [disabled]="exportButton"
+          (click)="downloadSampleFile()"
+        >
+          Export
+          <fa-icon [icon]="faFile"></fa-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="p-2">
+      <div class="table-responsive rounded-1 table-resp" [style]="tableHeight">
+        <table class="table table-hover table-bordered table-sm mb-1">
+          <thead
+            class="rowgroup bg-primary border-light text-white adminScrollWithIn"
+          >
+            <tr>
+              <th scope="col" class="w-auto text-nowrap">Carrier Name</th>
+              <th scope="col" class="w-auto text-nowrap">Service Level</th>
+              <th scope="col" class="w-auto text-nowrap">#Shipments</th>
+              <th scope="col" class="w-auto text-nowrap">#Packages</th>
+            </tr>
+          </thead>
+          <tbody
+            class="table-group"
+            *ngIf="filteredData && filteredData.length > 0"
+          >
+            <tr *ngFor="let item of filteredData | paginate : paginationConfig">
+              <td>{{ item.carrierName }}</td>
+              <td>{{ item.shipMethod }}</td>
+              <td>{{ item.shipmentCount }}</td>
+              <td>{{ item.packageCount }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-footer p-1 text-center">
+      <div class="row">
+        <div class="col-md-1">
+          <div class="form-floating ms-2">
+            <select
+              class="form-select form-select-sm fw-bold"
+              (change)="showNoOfRows()"
+              name="changeRows"
+              id="changeRows"
+              formControlName="changeRows"
+            >
+              <option *ngFor="let option of listPerPage" [value]="option">
+                {{ option }}
+              </option>
+            </select>
+            <label for="loggerMode" class="floatLabel">Rows </label>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <pagination-controls>
+            (pageChange)="onPageChange($event)"
+          </pagination-controls>
+        </div>
+        <div class="col-md-4 mt-2">
+          <div class="fw-bold">
+            Total no. of Transactions/Packages : {{ calculateTotalPackages() }}
+          </div>
+          <a
+            href="{{ downloadSampleFileUrl }}"
+            class="downloadSampleFile"
+            style="display: none"
+            ><p>Export</p></a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

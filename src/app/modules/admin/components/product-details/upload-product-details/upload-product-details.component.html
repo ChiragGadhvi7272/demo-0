@@ -1,0 +1,63 @@
+<div class="card" [formGroup]="uploadProductDetailsForm">
+  <div class="card-header text-center">
+    <strong><h5>Upload Product Details</h5></strong>
+  </div>
+  <div class="card-body text-center">
+    <div class="row">
+      <div class="col-8">
+        <input
+          class="form-control form-control-sm"
+          type="file"
+          (change)="getFile($event)"
+          #fileUpload
+          multiple="false"
+          accept=".xls,.xlsx"
+          formControlName="fileName"
+        />
+        <div class="row text-center mt-2">
+          <div class="col-md text-center">
+            <a
+              href="{{ downloadSampleFileUrl }}"
+              class="downloadSampleFile"
+              style="display: inline"
+              (click)="downloadSampleFile()"
+              ><p>Download Sample File</p></a
+            >
+          </div>
+          <div class="col-md text-center">
+            <a
+              href="{{ reportURL }}"
+              class="downloadReport"
+              style="display: inline"
+              (click)="downloadReport()"
+              ><p>Download Report</p></a
+            >
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="buttonCls mb-2">
+            <!-- Upload Button -->
+            <button
+              class="btn btn-primary btn-sm me-3"
+              [disabled]="!uploadProductDetailsForm.valid"
+              (click)="uploadFile()"
+            >
+              Upload
+              <!-- <fa-icon [icon]="faCircleUp"></fa-icon>-->
+            </button>
+
+            <!-- Back Button -->
+            <button
+              type="button"
+              routerLink="/{{ role }}/productDetails"
+              class="btn btn-primary btn-sm"
+            >
+              Back
+              <!--  <fa-icon [icon]="faCircleLeft"></fa-icon>-->
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

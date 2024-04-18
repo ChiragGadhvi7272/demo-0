@@ -1,0 +1,9 @@
+.modal-dialog {
+  max-width: 60% !important;
+}
+.disabled-input {
+  color: #555555fa;
+  background-color: #f2f2f2;
+  display: block;
+  pointer-events: none;
+}

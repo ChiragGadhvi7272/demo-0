@@ -1,0 +1,2864 @@
+<div class="p-2">
+  <div class="text-primary h4 mb-0">Profile Options</div>
+</div>
+<div
+  [formGroup]="profileOptionsForm"
+  novalidate
+  class="m-2 mb-3"
+  autocomplete="off"
+>
+  <!----------------Profile Options-------------------->
+  <div class="card mb-3 rounded bg-body border-primary">
+    <div class="row row-cols p-1 pt-0 m-1 row-cols-md-4">
+      <div class="col-md" [hidden]="!showCustomerList">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="clientId"
+            id="clientId"
+            class="form-select-sm form-select"
+            formControlName="clientId"
+            #clientId
+            (change)="showOrgId(clientId.value)"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['clientId'].touched &&
+                profileOptionsFormControls['clientId'].errors
+            }"
+          >
+            <option [selected]="true" value="">--Select--</option>
+            <option
+              *ngFor="let clients of customerNamesList"
+              [value]="clients.CLIENT_ID"
+            >
+              {{ clients.COMPANY_NAME }}
+            </option>
+          </select>
+          <label class="floatLabel" for="clientId" class="floatLabel"
+            >Customer Name<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['clientId'].touched &&
+            profileOptionsFormControls['clientId'].errors?.['required']
+            "
+          >Please select Customer Name</small
+        >
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="orgId"
+            id="orgId"
+            class="form-select-sm form-select"
+            formControlName="orgId"
+            #orgId
+            (change)="showInvOrgId(orgId.value)"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['orgId'].touched &&
+                profileOptionsFormControls['orgId'].errors
+            }"
+          >
+            <option [selected]="true" value="">--Select--</option>
+            <option
+              *ngFor="let orgId of orgIdList; trackBy: trackByFn"
+              [value]="orgId.ORG_ID"
+            >
+              {{ orgId.ORG_NAME }}
+            </option>
+          </select>
+          <label class="floatLabel" for="orgId" class="floatLabel"
+            >{{ orgIdNameLabel }}<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['orgId'].touched &&
+            profileOptionsFormControls['orgId'].errors?.['required']
+            "
+          >Please select {{ orgIdNameLabel }}</small
+        >
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="invOrgId"
+            id="invOrgId"
+            class="form-select-sm form-select"
+            formControlName="invOrgId"
+            #invOrgId
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['invOrgId'].touched &&
+                profileOptionsFormControls['invOrgId'].errors
+            }"
+            (change)="showGoButton(orgId.value, invOrgId.value)"
+          >
+            <option [selected]="true" value="">--Select--</option>
+            <option
+              *ngFor="let invOrgId of invOrgIdList; trackBy: trackByFn"
+              [value]="invOrgId.INV_ORG_ID"
+            >
+              {{ invOrgId.INV_ORG_NAME }}
+            </option>
+          </select>
+          <label class="floatLabel" for="invOrgId" class="floatLabel"
+            >{{ invOrgIdNameLabel }}<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+        profileOptionsFormControls['invOrgId'].touched &&
+        profileOptionsFormControls['invOrgId'].errors?.['required']
+        "
+          >Please select {{ invOrgIdNameLabel }}</small
+        >
+      </div>
+      <div class="col-md">
+        <div class="ms-0 mb-1 m-2">
+          <button
+            type="button"
+            name="GoButton"
+            id="GoButton"
+            value="Go"
+            class="btn btn-primary btn-sm text-light"
+            [disabled]="goED"
+            (click)="getProfileOptionsDetails(orgId.value, invOrgId.value)"
+          >
+            Go
+            <fa-icon [icon]="faCircleCheck"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!----------------Profile Options-------------------->
+  </div>
+  <div class="card mb-3 rounded bg-body border-primary">
+    <!----------------Inventory Org Specific Settings-------------------->
+    <div class="m-1 mt-2 ps-4 h5 text-primary">
+      Inventory Org Specific Settings
+    </div>
+    <div class="card-body row row-cols p-0 mt-1 m-3 mb-0 row-cols-md-4">
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="companyName"
+            formControlName="companyName"
+            id="companyName"
+            class="form-control-sm form-control"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['companyName'].touched &&
+                profileOptionsFormControls['companyName'].errors
+            }"
+            placeholder=""
+          />
+          <label class="floatLabel" for="companyName"
+            >Company Name<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['companyName'].touched &&
+            profileOptionsFormControls['companyName'].errors?.['required']
+            "
+          >Please enter Company Name</small
+        >
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['companyName'].touched &&
+            profileOptionsFormControls['companyName'].errors?.['pattern']
+            "
+          >Please enter valid Company Name</small
+        >
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="shipperName"
+            id="shipperName"
+            class="form-select-sm form-select me-2"
+            formControlName="shipperName"
+            style="width: 85%; display: inline-block"
+          >
+            <option value="" [defaultSelected]="true">--Select--</option>
+            <option
+              *ngFor="let shipper of shipperNamesList; trackBy: trackByFn"
+              value="{{ shipper.shipperName }}"
+            >
+              {{ shipper.shipperName }}
+            </option>
+          </select>
+          <a
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#createShipperName"
+            [class.disabled]="isDisabled"
+            (click)="setAddShipperNameValidation()"
+          >
+            <fa-icon [icon]="faAdd" style="font-size: 26px"></fa-icon>
+          </a>
+          <label class="floatLabel" for="shipperName">Shipper Name</label>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="shipperLocationName"
+            id="shipperLocationName"
+            class="custom-select form-control-sm form-control"
+            formControlName="shipperLocationName"
+            required
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['shipperLocationName'].touched &&
+                profileOptionsFormControls['shipperLocationName'].errors
+            }"
+            placeholder=""
+          />
+          <label class="floatLabel" for="shipperLocationName"
+            >Shipper Location<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['shipperLocationName'].touched &&
+            profileOptionsFormControls['shipperLocationName'].errors?.['required']
+            "
+          >Please enter Shipper Location</small
+        >
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="originRegionCode"
+            id="originRegionCode"
+            class="form-select-sm form-select"
+            formControlName="originRegionCode"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['originRegionCode'].touched &&
+                profileOptionsFormControls['originRegionCode'].errors
+            }"
+          >
+            <option value="" [defaultSelected]="true">--Select--</option>
+            <option
+              *ngFor="
+                let originRegionCode of originRegionCodeList;
+                trackBy: trackByFn
+              "
+              [value]="originRegionCode.lookupCode"
+            >
+              {{ originRegionCode.description }}
+            </option>
+          </select>
+          <label class="floatLabel" for="originRegionCode"
+            >Origin Region Code<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['originRegionCode'].touched &&
+            profileOptionsFormControls['originRegionCode'].errors?.['required']
+            "
+          >Please select Origin Region Code</small
+        >
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="countryCode"
+            id="countryCode"
+            class="form-select-sm form-select"
+            formControlName="countryCode"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['countryCode'].touched &&
+                profileOptionsFormControls['countryCode'].errors
+            }"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="let countryCode of countryCodesList; trackBy: trackByFn"
+              [value]="countryCode.countryCode"
+            >
+              {{ countryCode.countryName }}
+            </option>
+          </select>
+          <label class="floatLabel" for="countryCode"
+            >Country<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['countryCode'].touched &&
+            profileOptionsFormControls['countryCode'].errors?.['required']
+            "
+          >Please select Country</small
+        >
+      </div>
+      <div class="col-md" *ngIf="erpType != 'NS'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="shipFromName"
+            id="shipFromName"
+            class="form-select-sm form-select"
+            formControlName="shipFromName"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['shipFromName'].touched &&
+                profileOptionsFormControls['shipFromName'].errors
+            }"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="let shipFromName of shipFromNameList; trackBy: trackByFn"
+              [value]="shipFromName.lookupCode"
+            >
+              {{ shipFromName.description }}
+            </option>
+          </select>
+          <label class="floatLabel" for="shipFromName"
+            >Ship From Name<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['shipFromName'].touched &&
+            profileOptionsFormControls['shipFromName'].errors?.['required']
+            "
+          >Please select Ship From Name</small
+        >
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="shipToName"
+            id="shipToName"
+            class="form-select-sm form-select"
+            formControlName="shipToName"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['shipToName'].touched &&
+                profileOptionsFormControls['shipToName'].errors
+            }"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="let shipToName of shipToInfoList"
+              [value]="shipToName.lookupCode"
+            >
+              {{ shipToName.description }}
+            </option>
+          </select>
+          <label class="floatLabel" for="shipToName"
+            >Ship To Name<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['shipToName'].touched &&
+            profileOptionsFormControls['shipToName'].errors?.['required']
+            "
+          >Please select Ship To Name</small
+        >
+      </div>
+      <div class="col-md" *ngIf="erpType != 'NS'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="shipToContact"
+            id="shipToContact"
+            class="form-select-sm form-select"
+            formControlName="shipToContact"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['shipToContact'].touched &&
+                profileOptionsFormControls['shipToContact'].errors
+            }"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="
+                let shipToContact of shipToContactList;
+                trackBy: trackByFn
+              "
+              [value]="shipToContact.lookupCode"
+            >
+              {{ shipToContact.description }}
+            </option></select
+          ><label class="floatLabel" for="shipToContact"
+            >Ship To Contact<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['shipToContact'].touched &&
+            profileOptionsFormControls['shipToContact'].errors?.['required']
+            "
+          >Please select Ship To Contact</small
+        >
+      </div>
+      <div class="col-md" *ngIf="erpType != 'NS'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="customerAddress"
+            id="customerAddress"
+            class="form-select-sm form-select"
+            formControlName="customerAddress"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['customerAddress'].touched &&
+                profileOptionsFormControls['customerAddress'].errors
+            }"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="
+                let customerAddress of customerAddressList;
+                trackBy: trackByFn
+              "
+              [value]="customerAddress.lookupCode"
+            >
+              {{ customerAddress.description }}
+            </option></select
+          ><label class="floatLabel" for="customerAddress"
+            >Customer Address<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['customerAddress'].touched &&
+            profileOptionsFormControls['customerAddress'].errors?.['required']
+            "
+          >Please select Customer Address</small
+        >
+      </div>
+      <div class="col-md" *ngIf="erpType != 'NS'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="freightCostType"
+            id="freightCostType"
+            class="form-select-sm form-select"
+            formControlName="freightCostType"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['freightCostType'].touched &&
+                profileOptionsFormControls['freightCostType'].errors
+            }"
+          >
+            <option [defaultSelected]="true" value="">--Select--</option>
+            <option
+              *ngFor="let freightCostType of freightCostTypesInfoList"
+              [value]="freightCostType.name"
+            >
+              {{ freightCostType.name }}
+            </option>
+          </select>
+          <label class="floatLabel" for="freightCostType"
+            >Freight Cost Type<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['freightCostType'].touched &&
+            profileOptionsFormControls['freightCostType'].errors?.['required']
+            "
+          >Please select Freight Cost Type</small
+        >
+      </div>
+      <div class="col-md-3" *ngIf="erpType != 'NS'">
+        <button
+          class="btn btn-primary me-2 text-light btnInGrid"
+          name="freightCostTypeButton"
+          id="freightCostTypeButton"
+          type="button"
+          [disabled]="isDisabled"
+          (click)="loadFreightCost()"
+        >
+          Load Freight Cost Types
+        </button>
+        <button
+          *ngIf="erpType == 'JDE'"
+          class="btn btn-primary text-light btnInGrid"
+          name="freightCostTypeButton"
+          id="freightCostTypeButton"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#requiredFields"
+          [disabled]="isDisabled"
+        >
+          Required Fields*
+        </button>
+      </div>
+      <div class="col-md" *ngIf="erpType == 'JDE' || erpType == 'NS'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="shipmentRetrievalCriteria"
+            id="shipmentRetrievalCriteria"
+            class="form-select-sm form-select"
+            formControlName="shipmentRetrievalCriteria"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['shipmentRetrievalCriteria']
+                  .touched &&
+                profileOptionsFormControls['shipmentRetrievalCriteria'].errors
+            }"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="
+                let shipmentRetrievalCriteria of shipmentRetrivalCriteriaList;
+                trackBy: trackByFn
+              "
+              [value]="shipmentRetrievalCriteria.lookupCode"
+            >
+              {{ shipmentRetrievalCriteria.description }}
+            </option>
+          </select>
+          <label class="floatLabel" for="shipmentRetrievalCriteria"
+            >Shipment Retrieval Criteria<span class="text-danger"
+              >*</span
+            ></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['shipmentRetrievalCriteria'].touched &&
+            profileOptionsFormControls['shipmentRetrievalCriteria'].errors?.['required']
+            "
+          >Please select Shipment Retrieval Criteria</small
+        >
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="sourceOfIntlShippingData"
+            id="sourceOfIntlShippingData"
+            class="form-select-sm form-select me-2"
+            formControlName="sourceOfIntlShippingData"
+            style="width: 85%; display: inline-block"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['sourceOfIntlShippingData']
+                  .touched &&
+                profileOptionsFormControls['sourceOfIntlShippingData'].errors
+            }"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="
+                let sourceOfIntlShippingData of sourceOfIntlShippingDataList;
+                trackBy: trackByFn
+              "
+              [value]="sourceOfIntlShippingData.lookupCode"
+            >
+              {{ sourceOfIntlShippingData.description }}
+            </option></select
+          ><a
+            href="#"
+            [class.disabled]="isDisabled"
+            data-bs-toggle="modal"
+            data-bs-target="#pkg-doc-gen"
+          >
+            <fa-icon [icon]="faUpRightFromSquare" class="fa-icon"></fa-icon>
+          </a>
+          <label class="floatLabel" for="sourceOfIntlShippingData"
+            >Source of Intl Shipping Data<span class="text-danger"
+              >*</span
+            ></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['sourceOfIntlShippingData'].touched &&
+            profileOptionsFormControls['sourceOfIntlShippingData'].errors?.['required']
+            "
+          >Please select Source Of Intl Shipping Data</small
+        >
+      </div>
+      <div class="col-md" *ngIf="erpType != 'NS'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="freightTermAttribute"
+            id="freightTermAttribute"
+            class="form-select-sm form-select"
+            formControlName="freightTermAttribute"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="
+                let freightTermAttribute of freightTermAttributeList;
+                trackBy: trackByFn
+              "
+              [value]="freightTermAttribute.lookupCode"
+            >
+              {{ freightTermAttribute.description }}
+            </option>
+          </select>
+          <label class="floatLabel" for="freightTermAttribute"
+            >Freight Term Attribute</label
+          >
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="carrierPayMethod"
+            id="carrierPayMethod"
+            class="form-select-sm form-select"
+            formControlName="carrierPayMethod"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['carrierPayMethod'].touched &&
+                profileOptionsFormControls['carrierPayMethod'].errors
+            }"
+          >
+            <option value="" [defaultSelected]="true">--Select--</option>
+            <option
+              *ngFor="
+                let defaultCarrierPayMethod of defaultCarrierPayMethodList;
+                trackBy: trackByFn
+              "
+              [value]="defaultCarrierPayMethod.lookupCode"
+            >
+              {{ defaultCarrierPayMethod.description }}
+            </option></select
+          ><label class="floatLabel" for="carrierPayMethod"
+            >Carrier Pay Method<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['carrierPayMethod'].touched &&
+            profileOptionsFormControls['carrierPayMethod'].errors?.['required']
+            "
+          >Please select Carrier Pay Method</small
+        >
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="department"
+            id="department"
+            class="form-select-sm form-select"
+            formControlName="department"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="let department of departmentList; trackBy: trackByFn"
+              [value]="department.lookupCode"
+            >
+              {{ department.description }}
+            </option></select
+          ><label class="floatLabel" for="department">Department</label>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="erpType == 'EBS'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="shipConfirmResponsibility"
+            id="shipConfirmResponsibility"
+            class="form-control-sm form-control"
+            formControlName="shipConfirmResponsibility"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['shipConfirmResponsibility']
+                  .touched &&
+                profileOptionsFormControls['shipConfirmResponsibility'].errors
+            }"
+            placeholder=""
+          />
+          <label class="floatLabel" for="shipConfirmResponsibility"
+            >Ship Confirm Responsibility<span class="text-danger"
+              >*</span
+            ></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['shipConfirmResponsibility'].touched &&
+            profileOptionsFormControls['shipConfirmResponsibility'].errors?.['required']
+            "
+          >Please enter Ship Confirm Responsibility</small
+        >
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="averagePalletWeight"
+            id="averagePalletWeight"
+            class="form-control-sm form-control"
+            formControlName="averagePalletWeight"
+            placeholder=""
+          />
+          <label class="floatLabel" for="averagePalletWeight"
+            >Average Pallet Weight</label
+          >
+        </div>
+      </div>
+      <div class="col-md" *ngIf="erpType != 'NS'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="weightTolerance"
+            id="weightTolerance"
+            class="form-control-sm form-control"
+            formControlName="weightTolerance"
+            placeholder=""
+          />
+          <label class="floatLabel" for="weightTolerance"
+            >Weight Tolerance</label
+          >
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="number"
+            name="numberOfDocCopiesToPrint"
+            id="numberOfDocCopiesToPrint"
+            class="form-control-sm form-control"
+            formControlName="numberOfDocCopiesToPrint"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['numberOfDocCopiesToPrint']
+                  .touched &&
+                profileOptionsFormControls['numberOfDocCopiesToPrint'].errors
+            }"
+            placeholder=""
+          />
+          <label class="floatLabel" for="numberOfDocCopiesToPrint"
+            >No. of Document Copies to Print<span class="text-danger"
+              >*</span
+            ></label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="
+            profileOptionsFormControls['numberOfDocCopiesToPrint'].touched &&
+            profileOptionsFormControls['numberOfDocCopiesToPrint'].errors?.['required']
+            "
+          >Please enter Number Of Document Copies to Print
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="
+            profileOptionsFormControls['numberOfDocCopiesToPrint'].touched &&
+            profileOptionsFormControls['numberOfDocCopiesToPrint'].errors?.['pattern']
+            "
+          >Please enter value Between 1-99
+        </small>
+      </div>
+      <div class="col-md" *ngIf="erpType == 'EBS'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="packingSlipReport"
+            id="packingSlipReport"
+            class="form-control-sm form-control"
+            formControlName="packingSlipReport"
+            placeholder=""
+          />
+          <label class="floatLabel" for="packingSlipReport"
+            >Packing Slip Report</label
+          >
+        </div>
+      </div>
+      <div class="col-md" *ngIf="erpType == 'NS' || erpType == 'EBS'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="number"
+            name="numPackSlipReports"
+            id="numPackSlipReports"
+            class="form-control-sm form-control"
+            formControlName="numPackSlipReports"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['numPackSlipReports'].touched &&
+                profileOptionsFormControls['numPackSlipReports'].errors
+            }"
+            placeholder=""
+          />
+          <label class="floatLabel" for="numPackSlipReports"
+            >No. of PackSlip Reports to Print</label
+          >
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="
+            profileOptionsFormControls['numPackSlipReports'].touched &&
+            profileOptionsFormControls['numPackSlipReports'].errors?.['pattern']
+            "
+          >Please enter value Between 0-99
+        </small>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="recipientEmailAddress1"
+            formControlName="recipientEmailAddress1"
+            id="recipientEmailAddress1"
+            class="form-control-sm form-control"
+            placeholder=""
+          />
+          <label class="floatLabel" for="recipientEmailAddress1"
+            >Recipient Email1</label
+          >
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="recipientEmailAddress2"
+            formControlName="recipientEmailAddress2"
+            id="recipientEmailAddress2"
+            class="form-control-sm form-control"
+            placeholder=""
+          />
+          <label class="floatLabel" for="recipientEmailAddress2"
+            >Recipient Email2</label
+          >
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="recipientEmailAddress3"
+            formControlName="recipientEmailAddress3"
+            id="recipientEmailAddress3"
+            class="form-control-sm form-control"
+            placeholder=""
+          />
+          <label class="floatLabel" for="recipientEmailAddress3"
+            >Recipient Email3</label
+          >
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="recipientEmailAddress4"
+            formControlName="recipientEmailAddress4"
+            id="recipientEmailAddress4"
+            class="form-control-sm form-control"
+            placeholder=""
+          />
+          <label class="floatLabel" for="recipientEmailAddress4"
+            >Recipient Email4</label
+          >
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="recipientEmailAddress5"
+            formControlName="recipientEmailAddress5"
+            id="recipientEmailAddress5"
+            class="form-control-sm form-control"
+            placeholder=""
+          />
+          <label class="floatLabel" for="recipientEmailAddress5"
+            >Recipient Email5</label
+          >
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            id="portOfExport"
+            name="portOfExport"
+            formControlName="portOfExport"
+            class="form-control-sm form-control"
+            placeholder=""
+          />
+          <label class="floatLabel" for="portOfExport">Port Of Export</label>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="defaultUom"
+            formControlName="defaultUom"
+            class="form-select-sm form-select"
+            id="defaultUom"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['defaultUom'].touched &&
+                profileOptionsFormControls['defaultUom'].errors
+            }"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="let defaultUom of defaultUOMList; trackBy: trackByFn"
+              [value]="defaultUom.lookupCode"
+            >
+              {{ defaultUom.description }}
+            </option>
+          </select>
+          <label class="floatLabel" for="defaultUom"
+            >Default UOM<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['defaultUom'].touched &&
+            profileOptionsFormControls['defaultUom'].errors?.['required']
+            "
+          >Please select Default Uom</small
+        >
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="timeZoneValue"
+            id="timeZoneValue"
+            formControlName="timeZoneValue"
+            class="form-select-sm form-select"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['timeZoneValue'].touched &&
+                profileOptionsFormControls['timeZoneValue'].errors
+            }"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="
+                let timeZoneValue of timezoneValueList;
+                trackBy: trackByFn
+              "
+              [value]="timeZoneValue.timezoneValue"
+            >
+              {{ timeZoneValue.timezoneValue }}
+            </option>
+          </select>
+          <label class="floatLabel" for="timeZoneValue">
+            Time Zone
+            <span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['timeZoneValue'].touched &&
+            profileOptionsFormControls['timeZoneValue'].errors?.['required']
+            "
+          >Please select Time Zone</small
+        >
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            id="defaultFocus"
+            name="defaultFocus"
+            formControlName="defaultFocus"
+            class="form-select-sm form-select"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['defaultFocus'].touched &&
+                profileOptionsFormControls['defaultFocus'].errors
+            }"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="let defaultFocus of defaultFocusList; trackBy: trackByFn"
+              [value]="defaultFocus.lookupCode"
+            >
+              {{ defaultFocus.description }}
+            </option>
+          </select>
+          <label class="floatLabel" for="defaultFocus"
+            >Default Focus<span class="text-danger">*</span></label
+          >
+        </div>
+        <small
+          class="text-danger text-center"
+          *ngIf="
+            profileOptionsFormControls['defaultFocus'].touched &&
+            profileOptionsFormControls['defaultFocus'].errors?.['required']
+            "
+          >Please select Default Focus</small
+        >
+      </div>
+      <div class="col-md" *ngIf="erpType == 'EBS'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            id="consolidationCriteria"
+            name="consolidationCriteria"
+            class="form-select-sm form-select"
+            formControlName="consolidationCriteria"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="let consolidationCriteria of consolidationCriteriaList"
+              [value]="consolidationCriteria.lookupCode"
+            >
+              {{ consolidationCriteria.description }}
+            </option>
+          </select>
+          <label class="floatLabel" for="consolidationCriteria"
+            >Consolidation Criteria
+          </label>
+        </div>
+      </div>
+      <div class="col-md m-2 mt-3">
+        <label for="USPPIDetails" class="sm">USPPI Details</label>
+        <fa-icon
+          [icon]="faUpRightFromSquare"
+          class="text-primary ms-2 fa-icon"
+          data-bs-toggle="modal"
+          data-bs-target="#USPPIDetails"
+          [class.disabled]="isDisabled"
+        ></fa-icon>
+      </div>
+      <div class="col-md mt-3" *ngIf="erpType == 'SCM' ||erpType == 'JDE'">
+        <label for="accountNumberDffInfo" class="sm">Account Number DFF</label>
+        <fa-icon
+          [icon]="faUpRightFromSquare"
+          class="text-primary ms-2 fa-icon"
+          data-bs-toggle="modal"
+          data-bs-target="#accountNumberDffInfo"
+          [class.disabled]="isDisabled"
+        ></fa-icon>
+      </div>
+    </div>
+    <div class="row p-0 mt-1 m-3 mb-0">
+      <div class="col-md-9 p-0 table-responsive rounded-1">
+        <table class="table table-bordered table-hover table-sm">
+          <thead class="rowgroup bg-primary border-light text-white">
+            <tr>
+              <td class="text-start w-auto text-nowrap">Button Name</td>
+              <td class="text-center w-auto text-nowrap ps-4 pe-4">Ship</td>
+              <td class="text-center w-auto text-nowrap">Print Label</td>
+              <td class="text-center w-auto text-nowrap">Ship Confirm</td>
+              <td
+                class="text-center w-auto text-nowrap"
+                *ngIf="erpType == 'NS' || erpType == 'EBS'"
+              >
+                Print PackSlip
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="tableDataCell">
+              <td class="dispalyFields">Scan</td>
+              <td class="text-center">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="scanShip"
+                  id="scanShip"
+                  formControlName="scanShip"
+                  (change)="onScanShipChange($event)"
+                />
+              </td>
+              <td></td>
+              <td></td>
+              <td *ngIf="erpType == 'NS' || erpType == 'EBS'"></td>
+            </tr>
+            <tr class="tableDataCell">
+              <td class="dispalyFields">Ship</td>
+              <td class="text-center">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="shipShip"
+                  id="shipShip"
+                  formControlName="shipShip"
+                  (change)="onshipShipChange($event)"
+                />
+              </td>
+              <td class="text-center">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="shipShipPrint"
+                  id="shipShipPrint"
+                  formControlName="shipShipPrint"
+                  (change)="onshipShipPrintChange($event)"
+                />
+              </td>
+              <td class="text-center">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="shipShipPrintConfirm"
+                  id="shipShipPrintConfirm"
+                  formControlName="shipShipPrintConfirm"
+                  (change)="onshipShipPrintConfirmChange($event)"
+                />
+              </td>
+              <td
+                class="text-center"
+                *ngIf="erpType == 'NS' || erpType == 'EBS'"
+              >
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="shipShipPrintConfirmPakslp"
+                  id="shipShipPrintConfirmPakslp"
+                  formControlName="shipShipPrintConfirmPakslp"
+                />
+              </td>
+            </tr>
+            <tr class="tableDataCell">
+              <td class="dispalyFields">Print Label</td>
+              <td class="text-center"></td>
+              <td class="text-center">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="printPrint"
+                  id="printPrint"
+                  formControlName="printPrint"
+                />
+              </td>
+              <td class="text-center">
+                <input
+                  mdbCheckbox
+                  type="checkbox"
+                  name="printPrintConfirm"
+                  id="printPrintConfirm"
+                  class="form-check-input"
+                  formControlName="printPrintConfirm"
+                  (change)="onprintPrintConfirmChange()"
+                />
+              </td>
+              <td
+                class="text-center"
+                *ngIf="erpType == 'NS' || erpType == 'EBS'"
+              >
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="printPrintConfirmPakslp"
+                  formControlName="printPrintConfirmPakslp"
+                />
+              </td>
+            </tr>
+            <tr class="tableDataCell">
+              <td class="dispalyFields">Ship Confirm</td>
+              <td></td>
+              <td></td>
+              <td class="text-center">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="confirmConfirm"
+                  formControlName="confirmConfirm"
+                  id="confirmConfirm"
+                  (change)="onconfirmConfirmchange()"
+                />
+              </td>
+              <td
+                class="text-center"
+                *ngIf="erpType == 'NS' || erpType == 'EBS'"
+              >
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  name="confirmPakslipreport"
+                  id="confirmPakslipreport"
+                  formControlName="confirmPakslipreport"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-3 text-center mt-3">
+        <button
+          *ngIf="erpType != 'EBS'"
+          class="text-light btn btn-primary btn-sm"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#setUpPrinters"
+          [disabled]="isDisabled"
+        >
+          <b
+            >Setup Printers <fa-icon [icon]="faPrint" class="fa-icon"></fa-icon
+          ></b>
+        </button>
+        <button
+          *ngIf="erpType == 'SCM'"
+          class="text-light btn btn-primary btn-sm mt-2"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#packingSlipDetails"
+          [disabled]="isDisabled"
+        >
+          <b
+            >Setup Packing Slip Details
+            <fa-icon [icon]="faLink" class="fa-icon"></fa-icon
+          ></b>
+        </button>
+      </div>
+    </div>
+    <!----------------Inventory Org Specific Settings-------------------->
+    <div
+      class="border-top border-bottom"
+      *ngIf="showAddressValidation || showFreightShopping || showDeniedParty"
+    >
+      <div class="row row-cols p-0 m-3 row-cols-md-4">
+        <div class="col-md d-flex ps-2" *ngIf="showAddressValidation">
+          <div class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="addressValidationFlag"
+              name="addressValidationFlag"
+              formControlName="addressValidationFlag"
+              (change)="loadAVFieldValidationsOnCheck()"
+            />
+            <label class="form-check-label"
+              >Address Validation<span
+                class="text-danger"
+                *ngIf="showAddressValidationInfo"
+                >*</span
+              ></label
+            >
+          </div>
+          <div
+            class="text-primary cursor-pointer ms-2 mt-1"
+            *ngIf="showAddressValidationInfo"
+          >
+            <fa-icon
+              [icon]="faUpRightFromSquare"
+              class="d-inline-flex fa-icon"
+              data-bs-toggle="modal"
+              data-bs-target="#avDetails"
+            ></fa-icon>
+          </div>
+        </div>
+        <div class="col-md d-flex ps-2" *ngIf="showFreightShopping">
+          <div class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input me-2"
+              name="freightShoppingFlag"
+              id="freightShoppingFlag"
+              formControlName="freightShoppingFlag"
+              (change)="loadFSFieldValidationsOnCheck()"
+            />
+            <label class="form-check-label"
+              >Freight Shopping<span
+                class="text-danger"
+                *ngIf="showFreightShoppingInfo"
+                >*</span
+              ></label
+            >
+          </div>
+          <div
+            class="text-primary cursor-pointer ms-2 mt-1"
+            *ngIf="showFreightShoppingInfo"
+          >
+            <fa-icon
+              [icon]="faUpRightFromSquare"
+              class="d-inline-flex fa-icon"
+              data-bs-toggle="modal"
+              data-bs-target="#fsDetails"
+            ></fa-icon>
+          </div>
+        </div>
+        <div class="col-md d-flex ps-2" *ngIf="showDeniedParty">
+          <div class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input me-2"
+              name="deniedPartyFlag"
+              id="deniedPartyFlag"
+              formControlName="deniedPartyFlag"
+              (change)="loadDPFieldValidationsOnCheck()"
+            />
+            <label class="form-check-label"
+              >Denied Party<span class="text-danger" *ngIf="showDeniedPartyInfo"
+                >*</span
+              ></label
+            >
+          </div>
+          <div
+            class="text-primary cursor-pointer ms-2 mt-1"
+            *ngIf="showDeniedPartyInfo"
+          >
+            <fa-icon
+              [icon]="faUpRightFromSquare"
+              class="d-inline-flex fa-icon"
+              data-bs-toggle="modal"
+              data-bs-target="#dpsDetails"
+            ></fa-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="m-0" />
+    <div class="row m-0">
+      <div class="col-md-6 d-flex">
+        <span class="form-check mt-3">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="reference1Mandatory"
+            name="reference1Mandatory"
+            formControlName="reference1Mandatory"
+            (change)="mandateReferences()"
+          />
+          <label class="form-check-label">Reference1 Mandatory?</label>
+        </span>
+        <div class="form-floating ms-5 m-2 w-50">
+          <select
+            id="reference1Value"
+            name="reference1Value"
+            formControlName="reference1Value"
+            class="form-select-sm form-select"
+            (change)="mandateReferences()"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['reference1Value'].touched &&
+                profileOptionsFormControls['reference1Value'].errors
+            }"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="
+                let reference1Value of reference1ValueList;
+                trackBy: trackByFn
+              "
+              [value]="reference1Value.lookupCode"
+            >
+              {{ reference1Value.description }}
+            </option>
+          </select>
+          <small
+            class="text-danger text-center"
+            *ngIf="
+          profileOptionsFormControls['reference1Value'].touched &&
+          profileOptionsFormControls['reference1Value'].errors?.['required']
+          "
+          >
+            Please select Reference1 Value
+          </small>
+          <label class="floatLabel" for="reference1Value"
+            >Reference1 Value
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6 d-flex">
+        <span class="form-check mt-3">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="reference2Mandatory"
+            name="reference2Mandatory"
+            formControlName="reference2Mandatory"
+            (change)="mandateReferences()"
+          />
+          <label class="form-check-label">Reference2 Mandatory?</label>
+        </span>
+        <div class="form-floating ms-5 m-2 w-50">
+          <select
+            id="reference2Value"
+            name="reference2Value"
+            formControlName="reference2Value"
+            class="form-select-sm form-select"
+            (change)="mandateReferences()"
+            [ngClass]="{
+              'is-invalid':
+                profileOptionsFormControls['reference2Value'].touched &&
+                profileOptionsFormControls['reference2Value'].errors
+            }"
+          >
+            <option value="" [selected]="true">--Select--</option>
+            <option
+              *ngFor="
+                let reference2Value of reference2ValueList;
+                trackBy: trackByFn
+              "
+              [value]="reference2Value.lookupCode"
+            >
+              {{ reference2Value.description }}
+            </option>
+          </select>
+          <small
+            class="text-danger text-center"
+            *ngIf="
+          profileOptionsFormControls['reference2Value'].touched &&
+          profileOptionsFormControls['reference2Value'].errors?.['required']
+          "
+          >
+            Please select Reference2 Value
+          </small>
+          <label class="floatLabel" for="reference2Value"
+            >Reference1 Value
+          </label>
+        </div>
+      </div>
+    </div>
+    <hr class="m-0" />
+    <div
+      *ngIf="profilesList"
+      class="row m-0 mt-2"
+      formArrayName="clientProfileSelectionsInfoList"
+    >
+      <div
+        class="col-md-3"
+        *ngFor="let profile of profilesList; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="form-check m-1">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            name="enabled"
+            #enabled
+            formControlName="enabled"
+          />
+          <label class="form-check-label" [for]="i">
+            {{ profile.profileName }}
+          </label>
+        </div>
+      </div>
+    </div>
+    <!----------------all check boxes-------------------->
+
+    <div class="card-footer">
+      <div id="buttonDisplay" class="text-center mb-2">
+        <button
+          type="submit"
+          class="btn btn-primary btn-sm text-white me-2"
+          [disabled]="isDisabled"
+          (click)="submitProfileOptions()"
+        >
+          Save
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+        <button
+          type="button"
+          name="clearButton"
+          id="clearButton"
+          value="Clear"
+          class="btn btn-primary btn-sm text-light ms-2"
+          [disabled]="isDisabled"
+          (click)="clearForm()"
+        >
+          Clear
+          <fa-icon [icon]="faCircleXmark"></fa-icon>
+        </button>
+      </div>
+    </div>
+    <!-- Modal Printer Setup -->
+    <div
+      class="modal fade"
+      id="setUpPrinters"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header text-light bg-primary p-2 ps-3">
+            <h5 class="modal-title" id="exampleModalLabel">Printer Setup</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white p-2 me-1"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="table-responsive">
+              <table
+                class="table table-bordered table-hover table-sm"
+                id="table"
+              >
+                <thead>
+                  <tr class="bg-primary text-light">
+                    <th class="w-auto text-nowrap">S No</th>
+                    <th class="w-auto text-nowrap">Label Format</th>
+                    <th class="w-auto text-nowrap">Printer Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>ZPL/ZEBRA Printer</td>
+                    <td>
+                      <input
+                        type="text"
+                        name="zplLabelPrinter"
+                        formControlName="zplLabelPrinter"
+                        id="zplLabelPrinter"
+                        class="form-control popUpControls"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>EPL/ELTRON Printer</td>
+                    <td>
+                      <input
+                        type="text"
+                        name="eplLabelPrinter"
+                        formControlName="eplLabelPrinter"
+                        id="eplLabelPrinter"
+                        class="form-control popUpControls"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>PDF Printer</td>
+                    <td>
+                      <input
+                        type="text"
+                        name="pdfLabelPrinter"
+                        formControlName="pdfLabelPrinter"
+                        id="pdfLabelPrinter"
+                        class="form-control popUpControls"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>GIF/PNG Printer</td>
+                    <td>
+                      <input
+                        type="text"
+                        name="gifLabelPrinter"
+                        formControlName="gifLabelPrinter"
+                        id="gifLabelPrinter"
+                        class="form-control popUpControls"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>DGForm Printer</td>
+                    <td>
+                      <input
+                        type="text"
+                        name="dgFormPrinter"
+                        formControlName="dgFormPrinter"
+                        id="dgFormPrinter"
+                        class="form-control popUpControls"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>Op900 Printer</td>
+                    <td>
+                      <input
+                        type="text"
+                        name="op900Printer"
+                        formControlName="op900Printer"
+                        id="op900Printer"
+                        class="form-control popUpControls"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer p-1">
+            <div class="col-md-10 text-center text-danger fw-bold">
+              Note: Please save Profile Options page after saving popup details
+            </div>
+            <div class="col-md text-md-end">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm text-light me-3 mr-auto"
+                name="save"
+                id="save"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                Save
+                <fa-icon [icon]="faCircleCheck"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Printer Setup -->
+    <!-- Modal USPPI Details -->
+    <div
+      class="modal fade"
+      id="USPPIDetails"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header text-light bg-primary p-2 ps-3">
+            <h5 class="modal-title" id="exampleModalLabel">USPPI Details</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white p-2 me-1"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div
+            class="modal-body row row-cols-1 row-cols-sm-2 row-cols-md-4"
+            formGroupName="usppiInfo"
+          >
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="usppiIdNumber"
+                  name="usppiIdNumber"
+                  formControlName="usppiIdNumber"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="usppiIdNumber"
+                  >USPPI ID Number</label
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <select
+                  name="usppiIdType"
+                  formControlName="usppiIdType"
+                  id="usppiIdType"
+                  class="form-select-sm form-select"
+                >
+                  <option value="" [defaultSelected]="true">--Select--</option>
+                  <option
+                    *ngFor="let usppiId of usppiIdList"
+                    [value]="usppiId.lookupCode"
+                  >
+                    {{ usppiId.description }}
+                  </option>
+                </select>
+                <label class="floatLabel" for="usppiIdType"
+                  >USPPI ID Type</label
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="usppiFirstName"
+                  name="usppiFirstName"
+                  formControlName="usppiFirstName"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="usppiFirstName"
+                  >USPPI Contact First Name</label
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="usppiLastName"
+                  name="usppiLastName"
+                  formControlName="usppiLastName"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="usppiLastName"
+                  >USPPI Contact Last Name</label
+                >
+              </div>
+            </div>
+            <div class="col-md mt-1">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  name="usppiLine1"
+                  formControlName="usppiLine1"
+                  id="usppiLine1"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="usppiLine1"
+                  >USPPI Address Line1</label
+                >
+              </div>
+            </div>
+            <div class="col-md mt-1">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="usppiLine2"
+                  name="usppiLine2"
+                  formControlName="usppiLine2"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="usppiLine2"
+                  >USPPI Address Line2</label
+                >
+              </div>
+            </div>
+            <div class="col-md mt-1">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="usppiCity"
+                  name="usppiCity"
+                  formControlName="usppiCity"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="usppiCity">USPPI City</label>
+              </div>
+            </div>
+            <div class="col-md mt-1">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="usppiState"
+                  name="usppiState"
+                  formControlName="usppiState"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="usppiState">USPPI State</label>
+              </div>
+            </div>
+            <div class="col-md mt-1">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="usppiPostalCode"
+                  name="usppiPostalCode"
+                  formControlName="usppiPostalCode"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                  [ngClass]="{
+                    'is-invalid':
+                      usppiInfoControls['usppiPostalCode'].errors &&
+                      usppiInfoControls['usppiPostalCode'].touched
+                  }"
+                />
+                <label class="floatLabel" for="usppiPostalCode"
+                  >USPPI Postal Code</label
+                >
+                <small
+                  class="text-danger"
+                  *ngIf="usppiInfoControls['usppiPostalCode'].touched && usppiInfoControls['usppiPostalCode'].errors?.['pattern']"
+                >
+                  Please enter valid Postal Code
+                </small>
+                <small
+                  class="text-danger"
+                  *ngIf="usppiInfoControls['usppiPostalCode'].touched && usppiInfoControls['usppiPostalCode'].errors?.['maxlength']"
+                >
+                  Exceeded maximum length of characters(60)
+                </small>
+              </div>
+            </div>
+            <div class="col-md mt-1">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <select
+                  name="usppiCountry"
+                  formControlName="usppiCountry"
+                  id="usppiCountry"
+                  class="form-select-sm form-select"
+                >
+                  <option value="" [defaultSelected]="true">--Select--</option>
+                  <option
+                    *ngFor="let countryCode of countryCodesList"
+                    [value]="countryCode.countryName"
+                  >
+                    {{ countryCode.countryName }}
+                  </option>
+                </select>
+                <label class="floatLabel" for="usppiCountry"
+                  >USPPI Country</label
+                >
+              </div>
+            </div>
+            <div class="col-md mt-1">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="usppiPhone"
+                  name="usppiPhone"
+                  formControlName="usppiPhone"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                  [ngClass]="{
+                    'is-invalid':
+                      usppiInfoControls['usppiPhone'].errors &&
+                      usppiInfoControls['usppiPhone'].touched
+                  }"
+                />
+                <label class="floatLabel" for="usppiPhone">USPPI Phone</label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="usppiInfoControls['usppiPhone'].touched && usppiInfoControls['usppiPhone'].errors?.['required']"
+                >
+                  Please enter Phone Number
+                </small>
+                <small
+                  class="text-danger"
+                  *ngIf="usppiInfoControls['usppiPhone'].touched && usppiInfoControls['usppiPhone'].errors?.['pattern']"
+                >
+                  Please enter valid Phone Number
+                </small>
+              </div>
+            </div>
+            <div class="col-md mt-1">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="usppiReference"
+                  name="usppiReference"
+                  formControlName="usppiReference"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="usppiReference"
+                  >USPPI Reference</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer p-1">
+            <div class="col-md-10 text-center text-danger fw-bold">
+              Note: Please save Profile Options page after saving popup details
+            </div>
+            <div class="col-md text-md-end">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm text-light me-3 mr-auto"
+                name="save"
+                id="save"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                Save
+                <fa-icon [icon]="faCircleCheck"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal USPPI Details -->
+    <!-- Modal Packing Slip Details -->
+    <div
+      class="modal fade"
+      id="packingSlipDetails"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header text-light bg-primary ps-3 p-1">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Packing Slip Details
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white p-2 me-1"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2">
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    type="text"
+                    id="jobSetName"
+                    name="jobSetName"
+                    formControlName="jobSetName"
+                    class="form-control-sm form-control"
+                    placeholder=""
+                  />
+                  <label class="floatLabel" for="jobSetName"
+                    >Job Set Name</label
+                  >
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    type="text"
+                    name="jobSetPackageName"
+                    formControlName="jobSetPackageName"
+                    id="jobSetPackageName"
+                    class="form-control-sm form-control"
+                    placeholder=""
+                  />
+                  <label class="floatLabel" for="jobSetPackageName"
+                    >Job Set Package Name</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer p-1">
+            <div class="col-md-10 text-center text-danger fw-bold">
+              Note: Please save Profile Options page after saving popup details
+            </div>
+            <div class="col-md text-md-end">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm text-light me-3 mr-auto"
+                name="save"
+                id="save"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                Save
+                <fa-icon [icon]="faCircleCheck"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal  Packing Slip Details -->
+    <!-- Modal  Required Fields -->
+    <div
+      class="modal fade"
+      id="requiredFields"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-light p-1 ps-3">
+            <h5 class="modal-title" id="exampleModalLabel">Required Fields</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white p-2 me-1"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    type="text"
+                    id="jdeStatusCodeLast"
+                    name="jdeStatusCodeLast"
+                    formControlName="jdeStatusCodeLast"
+                    class="form-control-sm form-control"
+                    placeholder=""
+                  />
+                  <label class="floatLabel" for="jdeStatusCodeLast"
+                    >Status Code Last</label
+                  >
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    type="text"
+                    name="jdeStatusCodeNext"
+                    formControlName="jdeStatusCodeNext"
+                    id="jdeStatusCodeNext"
+                    class="form-control-sm form-control"
+                    placeholder=""
+                  />
+                  <label class="floatLabel" for="jdeStatusCodeNext"
+                    >Status Code Next</label
+                  >
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    type="text"
+                    name="jdeShipConfirmStatusCode"
+                    formControlName="jdeShipConfirmStatusCode"
+                    id="jdeShipConfirmStatusCode"
+                    class="form-control-sm form-control"
+                    placeholder=""
+                  />
+                  <label class="floatLabel" for="jdeShipConfirmStatusCode"
+                    >Ship Confirm Status Code</label
+                  >
+                </div>
+              </div>
+              <div class="col-md mt-1">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    type="text"
+                    name="jdeOrderCompany"
+                    formControlName="jdeOrderCompany"
+                    id="jdeOrderCompany"
+                    class="form-control-sm form-control"
+                    placeholder=""
+                  />
+                  <label class="floatLabel" for="jdeOrderCompany"
+                    >Order Company</label
+                  >
+                </div>
+              </div>
+              <div class="col-md mt-1">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    type="text"
+                    id="jdeVersion"
+                    name="jdeVersion"
+                    formControlName="jdeVersion"
+                    class="form-control-sm form-control"
+                    placeholder=""
+                  />
+                  <label class="floatLabel" for="jdeVersion">Version</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer p-1">
+            <div class="col-md-10 text-center text-danger fw-bold">
+              Note: Please save Profile Options page after saving popup details
+            </div>
+            <div class="col-md text-md-end">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm text-light me-3 mr-auto"
+                name="save"
+                id="save"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                Save
+                <fa-icon [icon]="faCircleCheck"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal  Required Fields -->
+    <!-- Modal  Packing Document Generated -->
+    <div
+      class="modal fade"
+      id="pkg-doc-gen"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header text-light bg-primary p-2 ps-3">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Packing Document Generated
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white p-2 me-1"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body p-1">
+            <div class="row pb-0 p-1 text-center">
+              <div class="col-md-4">
+                <label class="floatLabel me-2">Commercial Invoice</label>
+                <input
+                  type="checkbox"
+                  name="intlCommercialInvoicePrint"
+                  formControlName="intlCommercialInvoicePrint"
+                  class="form-check-input"
+                />
+              </div>
+              <div class="col-md-4">
+                <label class="floatLabel me-2">U.S Certificate Of Origin</label>
+                <input
+                  type="checkbox"
+                  name="intlUscoPrint"
+                  formControlName="intlUscoPrint"
+                  class="form-check-input"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer p-1">
+            <div class="col-md-10 text-center text-danger fw-bold">
+              Note: Please save Profile Options page after saving popup details
+            </div>
+            <div class="col-md text-md-end">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm text-light me-3 mr-auto"
+                name="save"
+                id="save"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                Save
+                <fa-icon [icon]="faCircleCheck"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal  Packing Document Generated -->
+    <!--Modal Account Number DFF-->
+    <div
+      class="modal fade"
+      id="accountNumberDffInfo"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header text-light bg-primary p-2 ps-3">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Account Number DFF
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white p-2 me-1"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div
+            class="modal-body row row-cols-1 row-cols-sm-2 row-cols-md-4"
+            formGroupName="accountNumberDffInfo"
+          >
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="fedexAccountNumber"
+                  name="fedexAccountNumber"
+                  formControlName="fedexAccountNumber"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="fedexAccountNumber"
+                  >FedEx Account</label
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="upsAccountNumber"
+                  name="upsAccountNumber"
+                  formControlName="upsAccountNumber"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="upsAccountNumber"
+                  >UPS Account</label
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="dhlAccountNumber"
+                  name="dhlAccountNumber"
+                  formControlName="dhlAccountNumber"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="dhlAccountNumber"
+                  >DHL Account</label
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="ltlAccountNumber"
+                  name="ltlAccountNumber"
+                  formControlName="ltlAccountNumber"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="ltlAccountNumber"
+                  >LTL Account</label
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  id="fxfrAccountNumber"
+                  name="fxfrAccountNumber"
+                  formControlName="fxfrAccountNumber"
+                  class="form-control-sm form-control"
+                  placeholder=""
+                />
+                <label class="floatLabel" for="fxfrAccountNumber"
+                  >FXFR Account</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer p-1">
+            <div class="col-md-10 text-center text-danger fw-bold">
+              Note: Please save Profile Options page after saving popup details
+            </div>
+            <div class="col-md text-md-end">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm text-light me-3 mr-auto"
+                name="save"
+                id="save"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                Save
+                <fa-icon [icon]="faCircleCheck"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Modal Account Number DFF-->
+    <div formArrayName="orgProfileOptionServicesInfoList">
+      <div [formGroupName]="0">
+        <!-- Modal Address Validation -->
+        <div class="modal fade" id="avDetails" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header text-light bg-primary p-2 ps-3">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Address Validation Details
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white p-2 me-1"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="">
+                      <label class="fw-bold me-3"
+                        >Validate With<span class="text-danger">*</span>:
+                      </label>
+                      <span class="me-3">
+                        <input
+                          class="form-check-input me-1"
+                          type="radio"
+                          name="serviceCarrier"
+                          formControlName="serviceCarrier"
+                          id="serviceCarrier1"
+                          value="UPS"
+                          (change)="loadAVFieldValidationsOnCarrierChange()"
+                          [ngClass]="{
+                            'is-invalid':
+                              orgProfileOptionServicesInfoList
+                                .at(0)
+                                .get('serviceCarrier')?.touched &&
+                              orgProfileOptionServicesInfoList
+                                .at(0)
+                                .get('serviceCarrier')?.errors
+                          }"
+                        />
+                        <label
+                          class="fw-bold form-check-label"
+                          for="serviceCarrier1"
+                        >
+                          UPS
+                        </label>
+                      </span>
+                      <input
+                        class="form-check-input me-1"
+                        type="radio"
+                        name="serviceCarrier"
+                        formControlName="serviceCarrier"
+                        id="serviceCarrier2"
+                        value="FedEx"
+                        (change)="loadAVFieldValidationsOnCarrierChange()"
+                        [ngClass]="{
+                          'is-invalid':
+                            orgProfileOptionServicesInfoList
+                              .at(0)
+                              .get('serviceCarrier')?.touched &&
+                            orgProfileOptionServicesInfoList
+                              .at(0)
+                              .get('serviceCarrier')?.errors
+                        }"
+                      />
+                      <label
+                        class="fw-bold form-check-label"
+                        for="serviceCarrier2"
+                      >
+                        FedEx </label
+                      ><br />
+                      <small
+                        class="text-danger text-center"
+                        *ngIf="
+                          orgProfileOptionServicesInfoList
+                            .at(0)
+                            .get('serviceCarrier')?.touched &&
+                          orgProfileOptionServicesInfoList
+                            .at(0)
+                            .get('serviceCarrier')?.errors
+                        "
+                        >Please select any one service</small
+                      >
+                    </div>
+                  </div>
+                  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+                    <div class="col-sm">
+                      <div class="form-floating m-1">
+                        <input
+                          type="text"
+                          placeholder=""
+                          name="carrierUserName"
+                          formControlName="carrierUserName"
+                          id="carrierUserName"
+                          class="form-control-sm form-control"
+                          [ngClass]="{
+                            'is-invalid':
+                              orgProfileOptionServicesInfoList
+                                .at(0)
+                                .get('carrierUserName')?.touched &&
+                              orgProfileOptionServicesInfoList
+                                .at(0)
+                                .get('carrierUserName')?.errors
+                          }"
+                        />
+                        <label class="fw-bold" class="floatLabel"
+                          >Carrier User Name
+                          <span class="text-danger">*</span></label
+                        >
+                        <small
+                          class="text-danger text-center"
+                          *ngIf="
+                          orgProfileOptionServicesInfoList.at(0).get('carrierUserName')?.touched &&
+                          orgProfileOptionServicesInfoList.at(0).get('carrierUserName')?.errors?.['required']
+                        "
+                          >Please enter User Name</small
+                        >
+                      </div>
+                    </div>
+                    <div class="col-sm">
+                      <div class="form-floating m-1">
+                        <input
+                          type="password"
+                          placeholder=""
+                          name="carrierPassword"
+                          formControlName="carrierPassword"
+                          id="carrierPassword"
+                          class="form-control-sm form-control"
+                          [ngClass]="{
+                            'is-invalid':
+                              orgProfileOptionServicesInfoList
+                                .at(0)
+                                .get('carrierPassword')?.touched &&
+                              orgProfileOptionServicesInfoList
+                                .at(0)
+                                .get('carrierPassword')?.errors
+                          }"
+                        />
+                        <label class="fw-bold floatLabel" for="carrierPassword"
+                          >Carrier Password<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <small
+                          class="text-danger text-center"
+                          *ngIf="
+                            orgProfileOptionServicesInfoList
+                              .at(0)
+                              .get('carrierPassword')?.touched &&
+                            orgProfileOptionServicesInfoList
+                              .at(0)
+                              .get('carrierPassword')?.errors
+                          "
+                          >Please enter Password</small
+                        >
+                      </div>
+                    </div>
+                    <div class="col-sm" *ngIf="!showCarrier">
+                      <div class="form-floating m-1">
+                        <input
+                          type="text"
+                          placeholder=""
+                          name="carrierAccountNumber"
+                          formControlName="carrierAccountNumber"
+                          id="carrierAccountNumber"
+                          class="form-control-sm form-control"
+                          [ngClass]="{
+                            'is-invalid':
+                              orgProfileOptionServicesInfoList
+                                .at(0)
+                                .get('carrierAccountNumber')?.touched &&
+                              orgProfileOptionServicesInfoList
+                                .at(0)
+                                .get('carrierAccountNumber')?.errors
+                          }"
+                        />
+                        <label
+                          class="fw-bold"
+                          class="floatLabel"
+                          for="carrierAccountNumber"
+                          >Carrier Account Number<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <small
+                          class="text-danger text-center"
+                          *ngIf="
+                            orgProfileOptionServicesInfoList
+                              .at(0)
+                              .get('carrierAccountNumber')?.touched &&
+                            orgProfileOptionServicesInfoList
+                              .at(0)
+                              .get('carrierAccountNumber')?.errors
+                          "
+                          >Please enter Account Number</small
+                        >
+                      </div>
+                    </div>
+                    <div class="col-sm">
+                      <div class="form-floating m-1">
+                        <input
+                          type="text"
+                          placeholder=""
+                          name="carrierUrl"
+                          formControlName="carrierUrl"
+                          id="carrierUrl"
+                          class="form-control-sm form-control"
+                          [ngClass]="{
+                            'is-invalid':
+                              orgProfileOptionServicesInfoList
+                                .at(0)
+                                .get('carrierUrl')?.touched &&
+                              orgProfileOptionServicesInfoList
+                                .at(0)
+                                .get('carrierUrl')?.errors
+                          }"
+                        />
+                        <label
+                          class="fw-bold"
+                          class="floatLabel"
+                          for="carrierUrl"
+                          >Carrier URL<span class="text-danger">*</span></label
+                        >
+                        <small
+                          class="text-danger text-center"
+                          *ngIf="
+                            orgProfileOptionServicesInfoList
+                              .at(0)
+                              .get('carrierUrl')?.touched &&
+                            orgProfileOptionServicesInfoList
+                              .at(0)
+                              .get('carrierUrl')?.errors
+                          "
+                          >Please enter Carrier Url</small
+                        >
+                      </div>
+                    </div>
+                    <div class="col-sm" *ngIf="!showCarrier">
+                      <div class="form-floating m-1">
+                        <input
+                          type="text"
+                          placeholder=""
+                          name="meterNumber"
+                          formControlName="meterNumber"
+                          id="meterNumber"
+                          class="form-control-sm form-control"
+                        />
+                        <label
+                          class="fw-bold"
+                          class="floatLabel"
+                          for="meterNumber"
+                          >Meter Number</label
+                        >
+                      </div>
+                    </div>
+                    <div class="col-sm" *ngIf="showCarrier">
+                      <div class="form-floating m-1">
+                        <select
+                          name="requestOption"
+                          id="requestOption"
+                          class="form-select form-select-sm"
+                          formControlName="requestOption"
+                          [ngClass]="{
+                            'is-invalid':
+                              orgProfileOptionServicesInfoList
+                                .at(0)
+                                .get('requestOption')?.touched &&
+                              orgProfileOptionServicesInfoList
+                                .at(0)
+                                .get('requestOption')?.errors
+                          }"
+                        >
+                          <option [defaultSelected]="true" value="">
+                            ---Select---
+                          </option>
+                          <option
+                            *ngFor="
+                              let requestOption of requestOptionsList;
+                              trackBy: trackByFn
+                            "
+                            [value]="requestOption.lookupCode"
+                          >
+                            {{ requestOption.meaning }}
+                          </option>
+                        </select>
+                        <label
+                          class="fw-bold"
+                          class="floatLabel"
+                          for="requestOption"
+                          >Request Option<span class="text-danger">*</span>
+                        </label>
+                        <small
+                          class="text-danger text-center"
+                          *ngIf="
+                            orgProfileOptionServicesInfoList
+                              .at(0)
+                              .get('requestOption')?.touched &&
+                            orgProfileOptionServicesInfoList
+                              .at(0)
+                              .get('requestOption')?.errors
+                          "
+                          >Please select Request Option</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer p-1">
+                <div class="col-sm-10 text-center text-danger fw-bold">
+                  Note: Please save Profile Options page after saving popup
+                  details
+                </div>
+                <div class="col-sm text-md-end">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm text-light me-3 mr-auto"
+                    name="save"
+                    id="save"
+                    (click)="validateAv()"
+                    aria-label="Close"
+                    data-bs-dismiss="modal"
+                  >
+                    Save
+                    <fa-icon [icon]="faCircleCheck"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Address Validation -->
+      <!-- Modal Denined Party Screening -->
+      <div [formGroupName]="1">
+        <!-- Modal Denined Party Screening -->
+        <div class="modal fade" id="dpsDetails" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header text-light bg-primary p-2 ps-3">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Denied Party Details
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white p-2 me-1"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                  <div class="col-sm">
+                    <div class="form-floating m-1">
+                      <input
+                        type="text"
+                        placeholder=""
+                        name="carrierUserName"
+                        formControlName="carrierUserName"
+                        id="carrierUserName"
+                        class="form-control-sm form-control"
+                        [ngClass]="{
+                          'is-invalid':
+                            orgProfileOptionServicesInfoList
+                              .at(1)
+                              .get('carrierUserName')?.touched &&
+                            orgProfileOptionServicesInfoList
+                              .at(1)
+                              .get('carrierUserName')?.errors
+                        }"
+                      />
+                      <label
+                        class="fw-bold"
+                        class="floatLabel"
+                        for="carrierUserName"
+                        >UPS User Name<span class="text-danger">*</span></label
+                      >
+                      <small
+                        class="text-danger text-center"
+                        *ngIf="
+                          orgProfileOptionServicesInfoList
+                            .at(1)
+                            .get('carrierUserName')?.touched &&
+                          orgProfileOptionServicesInfoList
+                            .at(1)
+                            .get('carrierUserName')?.errors
+                        "
+                        >Please enter User Name</small
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-sm">
+                    <div class="form-floating m-1">
+                      <input
+                        type="password"
+                        placeholder=""
+                        name="carrierPassword"
+                        formControlName="carrierPassword"
+                        id="carrierPassword"
+                        class="form-control-sm form-control"
+                        [ngClass]="{
+                          'is-invalid':
+                            orgProfileOptionServicesInfoList
+                              .at(1)
+                              .get('carrierPassword')?.touched &&
+                            orgProfileOptionServicesInfoList
+                              .at(1)
+                              .get('carrierPassword')?.errors
+                        }"
+                      />
+                      <label class="fw-bold floatLabel" for="carrierPassword"
+                        >UPS Password<span class="text-danger">*</span></label
+                      >
+                      <small
+                        class="text-danger text-center"
+                        *ngIf="
+                          orgProfileOptionServicesInfoList
+                            .at(1)
+                            .get('carrierPassword')?.touched &&
+                          orgProfileOptionServicesInfoList
+                            .at(1)
+                            .get('carrierPassword')?.errors
+                        "
+                        >Please enter Password</small
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer p-2">
+                <div class="col-sm-10 text-center text-danger fw-bold">
+                  Note: Please save Profile Options page after saving popup
+                  details
+                </div>
+                <div class="col-sm text-md-end">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm text-light me-3 mr-auto"
+                    name="save"
+                    id="save"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    Save
+                    <fa-icon [icon]="faCircleCheck"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Denined Party Screening -->
+      <!-- Modal Freight Shopping -->
+      <div [formGroupName]="2">
+        <!-- Modal Freight Shopping -->
+        <div class="modal fade" id="fsDetails" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header text-light bg-primary p-2 ps-3">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Freight Shopping Details
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white p-2 me-1"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="row row-cols-md-4 mb-2">
+                  <div class="col-sm">
+                    <div class="form-floating m-1">
+                      <select
+                        name="fsSortRule"
+                        formControlName="fsSortRule"
+                        id="fsSortRule"
+                        class="form-select form-select-sm"
+                      >
+                        <option value="rate" [defaultSelected]="true">
+                          Rate
+                        </option>
+                        <option value="time">Time</option>
+                      </select>
+                      <label class="fw-bold" class="floatLabel" for="fsSortRule"
+                        >Sort Rule</label
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div formArrayName="fsCarrierDetails">
+                  <div class="row row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                    <div
+                      class="col-sm mt-2"
+                      *ngFor="let fsCarrier of fsCarriers; let i = index"
+                      [formGroupName]="i"
+                    >
+                      <input
+                        class="form-check-input me-2"
+                        type="checkbox"
+                        formControlName="value"
+                        [id]="i"
+                      />
+                      <label class="fw-bold form-check-label" [for]="i">
+                        {{ fsCarrier }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer p-1">
+                <div class="col-sm-10 text-center text-danger fw-bold">
+                  Note: Please save Profile Options page after saving popup
+                  details
+                </div>
+                <div class="col-sm text-md-end">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm text-light me-3 mr-auto"
+                    name="save"
+                    id="save"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    Save
+                    <fa-icon [icon]="faCircleCheck"></fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Freight Shopping -->
+    </div>
+    <!-- Create Shipper Name -->
+    <div
+      class="modal fade"
+      id="createShipperName"
+      tabindex="-1"
+      aria-labelledby="createShipperNameGroup"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" style="width: 500px; margin-top: 150px">
+        <div class="modal-content">
+          <div class="modal-header text-light bg-primary ps-2 p-1">
+            <h5 class="modal-title" id="createShipperNameGroup">
+              Add Shipper Name
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white p-1 me-1"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              (click)="removeAddShipperValidation()"
+            ></button>
+          </div>
+          <div class="col-md d-flex justify-content-center">
+            <div class="col-md-8 form-floating ms-0 mb-1 m-2">
+              <div class="form-floating ms-0 ms-3 mb-1 m-2 mt-3">
+                <input
+                  type="text"
+                  class="form-control-sm form-control"
+                  formControlName="addShipperName"
+                  id="addShipperName"
+                  name="addShipperName"
+                  placeholder=""
+                  maxlength="200"
+                />
+                <label for="addShipperName" class="floatLabel"
+                  >Shipper Name<span class="text-danger">*</span></label
+                >
+              </div>
+              <small
+                class="text-danger ms-3 text-center"
+                *ngIf="profileOptionsFormControls['addShipperName'].touched && profileOptionsFormControls['addShipperName'].errors?.['required']"
+                >Please enter Shipper Name</small
+              >
+              <div class="d-flex justify-content-center ms-3 mt-3 mb-3">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-sm me-3"
+                  [disabled]="getCreateShipperNameDsbl"
+                  (click)="addNewShipperName()"
+                  data-bs-dismiss="modal"
+                >
+                  Save
+                  <fa-icon [icon]="faCircleCheck"></fa-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

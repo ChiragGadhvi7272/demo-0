@@ -1,0 +1,236 @@
+<form [formGroup]="holdAtLocInfo" novalidate>
+  <div class="card p-1 mb-3 border-primary">
+    <div class="form-check mt-2 ms-2 text-start">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        formControlName="locationFlag"
+        id="locationFlag"
+        #locationFlag
+        (change)="showAccordion($event)"
+      />
+      <label for="locationFlag" class="form-check-label h6 text-primary fw-bold">
+        Hold At Location
+      </label>
+    </div>
+    <div class="card-body pt-0" *ngIf="locationFlag.checked">
+      <div class="row row-cols p-0 mb-2 row-cols-md-4">
+        <div class="col-sm">
+          <div class="form-floating ms-0 mb-1 m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="line1"
+              class="form-control form-control-sm"
+              id="line1"
+              formControlName="line1"
+              [ngClass]="{
+                'is-invalid':
+                  holdAtLocationInfoControls['line1'].touched &&
+                  holdAtLocationInfoControls['line1'].errors
+              }"
+            />
+            <label for="line1" class="fw-bold" class="floatLabel">
+              line1
+              <span class="text-danger" *ngIf="locationFlag.checked">*</span>
+            </label>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['line1'].touched 
+                              && holdAtLocationInfoControls['line1'].errors?.['required']"
+            >
+              Please enter line1
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['line1'].touched 
+                                && holdAtLocationInfoControls['line1'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(100)
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['line1'].errors?.['pattern']"
+            >
+              White Spaces are not allowed
+            </small>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-floating ms-0 mb-1 m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="line2"
+              class="form-control form-control-sm"
+              id="line2"
+              formControlName="line2"
+            />
+            <label for="line2" class="fw-bold" class="floatLabel">
+              line2
+            </label>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-floating ms-0 mb-1 m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="city"
+              class="form-control form-control-sm"
+              id="city"
+              formControlName="city"
+              [ngClass]="{
+                'is-invalid':
+                  holdAtLocationInfoControls['city'].touched &&
+                  holdAtLocationInfoControls['city'].errors
+              }"
+            />
+            <label for="city" class="fw-bold" class="floatLabel">
+              City
+              <span class="text-danger" *ngIf="locationFlag.checked">*</span>
+            </label>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['city'].touched 
+                              && holdAtLocationInfoControls['city'].errors?.['required']"
+            >
+              Please enter City
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['city'].touched 
+                                && holdAtLocationInfoControls['city'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(100)
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['city'].errors?.['pattern']"
+            >
+              White Spaces are not allowed
+            </small>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-floating ms-0 mb-1 m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="state"
+              class="form-control form-control-sm"
+              id="state"
+              formControlName="state"
+              [ngClass]="{
+                'is-invalid':
+                  holdAtLocationInfoControls['state'].touched &&
+                  holdAtLocationInfoControls['state'].errors
+              }"
+            />
+            <label for="state" class="fw-bold" class="floatLabel">
+              State
+              <span class="text-danger" *ngIf="locationFlag.checked">*</span>
+            </label>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['state'].touched 
+                                && holdAtLocationInfoControls['state'].errors?.['required']"
+            >
+              Please enter State
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['state'].touched 
+                                && holdAtLocationInfoControls['state'].errors?.['maxlength']"
+            >
+              Maximum length of characters should not exceed 2 characters
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['state'].errors?.['pattern']"
+            >
+              Invalid input. Please enter alphabetic characters only.
+            </small>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-floating ms-0 mb-1 m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="postalCode"
+              class="form-control form-control-sm"
+              id="postalCode"
+              formControlName="postalCode"
+              [ngClass]="{
+                'is-invalid':
+                  holdAtLocationInfoControls['postalCode'].touched &&
+                  holdAtLocationInfoControls['postalCode'].errors
+              }"
+            />
+            <label for="postalCode" class="fw-bold" class="floatLabel">
+              Postal Code
+              <span class="text-danger" *ngIf="locationFlag.checked">*</span>
+            </label>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['postalCode'].touched 
+                              && holdAtLocationInfoControls['postalCode'].errors?.['required']"
+            >
+              Please enter Postal Code
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['postalCode'].touched 
+                              && holdAtLocationInfoControls['postalCode'].errors?.['maxlength']"
+            >
+              Exceeded maximum length of characters(100)
+            </small>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-floating ms-0 mb-1 m-1">
+            <input
+              type="text"
+              placeholder=""
+              name="phone"
+              class="form-control form-control-sm"
+              id="phone"
+              formControlName="phone"
+              [ngClass]="{
+                'is-invalid':
+                  holdAtLocationInfoControls['phone'].touched &&
+                  holdAtLocationInfoControls['phone'].errors
+              }"
+            />
+            <label for="phone" class="fw-bold" class="floatLabel">
+              Phone Number
+              <span class="text-danger" *ngIf="locationFlag.checked">*</span>
+            </label>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['phone'].touched 
+                              && holdAtLocationInfoControls['phone'].errors?.['required']"
+            >
+              Please enter Phone Number
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['phone'].touched 
+                              && holdAtLocationInfoControls['phone'].errors?.['maxlength']"
+            >
+              Exceeded the maximum length of numbers
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="holdAtLocationInfoControls['phone'].touched 
+                              && holdAtLocationInfoControls['phone'].errors?.['pattern']"
+            >
+              Please enter valid Phone Number
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

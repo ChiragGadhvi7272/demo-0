@@ -1,0 +1,775 @@
+<div
+  class="modal fade"
+  id="userDetails"
+  tabindex="-1"
+  role="dialog"
+  [formGroup]="createUpdateUsersForm"
+  novalidate
+  autocomplete="off"
+  name="createUpdateUsersForm"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-light bg-primary p-2 ps-3">
+        <div class="modal-title h5" id="exampleModalLabel">
+          {{ this.createUpdate }}
+        </div>
+        <span style="float: right">
+          <button
+            type="button"
+            class="btn-close btn-close-white p-2 me-1"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </span>
+      </div>
+      <div class="modal-body">
+        <div class="row row-cols-sm-1 row-cols-md-3 row-cols-lg-3">
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                name="firstName"
+                placeholder=""
+                class="form-control form-control-sm"
+                id="firstName"
+                formControlName="firstName"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['firstName'].touched &&
+                    createUpdateUsersFormControls['firstName'].errors
+                }"
+              />
+              <label for="firstName" class="fw-bold" class="floatLabel"
+                >First Name <span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['firstName'].touched && createUpdateUsersFormControls['firstName'].errors?.['required']"
+              >
+                Please enter First Name
+              </small>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['firstName'].touched && createUpdateUsersFormControls['firstName'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(100)
+              </small>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['firstName'].touched && createUpdateUsersFormControls['firstName'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="lastName"
+                class="form-control form-control-sm"
+                id="lastName"
+                formControlName="lastName"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['lastName'].touched &&
+                    createUpdateUsersFormControls['lastName'].errors
+                }"
+              />
+              <label for="lastName" class="fw-bold" class="floatLabel"
+                >Last Name
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['lastName'].touched && createUpdateUsersFormControls['lastName'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(100)
+              </small>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['lastName'].touched && createUpdateUsersFormControls['lastName'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="userName"
+                class="form-control form-control-sm"
+                id="userName"
+                formControlName="userName"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['userName'].touched &&
+                    createUpdateUsersFormControls['userName'].errors
+                }"
+                [readonly]="isDisabled"
+              />
+              <label for="userName" class="fw-bold" class="floatLabel"
+                >User Name <span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['userName'].touched && createUpdateUsersFormControls['userName'].errors?.['required']"
+              >
+                Please enter User Name
+              </small>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['userName'].touched && createUpdateUsersFormControls['userName'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(50)
+              </small>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['userName'].touched && createUpdateUsersFormControls['userName'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="password"
+                placeholder=""
+                name="password"
+                class="form-control form-control-sm"
+                id="password"
+                formControlName="password"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['password'].touched &&
+                    createUpdateUsersFormControls['password'].errors
+                }"
+                title="Password must be 8 characters long and should contain one number,one uppercase,one lowercase and one special character"
+                [readonly]="isDisabled"
+              />
+              <label for="password" class="fw-bold" class="floatLabel"
+                >Password <span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['password'].touched && createUpdateUsersFormControls['password'].errors?.['required']"
+              >
+                Please enter Password
+              </small>
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createUpdateUsersFormControls['password'].touched &&
+                createUpdateUsersFormControls['password'].errors?.['pattern']"
+              >
+                Please Enter valid password
+              </small>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <select
+                name="roleId"
+                class="form-select form-select-sm select"
+                id="roleId"
+                formControlName="roleId"
+                #roleId
+                (change)="onRoleChange(roleId.value)"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['roleId'].touched &&
+                    createUpdateUsersFormControls['roleId'].errors
+                }"
+              >
+                <option [defaultSelected]="defaultSelect" value="">
+                  ---Select---
+                </option>
+                <option
+                  *ngFor="let userRole of userRolesList; trackBy: trackByFn"
+                  [value]="userRole.lookupCode"
+                >
+                  {{ userRole.meaning }}
+                </option>
+              </select>
+              <label for="role" class="fw-bold" class="floatLabel"
+                >Role <span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['roleId'].touched && createUpdateUsersFormControls['roleId'].errors?.['required']"
+              >
+                Please select Role
+              </small>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <select
+                name="invOrgId"
+                class="form-select form-select-sm"
+                id="invOrgId"
+                #invOrgId
+                (change)="onInvOrgChange(invOrgId.value)"
+                formControlName="invOrgId"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['invOrgId'].touched &&
+                    createUpdateUsersFormControls['invOrgId'].errors
+                }"
+              >
+                <option value="" [defaultSelected]="defaultSelect">
+                  ---Select---
+                </option>
+                <option
+                  *ngFor="let invOrg of invDetailsList; trackBy: trackByFn"
+                  [value]="invOrg.invOrgId"
+                >
+                  {{ invOrg.invOrgName }}
+                </option>
+              </select>
+              <label for="invOrgId" class="fw-bold" class="floatLabel"
+                >{{ invOrgIdNameLabel }}
+                <span class="text-danger" *ngIf="invOrgRequired">*</span></label
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['invOrgId'].touched && createUpdateUsersFormControls['invOrgId'].errors?.['required']"
+              >
+                Please select {{ invOrgIdNameLabel }}
+              </small>
+            </div>
+          </div>
+          <div class="col-md" *ngIf="erpType != 'EBS'">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="zplPrinter"
+                class="form-control form-control-sm"
+                id="zplPrinter"
+                formControlName="zplPrinter"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['zplPrinter'].touched &&
+                    createUpdateUsersFormControls['zplPrinter'].errors
+                }"
+              />
+              <label for="zplPrinter" class="fw-bold" class="floatLabel"
+                >ZPL/ZEBRA Printer
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['zplPrinter'].touched && createUpdateUsersFormControls['zplPrinter'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(200)
+              </small>
+            </div>
+          </div>
+          <div class="col-md" *ngIf="erpType != 'EBS'">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="gifPrinter"
+                class="form-control form-control-sm"
+                id="gifPrinter"
+                formControlName="gifPrinter"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['gifPrinter'].touched &&
+                    createUpdateUsersFormControls['gifPrinter'].errors
+                }"
+              />
+              <label for="gifPrinter" class="fw-bold" class="floatLabel"
+                >GIF/PNG Printer
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['gifPrinter'].touched && createUpdateUsersFormControls['gifPrinter'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(200)
+              </small>
+            </div>
+          </div>
+          <div class="col-md" *ngIf="erpType != 'EBS'">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="op900Printer"
+                class="form-control form-control-sm"
+                id="op900Printer"
+                formControlName="op900Printer"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['op900Printer'].touched &&
+                    createUpdateUsersFormControls['op900Printer'].errors
+                }"
+              />
+              <label for="op900Printer" class="fw-bold" class="floatLabel"
+                >Op900 Printer
+              </label>
+              <small
+                class="text-danger"
+                *ngIf="createUpdateUsersFormControls['op900Printer'].touched && createUpdateUsersFormControls['op900Printer'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(200)
+              </small>
+            </div>
+          </div>
+          <div class="col-md" *ngIf="erpType == 'NS'">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="userTokenId"
+                class="form-control form-control-sm"
+                id="userTokenId"
+                formControlName="userTokenId"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['userTokenId'].touched &&
+                    createUpdateUsersFormControls['userTokenId'].errors
+                }"
+              />
+              <label for="userTokenId" class="fw-bold" class="floatLabel"
+                >Token Id
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['userTokenId'].touched && createUpdateUsersFormControls['userTokenId'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(100)
+              </small>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['userTokenId'].touched && createUpdateUsersFormControls['userTokenId'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+          </div>
+          <div class="col-md" *ngIf="erpType == 'EBS'">
+            <div class="form-floating m-1">
+              <input
+                type="number"
+                placeholder=""
+                name="oracleUserId"
+                class="form-control form-control-sm"
+                id="oracleUserId"
+                formControlName="oracleUserId"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['oracleUserId'].touched &&
+                    createUpdateUsersFormControls['oracleUserId'].errors
+                }"
+              />
+              <label for="oracleUserId" class="fw-bold" class="floatLabel"
+                >Oracle User ID<span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['oracleUserId'].touched && createUpdateUsersFormControls['oracleUserId'].errors?.['required']"
+              >
+                Please enter Oracle User ID
+              </small>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['oracleUserId'].touched && createUpdateUsersFormControls['oracleUserId'].errors?.['min']"
+              >
+                Oracle User ID must be greater than or equal to 0
+              </small>
+            </div>
+          </div>
+          <div class="col-md" *ngIf="erpType == 'EBS'">
+            <div class="form-floating m-1">
+              <input
+                type="number"
+                placeholder=""
+                name="oracleResponsibilityId"
+                class="form-control form-control-sm"
+                id="oracleResponsibilityId"
+                formControlName="oracleResponsibilityId"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['oracleResponsibilityId']
+                      .touched &&
+                    createUpdateUsersFormControls['oracleResponsibilityId']
+                      .errors
+                }"
+              />
+              <label
+                for="oracleResponsibilityId"
+                class="fw-bold"
+                class="floatLabel"
+                >Oracle Responsibility Id<span class="text-danger"
+                  >*</span
+                ></label
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['oracleResponsibilityId'].touched && createUpdateUsersFormControls['oracleResponsibilityId'].errors?.['required']"
+              >
+                Please enter Oracle Responsibility Id
+              </small>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['oracleResponsibilityId'].touched && createUpdateUsersFormControls['oracleResponsibilityId'].errors?.['min']"
+              >
+                Oracle Responsibility Id must be greater than or equal to 0
+              </small>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="email"
+                placeholder=""
+                name="emailId"
+                class="form-control form-control-sm"
+                id="emailId"
+                formControlName="emailId"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['emailId'].touched &&
+                    createUpdateUsersFormControls['emailId'].errors
+                }"
+              />
+              <label for="emailId" class="fw-bold" class="floatLabel"
+                >Email Address<span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createUpdateUsersFormControls['emailId'].touched &&
+                createUpdateUsersFormControls['emailId'].errors?.['required']
+                  "
+                >Please enter Email Id</small
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="
+                createUpdateUsersFormControls['emailId'].touched &&
+                  createUpdateUsersFormControls['emailId'].errors?.['pattern']
+                "
+                >Please enter valid Email Id</small
+              >
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <select
+                name="weighingScaleName"
+                id="weighingScaleName"
+                class="form-select form-select-sm"
+                formControlName="weighingScaleName"
+              >
+                <option value="" [defaultSelected]="defaultSelect">
+                  ---Select---
+                </option>
+                <option
+                  *ngFor="
+                    let weightScale of weighingScaleNamesList;
+                    trackBy: trackByFn
+                  "
+                  [value]="weightScale.lookupCode"
+                >
+                  {{ weightScale.meaning }}
+                </option>
+              </select>
+              <label for="weighingScaleName" class="fw-bold" class="floatLabel"
+                >Weighing Scale Name
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <select
+                name="shipFromLocation"
+                id="shipFromLocation"
+                class="form-select form-select-sm"
+                formControlName="shipFromLocation"
+              >
+                <option value="" [defaultSelected]="defaultSelect">
+                  ---Select---
+                </option>
+                <option
+                  *ngFor="
+                    let shipFromLocation of filteredShipFromLocationsList;
+                    trackBy: trackByFn
+                  "
+                  [value]="shipFromLocation.locationName"
+                >
+                  {{ shipFromLocation.locationName }}
+                </option>
+              </select>
+              <label for="shipFromLocation" class="fw-bold" class="floatLabel"
+                >Ship From Location
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <select
+                name="status"
+                id="status"
+                class="form-select form-select-sm"
+                formControlName="status"
+              >
+                <option
+                  *ngFor="let status of statusList; trackBy: trackByFn"
+                  [value]="status.lookupCode"
+                >
+                  {{ status.meaning }}
+                </option>
+              </select>
+              <label for="Status" class="fw-bold" class="floatLabel"
+                >Status <span class="text-danger">*</span></label
+              >
+            </div>
+          </div>
+          <div class="col-md" *ngIf="erpType != 'EBS'">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="pdfPrinter"
+                class="form-control form-control-sm"
+                id="pdfPrinter"
+                formControlName="pdfPrinter"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['pdfPrinter'].touched &&
+                    createUpdateUsersFormControls['pdfPrinter'].errors
+                }"
+              />
+              <label for="pdfPrinter" class="fw-bold" class="floatLabel"
+                >PDF Printer</label
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['pdfPrinter'].touched && createUpdateUsersFormControls['pdfPrinter'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(200)
+              </small>
+            </div>
+          </div>
+          <div class="col-md" *ngIf="erpType != 'EBS'">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="dgFormPrinter"
+                class="form-control form-control-sm"
+                id="dgFormPrinter"
+                formControlName="dgFormPrinter"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['dgFormPrinter'].touched &&
+                    createUpdateUsersFormControls['dgFormPrinter'].errors
+                }"
+              />
+              <label for="dgFormPrinter" class="fw-bold" class="floatLabel"
+                >DGForm Printer</label
+              >
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['dgFormPrinter'].touched && createUpdateUsersFormControls['dgFormPrinter'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(200)
+              </small>
+            </div>
+          </div>
+          <div class="col-md" *ngIf="erpType == 'NS'">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                placeholder=""
+                name="userTokenSecret"
+                class="form-control form-control-sm"
+                id="userTokenSecret"
+                formControlName="userTokenSecret"
+                [ngClass]="{
+                  'is-invalid':
+                    createUpdateUsersFormControls['userTokenSecret'].touched &&
+                    createUpdateUsersFormControls['userTokenSecret'].errors
+                }"
+              />
+              <label for="userTokenSecret" class="fw-bold" class="floatLabel"
+                >Token Secret
+              </label>
+              <small
+                class="text-danger text-center"
+                *ngIf="createUpdateUsersFormControls['userTokenSecret'].touched && createUpdateUsersFormControls['userTokenSecret'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(100)
+              </small>
+              <small
+                class="text-danger center"
+                *ngIf="createUpdateUsersFormControls['userTokenSecret'].touched && createUpdateUsersFormControls['userTokenSecret'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <select
+                name="shipperName"
+                id="shipperName"
+                class="form-select form-select-sm"
+                formControlName="shipperName"
+              >
+                <option value="" [defaultSelected]="defaultSelect">
+                  ---Select---
+                </option>
+                <option
+                  *ngFor="
+                    let shipperName of filteredShipperNamesList;
+                    trackBy: trackByFn
+                  "
+                  [value]="shipperName.shipperName"
+                >
+                  {{ shipperName.shipperName }}
+                </option>
+              </select>
+              <label for="shipperName" class="fw-bold" class="floatLabel"
+                >Shipper Name
+              </label>
+            </div>
+          </div>
+          <div class="card text-center" [hidden]="!documentStorageApiFlag">
+            <h5 class="card-header">Shipping Document Repository</h5>
+            <div class="card-body">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="shippingDocumentsAccess"
+                  name="shippingDocumentsAccess"
+                  formControlName="shippingDocumentsAccess"
+                />
+                <label class="form-check-label" for="shippingDocumentsAccess"
+                  >Shipping Document Access</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="uploadDocumentsAccess"
+                  name="uploadDocumentsAccess"
+                  formControlName="uploadDocumentsAccess"
+                />
+                <label class="form-check-label" for="uploadDocumentsAccess"
+                  >Upload Document Access</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="card text-center mt-3" [hidden]="!mobileAppAccessFlag">
+            <h5 class="card-header">Mobile Application Access</h5>
+            <div class="card-body">
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="captureVehicle"
+                  name="captureVehicle"
+                  formControlName="captureVehicle"
+                />
+                <label class="form-check-label" for="captureVehicle"
+                  >Capture Vehicle</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="captureSignAndUpdateBol"
+                  name="captureSignAndUpdateBol"
+                  formControlName="captureSignAndUpdateBol"
+                />
+                <label class="form-check-label" for="captureSignAndUpdateBol"
+                  ><small
+                    ><strong>Capture Sign And Update BOL</strong></small
+                  ></label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="driverAttendance"
+                  name="driverAttendance"
+                  formControlName="driverAttendance"
+                />
+                <label class="form-check-label" for="driverAttendance"
+                  >Driver Attendance</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center p-1 modal-footer d-inline">
+        <input
+          type="hidden"
+          name="userId"
+          class="form-control form-control-sm"
+          id="userId"
+          formControlName="userId"
+        />
+        <input
+          type="hidden"
+          name="clientId"
+          class="form-control form-control-sm"
+          id="clientId"
+          formControlName="clientId"
+        />
+        <input
+          type="hidden"
+          name="superUser"
+          class="form-control form-control-sm"
+          id="superUser"
+          formControlName="superUser"
+        />
+        <button
+          type="submit"
+          class="btn btn-primary btn-sm me-3"
+          [disabled]="createUpdateUsersForm.invalid"
+          [hidden]="isDisabled"
+          (click)="onSubmit()"
+          data-bs-dismiss="modal"
+        >
+          Save
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary btn-sm updateButton me-3"
+          [disabled]="createUpdateUsersForm.invalid"
+          [hidden]="!isDisabled"
+          (click)="onSubmit()"
+          data-bs-dismiss="modal"
+        >
+          Update
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+        <button
+          type="reset"
+          class="btn btn-primary btn-sm me-3"
+          (click)="resetForms()"
+          [hidden]="isDisabled"
+        >
+          Reset
+          <fa-icon [icon]="faArrowAltCircleLeft"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+<div
+  class="modal fade"
+  id="addressValidationModal"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" style="max-width: 80%">
+    <div class="modal-content">
+      <div class="modal-header text-light bg-primary p-2 ps-3 text-center ps-2">
+        <h5 class="modal-title" id="exampleModalLabel">Address Validation</h5>
+        <span style="float: right">
+          <button
+            type="button"
+            class="btn-close btn-close-white p-2 me-1"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </span>
+      </div>
+
+      <div class="modal-body p-3">
+        <div class="text-center mb-3">
+          <p class="h6">
+            <span *ngIf="addressType !== 'ERROR'" class="text-black">
+              Address Classification: {{ addressClassification }}
+            </span>
+            <span *ngIf="addressType === 'ERROR'" class="text-danger"
+              >ERROR: {{addressClassification}}</span
+            >
+            <span *ngIf="addressType !== 'ERROR'" class="text-black">
+              Address Type: {{ addressType }}
+            </span>
+          </p>
+        </div>
+
+        <div
+          *ngIf="proposedAddressList && proposedAddressList.length > 0"
+          class="table-responsive rounded-3"
+        >
+          <table class="table table-hover table-bordered">
+            <thead class="bg-primary text-white">
+              <tr>
+                <th scope="col">Select a Ship To Address</th>
+                <th scope="col">City</th>
+                <th scope="col">State</th>
+                <th scope="col">Postal Code</th>
+                <th scope="col">Country Code</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let address of proposedAddressList; let i = index">
+                <td scope="row">
+                  <input
+                    type="radio"
+                    name="shipToAddress"
+                    data-bs-dismiss="modal"
+                    (change)="onAddressSelected(i)"
+                  />
+                  <span>{{ address.addressLine1 }}</span>
+                </td>
+                <td>
+                  <span>{{ address.city }}</span>
+                </td>
+                <td>
+                  <span>{{ address.state }}</span>
+                </td>
+                <td>
+                  <span>{{ address.postalCode }}</span>
+                </td>
+                <td>
+                  <span>{{ address.countryCode }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

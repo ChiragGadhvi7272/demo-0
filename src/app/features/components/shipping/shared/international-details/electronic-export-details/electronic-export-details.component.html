@@ -1,0 +1,46 @@
+<div class="card mt-2 border-top">
+  <div class="card-body p-1">
+    <!-- <div class="h6 p-1 mb-0 pb-0 text-primary">Electronic Export Information</div> -->
+    <div
+      class="btn btn-sm fw-bold border-0 text-primary text-start shadow-none w-100"
+      (click)="toggleEEI()"
+    >
+      Electronic Export Information
+      <span class="float-end">
+        <fa-icon [icon]="eeiDetails ? faChevronUp : faChevronDown"></fa-icon>
+      </span>
+    </div>
+    <div class="border-top" *ngIf="eeiDetails">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            class="form-control form-control-sm"
+            type="text"
+            id="AESOrFTSRExemptionNumber"
+            name="AESOrFTSRExemptionNumber"
+            placeholder=""
+          />
+          <label for="AESOrFTSRExemptionNumber" class="floatLabel">
+            ITN Number
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            class="form-control form-control-sm"
+            type="text"
+            id="AESOrFTRExemptionNumber"
+            name="AESOrFTRExemptionNumber"
+            placeholder=""
+          />
+          <label for="AESOrFTRExemptionNumber" class="floatLabel">
+            FTR Exemption Number
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

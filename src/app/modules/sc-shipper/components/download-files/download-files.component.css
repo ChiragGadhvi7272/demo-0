@@ -1,0 +1,6 @@
+.download-files-row {
+  flex: 0 0 8.333333%;
+  max-width: 8.333333%;
+  margin-top: 0.25rem !important;
+  padding-left: 0.5rem;
+}

@@ -1,0 +1,319 @@
+<!-- <div class="card-body p-1 pb-0"> -->
+<div
+  class="table-responsive rounded-1 table-resp"
+  [style]="packageTableHeight"
+  #myTable
+>
+  <table class="table table-sm table-hover table-bordered-costom">
+    <thead class="rowgroup scrollWithIn table-head">
+      <tr class="text-center">
+        <th scope="col" width="5%">Pkg #</th>
+        <th scope="col" width="16%">Weight</th>
+        <th scope="col" width="28%">Dimensions</th>
+        <th scope="col" width="5%">L</th>
+        <th scope="col" width="5%">W</th>
+        <th scope="col" width="5%">H</th>
+        <th scope="col" width="17%">Tracking No.</th>
+        <th scope="col" width="17%" *ngIf="erpType == 'EBS'">LPN No.</th>
+        <th scope="col" width="12%">Pkg Option</th>
+      </tr>
+    </thead>
+    <tbody class="table-group" *ngIf="shipmentPackagesInfoList">
+      <tr
+        *ngFor="
+          let packages of shipmentPackagesInfoList.controls;
+          let i = index
+        "
+        [formGroup]="getGroup(i)"
+      >
+        <td>
+          <input
+            type="number"
+            [readOnly]="true"
+            class="form-control form-control-sm table-controls"
+            formControlName="packageNum"
+            [id]="'packageNum' + i"
+            [name]="'packageNum' + i"
+            [value]="i + 1"
+          />
+        </td>
+        <td>
+          <div class="d-flex">
+            <input
+              type="number"
+              min="0"
+              formControlName="weight"
+              [id]="'weight' + i"
+              [name]="'weight' + i"
+              class="form-control form-control-sm table-controls"
+              [ngClass]="{
+                'is-invalid':
+                  packages.get('weight')?.touched &&
+                  packages.get('weight')?.errors
+              }"
+              #weight
+              (blur)="showButtons(weight.value)"
+              (input)="showButtons(weight.value)"
+              (focus)="showButtons(weight.value)"
+            />
+
+            <select
+              class="form-select form-select-sm ms-1 table-controls"
+              formControlName="weightUomCode"
+              [id]="'weightUomCode' + i"
+              [name]="'weightUomCode' + i"
+              style="width: 90%"
+              [ngClass]="{
+                'is-invalid':
+                  packages.get('weightUomCode')?.touched &&
+                  packages.get('weightUomCode')?.errors
+              }"
+            >
+              <option
+                *ngFor="let weightUOM of weightUOMList"
+                [value]="weightUOM.lookupCode"
+              >
+                {{ weightUOM.meaning }}
+              </option>
+            </select>
+          </div>
+        </td>
+        <td>
+          <div class="d-flex">
+            <select
+              class="form-select form-select-sm table-controls"
+              formControlName="dimensionName"
+              [id]="'dimensionName' + i"
+              [name]="'dimensionName' + i"
+              #dimensionName
+              (change)="changedDimensions(i)"
+              [ngClass]="{
+                'is-invalid':
+                  packages.get('dimensionName')?.touched &&
+                  packages.get('dimensionName')?.errors
+              }"
+            >
+              <option
+                *ngFor="let dimensionsInfo of dimensionsInfoList"
+                [value]="dimensionsInfo.dimensionName"
+              >
+                {{ dimensionsInfo.dimensionName }}
+              </option>
+            </select>
+
+            <select
+              class="form-select form-select-sm ms-2 table-controls"
+              formControlName="dimUom"
+              [id]="'dimUom' + i"
+              [name]="'dimUom' + i"
+              style="width: 85%"
+              [ngClass]="{
+                'is-invalid':
+                  packages.get('dimUom')?.touched &&
+                  packages.get('dimUom')?.errors
+              }"
+            >
+              <option
+                *ngFor="let dimensionUOM of dimensionUOMList"
+                [value]="dimensionUOM.lookupCode"
+              >
+                {{ dimensionUOM.meaning }}
+              </option>
+            </select>
+          </div>
+        </td>
+        <td>
+          <input
+            type="text"
+            class="form-control form-control-sm table-controls"
+            formControlName="packageLength"
+            [id]="'packageLength' + i"
+            [name]="'packageLength' + i"
+            [ngClass]="{
+              'is-invalid':
+                packages.get('packageLength')?.touched &&
+                packages.get('packageLength')?.errors
+            }"
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            class="form-control form-control-sm table-controls"
+            formControlName="packageWidth"
+            [id]="'packageWidth' + i"
+            [name]="'packageWidth' + i"
+            [ngClass]="{
+              'is-invalid':
+                packages.get('packageWidth')?.touched &&
+                packages.get('packageWidth')?.errors
+            }"
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            class="form-control form-control-sm table-controls"
+            formControlName="packageHeight"
+            [id]="'packageHeight' + i"
+            [name]="'packageHeight' + i"
+            [ngClass]="{
+              'is-invalid':
+                packages.get('packageHeight')?.touched &&
+                packages.get('packageHeight')?.errors
+            }"
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            class="form-control form-control-sm table-controls"
+            [readOnly]="true"
+            formControlName="trackingNumber"
+            [id]="'trackingNumber' + i"
+            [name]="'trackingNumber' + i"
+          />
+        </td>
+        <td *ngIf="erpType == 'EBS'">
+          <input
+            type="text"
+            class="form-control form-control-sm table-controls"
+            formControlName="lpnnumber"
+            [id]="'lpnNumber' + i"
+            [name]="'lpnNumber' + i"
+          />
+        </td>
+        <td class="text-center">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#packageOptions"
+            (click)="getPackageOptionsLookupValues(packages, i)"
+            class="btn btn-white p-0 border-0 shadow-none table-controls"
+            [disabled]="!carrierId || carrierId == 0"
+          >
+            <fa-icon
+              [icon]="faUpRightFromSquare"
+              class="text-primary"
+              (click)="getPackageOptionsLookupValues(packages, i)"
+              style="font-size: 1.18rem !important"
+            ></fa-icon>
+          </button>
+          <div
+            class="modal fade"
+            id="packageOptions"
+            tabindex="-1"
+            aria-labelledby="editPackageoptions"
+            aria-hidden="true"
+            novalidate
+          >
+            <div class="modal-dialog" style="max-width: 75% !important">
+              <div class="modal-content">
+                <div class="modal-header text-white bg-primary p-2 ps-3">
+                  <h5 class="modal-title text-center" id="editPackageoptions">
+                    Package Options
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close btn-close-white p-2 me-1"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body pt-0">
+                  <app-package-options
+                    [shipFlag]="shipFlag"
+                    [shipmentPackagesInfoList]="shipmentPackagesInfoList"
+                  ></app-package-options>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="align-items-center">
+  <div class="row p-1 ps-0 pe-0">
+    <div
+      *ngIf="shipmentHeadersInfo"
+      class="col-md mt-2 mt-md-0 fw-bold row"
+      [formGroup]="shipmentHeadersInfo"
+    >
+      <p class="mb-0 d-flex">
+        <small class="me-2 mt-1">MPS Count:</small>
+        <input
+          type="number"
+          name="mpsPackageCount"
+          id="mpsPackageCount"
+          formControlName="mpsPackageCount"
+          [readOnly]="mpsDisable"
+          class="form-control form-control-sm"
+          placeholder=""
+          style="width: 60px !important"
+        />
+      </p>
+    </div>
+    <div class="col-md mt-2 mt-md-0 fw-bold">
+      <p class="mb-0 d-flex">
+        <small class="me-2 mt-1">No. of boxes:</small>
+        <input
+          type="number"
+          name="numberofRowsToAdd"
+          id="numberofRowsToAdd"
+          #numberofRowsToAdd
+          [(ngModel)]="numToAdd"
+          [disabled]="addDisable"
+          class="form-control form-control-sm"
+          placeholder=""
+          style="width: 60px !important"
+          min="1"
+        />
+      </p>
+    </div>
+    <div class="col-md-4 mt-2 mt-md-0">
+      <button
+        type="button"
+        class="text-light btn btn-sm btn-primary faButtons waves-effect"
+        (click)="addPackage(numberofRowsToAdd.value)"
+        data-bs-toggle="tooltip"
+        [disabled]="addDisable"
+        data-bs-placement="bottom"
+        title="Add Package"
+      >
+        <fa-icon [icon]="faCirclePlus"></fa-icon>
+      </button>
+      <button
+        class="text-light btn btn-sm btn-primary faButtons ms-3"
+        (click)="removePackage()"
+        [disabled]="addDisable"
+        data-bs-toggle="tooltip"
+        data-bs-placement="bottom"
+        title="Remove Package"
+      >
+        <fa-icon [icon]="faTrash" title="Remove Package"></fa-icon>
+      </button>
+      <button
+        class="text-light btn btn-sm btn-primary faButtons ms-3"
+        title="Remove all Packages"
+        (click)="removeAllPackage()"
+        [disabled]="addDisable"
+        data-bs-toggle="tooltip"
+        data-bs-placement="bottom"
+        title="Remove all Packages"
+      >
+        <fa-icon [icon]="faBroom"></fa-icon>
+      </button>
+    </div>
+    <div
+      class="col-md mt-2 mt-md-0 text-md-end"
+      *ngIf="activeComponent != 'adhocPackageComponent'"
+    >
+      <button class="btn btn-sm btn-primary faButtons" [disabled]="true">
+        <fa-icon [icon]="faLocationArrow"></fa-icon>
+        Map items to package
+      </button>
+    </div>
+  </div>
+</div>
+<!-- </div> -->

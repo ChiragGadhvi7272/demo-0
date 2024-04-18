@@ -1,0 +1,7 @@
+{
+    "deliveryLabel": "Delivery ID",
+	"orgIdLabel": "Org ID",
+	"invOrgIdLabel": "Organization ID",
+	"orgIdNameLabel": "Operating Unit",
+	"invOrgIdNameLabel": "Organization Name"
+}

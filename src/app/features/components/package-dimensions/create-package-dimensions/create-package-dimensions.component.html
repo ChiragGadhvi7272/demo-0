@@ -1,0 +1,294 @@
+<div
+  class="modal fade"
+  id="packageDimensions"
+  tabindex="-1"
+  role="dialog"
+  [formGroup]="createEditPackageDimensionsForm"
+  novalidate
+  autocomplete="off"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-light bg-primary ps-3 p-2 text-center">
+        <div class="modal-title h5" id="exampleModalLabel">
+          {{ this.createUpdate }}
+        </div>
+        <span style="float: right;">
+          <button type="button" class="btn-close btn-close-white p-2 me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+        </span>
+      </div>
+      <div class="modal-body row row-cols-sm-1 row-cols-md-2 row-cols-lg-3"> 
+          <!--1. Dimension Name -->
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                type="text"
+                name="dimensionName"
+                class="form-control form-control-sm"
+                id="dimensionName"
+                formControlName="dimensionName"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditPackageDimensionsFormControls['dimensionName']
+                      .touched &&
+                    createEditPackageDimensionsFormControls['dimensionName']
+                      .errors
+                }"
+                placeholder=""
+              />
+            <label for="dimensionName" class="floatLabel"
+              >Dimension Name <span class="text-danger">*</span></label
+            >
+              <small
+                class="text-danger"
+                *ngIf="createEditPackageDimensionsFormControls['dimensionName'].touched && createEditPackageDimensionsFormControls['dimensionName'].errors?.['required']"
+              >
+                Please enter Dimension Name
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="createEditPackageDimensionsFormControls['dimensionName'].touched && createEditPackageDimensionsFormControls['dimensionName'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(50)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="createEditPackageDimensionsFormControls['dimensionName'].errors?.['pattern']"
+              >
+                Only white space is not allowed
+              </small>
+            </div>
+          </div>
+          <!--2. Length -->
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                type="text"
+                name="dimensionLength"
+                class="form-control form-control-sm"
+                id="dimensionLength"
+                formControlName="dimensionLength"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditPackageDimensionsFormControls['dimensionLength']
+                      .touched &&
+                    createEditPackageDimensionsFormControls['dimensionLength']
+                      .errors
+                }"
+                placeholder=""
+              />
+            <label for="dimensionLength" class="floatLabel"
+              >Length<span class="text-danger">*</span></label
+            >
+              <small
+                class="text-danger"
+                *ngIf="createEditPackageDimensionsFormControls['dimensionLength'].touched && createEditPackageDimensionsFormControls['dimensionLength'].errors?.['required']"
+              >
+                Please enter Dimension Length
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="createEditPackageDimensionsFormControls['dimensionLength'].touched && createEditPackageDimensionsFormControls['dimensionLength'].errors?.['pattern']"
+              >
+                Please enter only numeric values upto 2 decimal places
+              </small>
+            </div>
+          </div>
+          <!--3. Width -->
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                type="text"
+                name="dimensionWidth"
+                class="form-control form-control-sm"
+                id="dimensionWidth"
+                formControlName="dimensionWidth"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditPackageDimensionsFormControls['dimensionWidth']
+                      .touched &&
+                    createEditPackageDimensionsFormControls['dimensionWidth']
+                      .errors
+                }"
+                placeholder=""
+              />
+              <label for="dimensionWidth" class="floatLabel"
+                >Width<span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger"
+                *ngIf="createEditPackageDimensionsFormControls['dimensionWidth'].touched && createEditPackageDimensionsFormControls['dimensionWidth'].errors?.['required']"
+              >
+                Please enter Dimension Width
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="createEditPackageDimensionsFormControls['dimensionWidth'].touched && createEditPackageDimensionsFormControls['dimensionWidth'].errors?.['pattern']"
+              >
+                Please enter only numeric values upto 2 decimal places
+              </small>
+            </div>
+          </div>
+          <!--4. Height -->
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                type="text"
+                name="dimensionHeight"
+                class="form-control form-control-sm"
+                id="dimensionHeight"
+                formControlName="dimensionHeight"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditPackageDimensionsFormControls['dimensionHeight']
+                      .touched &&
+                    createEditPackageDimensionsFormControls['dimensionHeight']
+                      .errors
+                }"
+                placeholder=""
+              />
+              <label for="dimensionHeight" class="floatLabel"
+                >Height<span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger"
+                *ngIf="createEditPackageDimensionsFormControls['dimensionHeight'].touched && createEditPackageDimensionsFormControls['dimensionHeight'].errors?.['required']"
+              >
+                Please enter Dimension Height
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="createEditPackageDimensionsFormControls['dimensionHeight'].touched && createEditPackageDimensionsFormControls['dimensionHeight'].errors?.['pattern']"
+              >
+                Please enter only numeric values upto 2 decimal places
+              </small>
+            </div>
+          </div>
+          <!--5. Units -->
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                name="dimensionUnits"
+                class="form-select form-select-sm select"
+                id="dimensionUnits"
+                formControlName="dimensionUnits"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditPackageDimensionsFormControls['dimensionUnits']
+                      .touched &&
+                    createEditPackageDimensionsFormControls['dimensionUnits']
+                      .errors
+                }"
+              >
+                <option [defaultSelected]="true" value="">
+                  ---Select Unit---
+                </option>
+                <option
+                *ngFor="let unit of dimensionUnitsList; trackBy: trackByFn"
+                  [value]="unit.lookupCode"
+                >
+                  {{ unit.description }}
+                </option>
+              </select>
+              <label for="dimensionUnits" class="floatLabel"
+                >Units
+                <span class="text-danger">*</span>
+              </label>
+              <small
+                class="text-danger"
+                *ngIf="createEditPackageDimensionsFormControls['dimensionUnits'].touched && createEditPackageDimensionsFormControls['dimensionUnits'].errors?.['required']"
+              >
+                Please select Dimension Units
+              </small>
+            </div>
+          </div>
+          <!--6. Weight -->
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                type="text"
+                name="dimensionWeight"
+                class="form-control form-control-sm"
+                id="dimensionWeight"
+                formControlName="dimensionWeight"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditPackageDimensionsFormControls['dimensionWeight']
+                      .touched &&
+                    createEditPackageDimensionsFormControls['dimensionWeight']
+                      .errors
+                }"
+                placeholder=""
+              />
+              <label for="dimensionWeight" class="floatLabel"
+                >Weight</label
+              >
+              <small
+                class="text-danger"
+                *ngIf="createEditPackageDimensionsFormControls['dimensionWeight'].touched && createEditPackageDimensionsFormControls['dimensionWeight'].errors?.['pattern']"
+              >
+                Please enter only numeric values upto 3 decimal places
+              </small>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                name="weightUnits"
+                class="form-select form-select-sm select"
+                id="weightUnits"
+                formControlName="weightUnits"
+              >
+                <option [defaultSelected]="true" value="">---Select---</option>
+                <option
+                *ngFor="let unit of weightUnitsList; trackBy: trackByFn"
+                  [value]="unit.lookupCode"
+                >
+                  {{ unit.description }}
+                </option>
+              </select>
+              <label for="weightUnits" class="floatLabel"
+                >Weight Units
+              </label>
+            </div>
+          </div> 
+      </div>
+      <div class="text-center modal-footer p-1 d-inline">
+        <!-- Save Button -->
+        <button
+          name="submit"
+          type="submit"
+          class="btn btn-primary btn-sm me-3"
+          [disabled]="!createEditPackageDimensionsForm.valid"
+          [hidden]="isDisabled"
+          (click)="onSubmit()"
+          data-bs-dismiss="modal"
+        >
+          Save
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+        <!-- Update Button -->
+        <button
+          name="submit"
+          type="submit"
+          class="btn btn-primary btn-sm me-3" 
+          [hidden]="!isDisabled"
+          (click)="onSubmit()" 
+        >
+          Update
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+        <!-- Clear Button -->
+        <button
+          type="reset"
+          class="btn btn-primary btn-sm me-3"
+          (click)="resetForms()"
+          [hidden]="isDisabled"
+        >
+          Reset
+          <fa-icon [icon]="faRefresh"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

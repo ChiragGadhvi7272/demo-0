@@ -1,0 +1,222 @@
+<div class="form-wrapper app-container">
+  <form [formGroup]="shippingFormGroup" novalidate>
+    <div class="p-0 ps-1 pe-1">
+      <div class="row">
+        <div class="col-lg-3 alignItems d-flex">
+          <div class="input-group">
+            <span class="form-floating d-flex">
+              <input
+                type="text"
+                class="form-control form-control-sm border-primary deliveryInput p-3"
+                placeholder="{{ shipmentRetrievalCriteria }}"
+                formControlName="deliveryId"
+                name="deliveryId"
+                id="deliveryId"
+                [ngClass]="{
+                  'is-invalid':
+                    this.shippingFormGroup.get('deliveryId')?.touched &&
+                    this.shippingFormGroup.get('deliveryId')?.errors
+                }"
+                style="
+                  padding: 1rem 0 1rem 0.5rem !important;
+                  text-align: center;
+                "
+              />
+              <button
+                class="input-group-text shadow-none pe-3 ps-3 btn btn-sm btn-primary searchInput"
+                (click)="getDeliveryInfo()"
+                [ngClass]="{
+                  'is-invalid':
+                    this.shippingFormGroup.get('deliveryId')?.touched &&
+                    this.shippingFormGroup.get('deliveryId')?.errors
+                }"
+              >
+                <fa-icon
+                  [icon]="faChevronCircleRight"
+                  class="fw-bold fs-6"
+                ></fa-icon>
+              </button>
+            </span>
+          </div>
+          <span class="d-block ms-2">
+            <label
+              class="floatLabel d-flex mb-0 mt-2"
+              for="lpnFlag"
+              *ngIf="erpType == 'EBS'"
+            >
+              <input
+                type="checkbox"
+                id="lpnFlag"
+                name="lpnFlag"
+                class="form-check-input"
+              />
+              <span class="ms-1">LPN</span>
+            </label>
+            <label
+              class="floatLabel d-flex"
+              for="fulfillmentFlag"
+              *ngIf="searchCritirea == 'SalesOrder'"
+            >
+              <input
+                type="checkbox"
+                [checked]="fulfillmentFlag"
+                (change)="fulfillmentFlag = !fulfillmentFlag"
+                id="fulfillmentFlag"
+                name="fulfillmentFlag"
+                class="form-check-input"
+              />
+              <span class="ms-1">Fulfillment</span>
+            </label>
+          </span>
+        </div>
+        <div class="col-lg alignItems p-0">
+          <div class="m-md-0 m-1 d-md-flex flex-md-row flex-sm-column">
+            <div class="p-0 m-1 m-md-0">
+              <button
+                class="btn btn-primary rounded-3 btnSpacing"
+                (click)="ship()"
+                [disabled]="!shipButtonEnabled"
+              >
+                <fa-icon [icon]="faTruck"></fa-icon> Ship
+              </button>
+            </div>
+            <div class="p-0 m-1 m-md-0">
+              <button
+                *ngIf="shipFlag"
+                class="btn btn-primary rounded-3 btnSpacing"
+                (click)="confirm('Y')"
+                [disabled]="!shipConfirmButtonEnabled"
+              >
+                <fa-icon [icon]="faTruckFast"></fa-icon>
+                Update ERP
+              </button>
+            </div>
+            <div class="p-0 m-1 m-md-0">
+              <button
+                *ngIf="shipFlag"
+                class="btn btn-primary rounded-3 btnSpacing"
+                (click)="printLabels('Y', 1, false)"
+                [disabled]="!reprintButtonEnabled"
+              >
+                <fa-icon [icon]="faPrint"></fa-icon>
+                Re-print
+              </button>
+            </div>
+            <div class="p-0 m-1 m-md-0">
+              <button
+                *ngIf="shipFlag"
+                class="btn btn-primary rounded-3 btnSpacing"
+                (click)="viewLabelPopup()"
+                [disabled]="!viewLabelButtonEnabled"
+                data-bs-toggle="modal"
+                data-bs-target="#viewLabel"
+              >
+                <fa-icon [icon]="faFile"></fa-icon>
+                Documents
+              </button>
+            </div>
+            <div class="p-0 m-1 m-md-0">
+              <button
+              *ngIf="shipFlag && erpType != 'JDE'"
+                class="btn btn-primary rounded-3 btnSpacing"
+                (click)="printPackSlip('Y', 1, false)"
+                [disabled]="!printPackSlipButtonEnabled"
+              >
+                <fa-icon [icon]="faPrint"></fa-icon>
+                Print PackSlip
+              </button>
+            </div>
+            <div class="p-0 m-1 m-md-0">
+              <button
+                *ngIf="shipFlag"
+                class="btn btn-primary rounded-3 btnSpacing"
+                (click)="void()"
+                [disabled]="!voidButtonEnabled"
+              >
+                <fa-icon [icon]="faBan"></fa-icon>
+                Void
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 p-0" style="z-index: 1">
+          <div class="stepper-wrapper">
+            <div
+              [ngClass]="shipFlag ? 'stepper-item completed' : 'stepper-item'"
+            >
+              <div class="step-counter">
+                <fa-icon [icon]="faBoxesPacking" class=" "></fa-icon>
+              </div>
+              <div class="step-name fw-bold h6">Shipped</div>
+            </div>
+            <div class="stepper-item">
+              <div class="step-counter">
+                <fa-icon [icon]="faFileCircleCheck" class="ms-1"></fa-icon>
+              </div>
+              <div class="step-name fw-bold h6">Label Printed</div>
+            </div>
+            <div
+              [ngClass]="
+                shipFlag && !shipConfirmButtonEnabled
+                  ? 'stepper-item completed'
+                  : 'stepper-item'
+              "
+            >
+              <div class="step-counter">
+                <fa-icon [icon]="faCheckSquare" class="mt-1"></fa-icon>
+              </div>
+              <div class="step-name fw-bold h6">Confirmed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-primary text-center text-md-start h6 m-1 mt-0">
+      Order Details (Order #:
+      <span *ngIf="deliveryId; else isInActive">{{ orderNumber }}</span>
+      <ng-template #isInActive><span>--</span></ng-template>
+      {{ deliveryLabel }}:
+      <span *ngIf="deliveryId; else isInActive">{{ deliveryId }}</span>
+      <ng-template #isInActive><span>--</span></ng-template> )
+    </div>
+
+    <div class="row">
+      <div [class]="headerCol">
+        <div class="card">
+          <div class="card-body pt-0 p-2">
+            <app-header-details
+              [shipmentHeadersInfo]="getShipmentHeadersInfo"
+              [clientId]="clientId"
+              [orgId]="orgId"
+              [invOrgId]="invOrgId"
+              [shipFromLocationsInfoList]="shipFromLocationsInfoList"
+              [shipFlag]="shipFlag"
+              (packageDimensionsEvent)="updatePackageDimensions()"
+            ></app-header-details>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div>
+          <app-shared
+            [clientId]="clientId"
+            [shipmentHeadersInfo]="getShipmentHeadersInfo"
+            [orgId]="orgId"
+            [invOrgId]="invOrgId"
+            [erpType]="erpType"
+            [intlFlag]="intlFlag"
+            [shipFlag]="shipFlag"
+            [consolidationFlag]="consolidationFlag"
+            [printersList]="printersList"
+            (addPackageEvent)="addPackage($event)"
+            (removePackageEvent)="removePackage($event)"
+            [packageCount]="noOfPackages"
+            [freightShoppingFlag]="freightShoppingFlag"
+            [defaultFocus]="defaultFocus"
+          ></app-shared>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<app-view-labels [documentInfo]="getDocumentInfo"></app-view-labels>

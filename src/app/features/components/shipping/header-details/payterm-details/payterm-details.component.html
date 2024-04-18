@@ -1,0 +1,85 @@
+<div
+  class="modal fade"
+  id="payTermInfo"
+  tabindex="-1"
+  aria-labelledby="payTermInfoLabel"
+  aria-hidden="true"
+  [formGroup]="paytermInfo"
+  *ngIf="paytermInfo"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-light bg-primary p-1 ps-2">
+        <h5 class="modal-title" id="payTermInfoLabel">Billing Details</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white p-2 me-1"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row row-cols row-cols-md-2">
+          <div
+            class="col-sm"
+            *ngIf="
+              (payMethod == 'THIRD PARTY BILLING' ||
+                payMethod == 'RECIPIENT') &&
+              carrierCode == '100' &&
+              carrierMode == 'UPS Direct'
+            "
+          >
+            <div class="form-floating">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                placeholder=" "
+                id="postalCode"
+                name="postalCode"
+                formControlName="postalCode"
+              />
+              <label class="floatLabel" for="postalCode"> Postal Code </label>
+            </div>
+          </div>
+          <div
+            class="col-sm"
+            *ngIf="
+              payMethod == 'THIRD PARTY BILLING' &&
+              carrierCode == '100' &&
+              carrierMode == 'UPS Direct'
+            "
+          >
+            <div class="form-floating">
+              <select
+                class="form-select form-select-sm select"
+                id="countryCode"
+                formControlName="countryCode"
+                name="countryCode"
+              >
+                <option value="">---Select---</option>
+                <option
+                  *ngFor="let country of countryCodesList"
+                  [value]="country.countryCode"
+                >
+                  {{ country.countryName }}
+                </option>
+              </select>
+              <label class="floatLabel" for="countryCode"> Country Code </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-sm btn-primary me-3"
+          data-bs-dismiss="modal"
+        >
+          Save
+          <fa-icon [icon]="faCheckCircle"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

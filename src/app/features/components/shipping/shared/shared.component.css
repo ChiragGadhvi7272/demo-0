@@ -1,0 +1,185 @@
+.scrollheaders {
+  height: 480px;
+  overflow-y: auto;
+}
+.stepper-wrapper {
+  font-family: Arial;
+  display: flex;
+  justify-content: space-between;
+}
+.mainCard {
+  position: relative;
+  right: 13px;
+}
+.stepper-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+}
+.stepper-item::before {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: -50%;
+  z-index: 2;
+}
+
+.stepper-item::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 2;
+}
+
+.stepper-item .step-counter {
+  position: relative;
+  top: 4px;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ccc;
+}
+
+.stepper-item.active {
+  font-weight: bold;
+}
+
+.stepper-item.completed .step-counter {
+  background-color: #0e45b7;
+  color: white;
+  font-weight: bold;
+}
+
+.step-counter:hover {
+  color: #fff;
+  background-color: #485ec4 !important;
+  border-color: #4458b8 !important;
+  cursor: pointer;
+}
+.stepper-item.completed::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #0e45b7;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 3;
+}
+
+.stepper-item:first-child::before {
+  content: none;
+}
+.stepper-item:last-child::after {
+  content: none;
+}
+/* .form-control-sm {
+    min-height: calc(0.5em + 0.3rem + 1px);
+    padding: 0.1rem 0.5rem;
+    font-size: 0.85rem;
+    border-radius: 0.25rem;
+  }
+  .form-select-sm {
+    min-height: calc(0.5em + 0.3rem + 1px);
+    padding: 0.1rem 0.5rem;
+    font-size: 0.85rem;
+    border-radius: 0.25rem;
+} */
+
+.alignItems {
+  display: inline-grid;
+  align-items: center;
+}
+.freightInputs {
+  height: calc(2.25rem + 2px) !important;
+  position: relative;
+  padding: 1rem 0 0.1rem 0.5rem !important;
+  border: 1px solid #2c82c0 !important;
+  background-position: right 0.15rem center;
+  font-size: 0.875rem !important;
+}
+.freightCost {
+  font-size: 0.9rem !important;
+  /* padding: 5px; */
+}
+/* .nav-pills .nav-link {
+  border-radius: 20px 20px 0px 0px !important;
+} */
+@media screen and (min-width: 1530px) and (max-width: 1919px) {
+  .freightCost {
+    font-size: 1rem !important;
+    padding: 3px;
+  }
+}
+@media screen and (min-width: 1920px) and (max-width: 2047px) {
+  .freightCost {
+    font-size: 1.3rem !important;
+    padding: 5px;
+  }
+  .freightInputs {
+    height: calc(3.5rem + 2px) !important;
+  }
+}
+.mpsAndBoxes {
+  height: calc(1.5em + 0.5rem + 2px) !important;
+  padding: 0.25rem 0.5rem !important;
+  font-size: 0.72094rem !important;
+  border-radius: 0.2rem !important;
+}
+@media screen and (min-width: 1440px) and (max-width: 1679px) {
+  .form-control-sm,
+  .form-select-sm {
+    height: calc(2.25rem + 2px) !important;
+    font-size: 0.75rem !important;
+  }
+  .table-head {
+    height: 2rem;
+    font-size: 1rem;
+  }
+  .table-sm > :not(caption) > * > * {
+    padding: 0.2rem 0.2rem;
+  }
+}
+
+@media screen and (min-width: 1680px) and (max-width: 1919px) {
+  .form-control-sm,
+  .form-select-sm {
+    height: calc(2.5rem + 2px) !important;
+    font-size: 0.95rem !important;
+  }
+  .table-head {
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+  .table-sm > :not(caption) > * > * {
+    padding: 0.3rem 0.3rem;
+  }
+}
+@media screen and (min-width: 1920px) and (max-width: 2047px) {
+  .table-head {
+    height: 3.5rem;
+    font-size: 1.5rem;
+  }
+  .form-control-sm,
+  .form-select-sm {
+    height: calc(3rem + 2px) !important;
+    font-size: 1.2rem !important;
+  }
+  .table-sm > :not(caption) > * > * {
+    padding: 0.25rem 0.25rem;
+  }
+}

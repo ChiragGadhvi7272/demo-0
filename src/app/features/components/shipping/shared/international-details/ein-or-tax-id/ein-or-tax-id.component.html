@@ -1,0 +1,192 @@
+<div
+  *ngIf="intlDutiesTaxesInfo"
+  [formGroup]="intlDutiesTaxesInfo"
+  novalidate
+  autocomplete="off"
+>
+  <div class="card mt-1 border-top">
+    <div class="card-body p-1">
+      <div
+        class="btn btn-sm fw-bold border-0 text-primary text-start shadow-none w-100"
+        (click)="toggleeInDetails()"
+      >
+        EIN/Tax ID Details
+        <span class="float-end">
+          <fa-icon [icon]="eINDetails ? faChevronUp : faChevronDown"></fa-icon>
+        </span>
+      </div>
+      <div class="border-top" *ngIf="eINDetails">
+        <div class="row row-cols row-cols-md-3">
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                class="form-select form-select-sm select"
+                id="payorType"
+                formControlName="payorType"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    intlDutiesTaxesInfo.get('payorType')?.touched &&
+                    intlDutiesTaxesInfo.get('payorType')?.errors
+                }"
+                (change)="setValidatorsEin()"
+              >
+                <option value="">---Select---</option>
+                <option
+                  *ngFor="let paymethod of paymethodsList; trackBy: trackByFn"
+                  [value]="paymethod.lookupValue"
+                >
+                  {{ paymethod.meaning }}
+                </option>
+              </select>
+              <label for="payorType" class="floatLabel"
+                >Bill duties/taxes/fees to
+                <span class="text-danger">*</span></label
+              >
+            </div>
+          </div>
+
+          <div
+            class="col-md"
+            *ngIf="
+              intlDutiesTaxesInfo.get('payorType')?.value != 'CONSIGNEE' &&
+              intlDutiesTaxesInfo.get('payorType')?.value != ''
+            "
+          >
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="accountNumber"
+                name="accountNumber"
+                placeholder=""
+                formControlName="accountNumber"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    intlDutiesTaxesInfo.get('accountNumber')?.touched &&
+                    intlDutiesTaxesInfo.get('accountNumber')?.errors
+                }"
+              />
+              <label for="accountNumber" class="floatLabel"
+                >Account Number <span class="text-danger">*</span>
+              </label>
+            </div>
+          </div>
+
+          <div
+            class="col-md"
+            *ngIf="
+              (intlDutiesTaxesInfo.get('payorType')?.value === 'RECIPIENT' ||
+                intlDutiesTaxesInfo.get('payorType')?.value ===
+                  'THIRD PARTY BILLING') &&
+              intlDutiesTaxesInfo.get('payorType')?.value != ''
+            "
+          >
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="postalCode"
+                name="postalCode"
+                placeholder=""
+                formControlName="postalCode"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    intlDutiesTaxesInfo.get('postalCode')?.touched &&
+                    intlDutiesTaxesInfo.get('postalCode')?.errors
+                }"
+              />
+              <label for="postalCode" class="floatLabel"
+                >Postal Code <span class="text-danger">*</span></label
+              >
+            </div>
+          </div>
+
+          <div
+            class="col-md"
+            *ngIf="
+              intlDutiesTaxesInfo.get('payorType')?.value ===
+                'THIRD PARTY BILLING' &&
+              intlDutiesTaxesInfo.get('payorType')?.value != ''
+            "
+          >
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                class="form-select form-select-sm select"
+                id="countryCode"
+                formControlName="countryCode"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    intlDutiesTaxesInfo.get('countryCode')?.touched &&
+                    intlDutiesTaxesInfo.get('countryCode')?.errors
+                }"
+              >
+                <option value="">---Select---</option>
+                <option
+                  *ngFor="let country of countryCodesList; trackBy: trackByFn"
+                  [value]="country.countryCode"
+                >
+                  {{ country.countryName }}
+                </option>
+              </select>
+
+              <label for="countryCode" class="floatLabel"
+                >Country <span class="text-danger">*</span></label
+              >
+            </div>
+          </div>
+
+          <div
+            class="col-md"
+            *ngIf="intlDutiesTaxesInfo.get('payorType')?.value != ''"
+          >
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                name="shipFromTaxIdType"
+                id="shipFromTaxIdType"
+                class="form-select form-select-sm"
+                formControlName="shipFromTaxIdType"
+              >
+                <option value="" [defaultSelected]="true">--Select--</option>
+                <option
+                  *ngFor="
+                    let shipFromTaxIdType of usppiIdList;
+                    trackBy: trackByFn
+                  "
+                  [value]="shipFromTaxIdType.lookupCode"
+                >
+                  {{ shipFromTaxIdType.description }}
+                </option>
+                >
+              </select>
+              <label for="shipFromTaxIdType" class="floatLabel">
+                Ship From EIN/Tax ID
+              </label>
+            </div>
+          </div>
+          <div
+            class="col-md"
+            *ngIf="intlDutiesTaxesInfo.get('payorType')?.value != ''"
+          >
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="shipToTaxId"
+                name="shipToTaxId"
+                formControlName="shipToTaxId"
+                placeholder=""
+              />
+              <label for="shipToTaxId" class="floatLabel">
+                Ship To EIN/Tax ID
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

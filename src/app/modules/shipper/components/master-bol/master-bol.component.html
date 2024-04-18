@@ -1,0 +1,389 @@
+<div>
+  <apx-chart [series]="series" [chart]="chart" [title]="title"></apx-chart>
+
+  <div class="text-primary h4 mb-0 p-2">Master Bol</div>
+  <div class="card">
+    <div class="card-body p-2">
+      <div class="row row-col-mds-6">
+        <div class="col-md">
+          <div class="form-floating m-1">
+            <input
+              type="date"
+              name="clientId"
+              id="clientId"
+              class="form-control-sm form-control"
+              placeholder=""
+              #clientId
+            />
+            <label class="floatLabel" for="clientId" class="floatLabel"
+              >Date
+            </label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-floating m-1">
+            <select
+              name="clientId"
+              id="clientId"
+              class="form-select-sm form-select"
+              #clientId
+            >
+              <option [selected]="true" value="">--Select--</option>
+            </select>
+            <label class="floatLabel" for="clientId" class="floatLabel"
+              >Carrier
+            </label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-floating m-1">
+            <select
+              name="clientId"
+              id="clientId"
+              class="form-select-sm form-select"
+              #clientId
+            >
+              <option [selected]="true" value="">--Select--</option>
+            </select>
+            <label class="floatLabel" for="clientId" class="floatLabel"
+              >Ship Method
+            </label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-floating m-1">
+            <select
+              name="clientId"
+              id="clientId"
+              class="form-select-sm form-select"
+              #clientId
+            >
+              <option [selected]="true" value="">--Select--</option>
+            </select>
+            <label class="floatLabel" for="clientId" class="floatLabel"
+              >Pay Method
+            </label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-floating m-1">
+            <select
+              name="clientId"
+              id="clientId"
+              class="form-select-sm form-select"
+              #clientId
+            >
+              <option [selected]="true" value="">--Select--</option>
+            </select>
+            <label class="floatLabel" for="clientId" class="floatLabel"
+              >Customer Name
+            </label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-floating m-1">
+            <select
+              name="clientId"
+              id="clientId"
+              class="form-select-sm form-select"
+              #clientId
+            >
+              <option [selected]="true" value="">--Select--</option>
+            </select>
+            <label class="floatLabel" for="clientId" class="floatLabel"
+              >Customer Locations
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-2">
+        <button class="btn btn-sm btn-primary">
+          GO <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+      </div>
+    </div>
+    <!-- </div>
+  <div class="card mt-2"> -->
+    <!-- </div>
+  <div class="card mt-2"> -->
+    <hr class="m-0" />
+    <div class="deliveryInformation">
+      <div class="border-0 p-2 bg-primary text-white">
+        <div class="h6 fw-bold mb-0">Delivery Information</div>
+      </div>
+      <div class="card-body p-2 pt-0 mt-1">
+        <div class="row row-col-mds row-col-mds-5">
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <textarea
+                type="date"
+                name="clientId"
+                id="clientId"
+                class="form-control"
+                placeholder=""
+                #clientId
+              ></textarea>
+              <label class="floatLabel" for="clientId" class="floatLabel"
+                >Special Instructions
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <textarea
+                type="date"
+                name="clientId"
+                id="clientId"
+                class="form-control"
+                placeholder=""
+                #clientId
+              ></textarea>
+              <label class="floatLabel" for="clientId" class="floatLabel"
+                >Ship To
+              </label>
+            </div>
+          </div>
+          <div class="col-md" style="margin-top: 2rem">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                name="clientId"
+                id="clientId"
+                class="form-control-sm form-control"
+                placeholder=""
+                #clientId
+              />
+              <label class="floatLabel" for="clientId" class="floatLabel"
+                >Load Number
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <textarea
+                type="date"
+                name="clientId"
+                id="clientId"
+                class="form-control"
+                placeholder=""
+                #clientId
+              ></textarea>
+              <label class="floatLabel" for="clientId" class="floatLabel"
+                >Pay Method
+              </label>
+            </div>
+          </div>
+          <div class="col-md text-center">
+            <div class="mb-1">
+              <button class="btn btn-sm btn-primary">
+                Generate Master BOL
+                <fa-icon [icon]="faChevronCircleRight"></fa-icon>
+              </button>
+            </div>
+            <div class="mt-2">
+              <button class="btn btn-sm btn-primary me-3">
+                <fa-icon class="ps-2 pe-2" [icon]="faEye"></fa-icon>
+              </button>
+              <button class="btn btn-sm btn-primary me-3">
+                <fa-icon class="ps-2 pe-2" [icon]="faEdit"></fa-icon>
+              </button>
+              <button class="btn btn-sm btn-primary">
+                <fa-icon class="ps-2 pe-2" [icon]="faTrash"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="addressInformation border-top">
+      <div class="border-0 p-2 bg-primary text-white">
+        <div class="h6 fw-bold mb-0">Deliver To Address Details</div>
+      </div>
+      <div class="card-body p-2 pt-0 mt-1">
+        <div class="row row-col-mds row-col-mds-6">
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <select
+                name="clientId"
+                id="clientId"
+                class="form-select-sm form-select"
+                #clientId
+                title="Intermediate Delivery Location"
+              >
+                <option [selected]="true" value="">--Select--</option>
+              </select>
+              <label class="floatLabel" for="clientId" class="floatLabel"
+                >Intermediate Delivery Location<span class="text-danger"
+                  >*</span
+                >
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                name="clientId"
+                id="clientId"
+                class="form-control-sm form-control"
+                placeholder=""
+                #clientId
+              />
+              <label class="floatLabel" for="clientId" class="floatLabel"
+                >Address Line1
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                name="clientId"
+                id="clientId"
+                class="form-control-sm form-control"
+                placeholder=""
+                #clientId
+              />
+              <label class="floatLabel" for="clientId" class="floatLabel"
+                >Address Line2
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                name="clientId"
+                id="clientId"
+                class="form-control-sm form-control"
+                placeholder=""
+                #clientId
+              />
+              <label class="floatLabel" for="clientId" class="floatLabel"
+                >City
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                name="clientId"
+                id="clientId"
+                class="form-control-sm form-control"
+                placeholder=""
+                #clientId
+              />
+              <label class="floatLabel" for="clientId" class="floatLabel"
+                >State
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating m-1">
+              <input
+                type="text"
+                name="clientId"
+                id="clientId"
+                class="form-control-sm form-control"
+                placeholder=""
+                #clientId
+              />
+              <label class="floatLabel" for="clientId" class="floatLabel"
+                >Postal Code
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="m-0" />
+    <div class="searchBol">
+      <div class="card-body p-2">
+        <div class="row">
+          <div class="col-md-3 offset-md-4">
+            <div class="input-group">
+              <span class="form-floating m-1 d-flex">
+                <input
+                  type="search"
+                  class="form-control form-control-sm border-primary deliveryInput p-3"
+                  placeholder="Fulfillment Id"
+                  formControlName="deliveryId"
+                  name="deliveryId"
+                  id="deliveryId"
+                />
+                <label for="deliveryId" class="fw-bold" class="floatLabel"
+                  >Search an existing MBOL
+                </label>
+                <button
+                  class="input-group-text shadow-none pe-3 ps-3 btn btn-sm btn-primary searchInput"
+                >
+                  <fa-icon [icon]="faSearch" class="fw-bold fs-6"></fa-icon>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="m-0" />
+    <div class="p-2">
+      <div class="table-responsive rounded-1 table-resp left-input-col-mdumn">
+        <table class="table table-bordered table-bordered-costom">
+          <thead class="rowgroup table-head">
+            <tr class="text-center">
+              <th scope="col-md" class="w-auto text-nowrap">
+                <input type="checkbox" class="form-check-input" />Select All
+              </th>
+              <th scope="col-md" class="w-auto text-nowrap">Delivery #</th>
+              <th scope="col-md" class="w-auto text-nowrap">PO #</th>
+              <th scope="col-md" class="w-auto text-nowrap">
+                Sales Order Number
+              </th>
+              <th scope="col-md" class="w-auto text-nowrap">
+                Total Weight (lbs)
+              </th>
+            </tr>
+          </thead>
+          <tbody class="table-group">
+            <tr class="text-center">
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td>text</td>
+              <td>text</td>
+              <td>text</td>
+              <td>text</td>
+            </tr>
+            <tr class="text-center">
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td>text</td>
+              <td>text</td>
+              <td>text</td>
+              <td>text</td>
+            </tr>
+            <tr class="text-center">
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td>text</td>
+              <td>text</td>
+              <td>text</td>
+              <td>text</td>
+            </tr>
+            <tr class="text-center">
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td>text</td>
+              <td>text</td>
+              <td>text</td>
+              <td>text</td>
+            </tr>
+            <tr class="text-center">
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td>text</td>
+              <td>text</td>
+              <td>text</td>
+              <td>text</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

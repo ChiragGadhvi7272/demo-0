@@ -1,0 +1,6 @@
+.table-inputs {
+  line-height: 1;
+}
+.table-sm>:not(caption)>*>* {
+  padding: 0.2rem 0.2rem;
+}

@@ -1,0 +1,189 @@
+<div class="apexChart" [formGroup]="dashboradForm">
+  <div class="p-2">
+    <div class="text-primary h4 mt-1">Dashboard</div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md text-primary h6 fw-bold">
+          Shipments Per Carrier
+          <button class="btn btn-sm btn-primary rounded-2">
+            <fa-icon [icon]="faRefresh"></fa-icon>
+          </button>
+        </div>
+        <div class="col-md text-md-end mb-2 mb-md-0">
+          <button class="btn btn-sm btn-primary rounded-2">
+            <fa-icon [icon]="faFileExport"></fa-icon> Export to Excel
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md">
+          <div class="form-floating mb-2 mb-md-0">
+            <select
+              class="form-select-sm form-select"
+              id="locations"
+              name="locations"
+              formControlName="locations"
+              #locations
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+            >
+              <option value="" [defaultSelected]>--Select--</option>
+            </select>
+            <label class="floatLabel" for="locations">Locations</label>
+          </div>
+        </div>
+        <div class="col-md mb-2 mb-md-0">
+          <div class="form-floating">
+            <input
+              type="date"
+              class="form-control-sm form-control"
+              id="fromDate"
+              name="fromDate"
+              formControlName="fromDate"
+              #fromDate
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+            />
+            <label class="floatLabel" for="fromDate">From Date</label>
+          </div>
+        </div>
+        <div class="col-md mb-2 mb-md-0">
+          <div class="form-floating">
+            <input
+              type="date"
+              class="form-control-sm form-control"
+              id="toDate"
+              name="toDate"
+              formControlName="toDate"
+              #toDate
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+            />
+            <label class="floatLabel" for="toDate">To Date</label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-floating">
+            <button class="btn btn-sm btn-primary rounded-2">
+              Go <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-md-3 mt-2">
+        <div class="col-md-4 mb-2 mb-md-0">
+          <div class="shadow border border-1 bg-body rounded pb-2">
+            <button class="btn btn-sm btn-primary m-3" (click)="changeView()">
+              {{ isDonutChart ? "Dount" : "Pie" }} view
+              <fa-icon [icon]="faExchange"></fa-icon>
+            </button>
+            <apx-chart
+              [series]="chartOptions.series"
+              [chart]="chartOptions.chart"
+              [labels]="chartOptions.labels"
+              [dataLabels]="chartOptions.dataLabels"
+              [legend]="chartOptions.legend"
+              [responsive]="chartOptions.responsive"
+              [plotOptions]="chartOptions.plotOptions"
+              (click)="barChartResponse(chartOptions.series[0])"
+            >
+            </apx-chart>
+          </div>
+        </div>
+        <div class="col-md-4 mb-2 mb-md-0">
+          <div class="shadow border border-1 bg-body rounded">
+            <apx-chart
+              [series]="barChartOptions.series"
+              [chart]="barChartOptions.chart"
+              [labels]="barChartOptions.labels"
+              [dataLabels]="barChartOptions.dataLabels"
+              [legend]="barChartOptions.legend"
+              [responsive]="barChartOptions.responsive"
+              [plotOptions]="barChartOptions.plotOptions"
+            >
+            </apx-chart>
+          </div>
+        </div>
+        <div class="col-md-4 mb-2 mb-md-0">
+          <div class="shadow border border-1 bg-body rounded">
+            <apx-chart
+              [series]="lineChartoptions.series"
+              [chart]="lineChartoptions.chart"
+              [labels]="lineChartoptions.labels"
+              [dataLabels]="lineChartoptions.dataLabels"
+              [legend]="lineChartoptions.legend"
+              [responsive]="lineChartoptions.responsive"
+              [plotOptions]="lineChartoptions.plotOptions"
+            >
+            </apx-chart>
+          </div>
+        </div>
+        <div class="col-md-12 mt-2">
+          <div
+            class="table-responsive rounded-1 table-resp rounded"
+            [style]="tableHeight"
+          >
+            <table class="table table-hover table-bordered table-sm mb-1">
+              <thead
+                class="rowgroup bg-primary border-light text-white adminScrollWithIn"
+              >
+                <tr>
+                  <th scope="col" class="w-auto text-nowrap">Carrier</th>
+                  <th scope="col" class="w-auto text-nowrap"># Of Shipments</th>
+                  <th scope="col" class="w-auto text-nowrap">Shipments %</th>
+                  <th scope="col" class="w-auto text-nowrap">
+                    Number Of Packages
+                  </th>
+                  <th scope="col" class="w-auto text-nowrap">Packages %</th>
+                </tr>
+              </thead>
+              <tbody class="table-group">
+                <tr
+                  *ngFor="let item of reportsList | paginate : paginationConfig"
+                >
+                  <td>{{ item.carrier }}</td>
+                  <td>{{ item.noOfShipments }}</td>
+                  <td>{{ item.shipmentPercent }}</td>
+                  <td>{{ item.noOfPackages }}</td>
+                  <td>{{ item.packagesPercent }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="text-md-center text-primary p-0">
+            <div class="row mt-2">
+              <div class="col-md-2 mb-2 mb-md-0">
+                <div class="form-floating">
+                  <select
+                    class="form-select form-select-sm fw-bold"
+                    (change)="showNoOfRows()"
+                    name="changeRows"
+                    id="changeRows"
+                    formControlName="changeRows"
+                  >
+                    <option *ngFor="let option of listPerPage" [value]="option">
+                      {{ option }}
+                    </option>
+                  </select>
+                  <label class="fw-bold" class="floatLabel">Rows</label>
+                </div>
+              </div>
+              <div class="col-md-8 mb-2 mb-md-0 table-responsive">
+                <pagination-controls
+                  (pageChange)="onPageChange($event)"
+                ></pagination-controls>
+              </div>
+              <div class="col-md-2 text-md-end">
+                <div class="h6 fw-bold p-2">
+                  No. of Rows: {{ this.reportsList.length }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

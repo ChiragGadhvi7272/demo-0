@@ -1,0 +1,14 @@
+.headerCol {
+  //height: 250px;
+  //overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+
+@media (max-width: 992px) {
+  .headerCol {
+    height: auto;
+    overflow-y: hidden;
+  }
+}

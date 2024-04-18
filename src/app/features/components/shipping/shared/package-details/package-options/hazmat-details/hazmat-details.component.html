@@ -1,0 +1,722 @@
+<form [formGroup]="hazmatInfo" novalidate class="mb-3">
+  <div class="card p-1 border-primary">
+    <div class="form-check mt-2 ms-2 text-start">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        formControlName="hazmatFlag"
+        id="hazmatFlag"
+        (change)="onhazmatCheck($event)"
+        #hazmatFlag
+      />
+      <label for="hazmatFlag" class="form-check-label h6 text-primary fw-bold">
+        HAZMAT Details
+      </label>
+    </div>
+    <div class="cardDetails">
+      <div
+        class="card-body pt-0"
+        *ngIf="
+          !this.hazmatFlagCheck ? hazmatFlag.checked : this.hazmatFlagCheck
+        "
+      >
+        <div class="row row-cols p-0 mb-2 row-cols-md-4">
+          <div class="col-sm">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                name="qvalue"
+                class="form-select form-select-sm"
+                id="qvalue"
+                formControlName="qvalue"
+                placeholder=""
+              >
+                <option [selected]="true" value="">--Select--</option>
+                <option
+                  *ngFor="let qvalue of qvalueList; trackBy: trackByFn"
+                  [value]="qvalue.lookupValue"
+                >
+                  {{ qvalue.meaning }}
+                </option>
+              </select>
+              <label for="qvalue" class="floatLabel"> Q Value </label>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                class="form-select form-select-sm"
+                name="outerPackagingType"
+                id="outerPackagingType"
+                formControlName="outerPackagingType"
+                placeholder=""
+              >
+                <option [selected]="true" value="">--Select--</option>
+                <option
+                  *ngFor="
+                    let outerPackaging of outerPackagingTypeList;
+                    trackBy: trackByFn
+                  "
+                  [value]="outerPackaging.lookupValue"
+                >
+                  {{ outerPackaging.meaning }}
+                </option>
+              </select>
+              <label for="outerPackagingType" class="floatLabel">
+                Outer Packaging Type</label
+              >
+            </div>
+          </div>
+          <!-- <div class="col-sm">
+            <div class="form-floating ms-0 mb-1 m-1">
+              <input
+                type="text"
+                name="regulationSet"
+                class="form-control form-control-sm"
+                id="regulationSet"
+                formControlName="regulationSet"
+                placeholder=""
+              />
+              <label for="regulationSet" class="floatLabel">
+                Regulation Set
+              </label>
+            </div>
+          </div> -->
+          <div class="col-sm">
+            <div class="form-check mt-3 d-flex">
+              <input
+                class="form-check-input me-2"
+                type="checkbox"
+                id="allPackedInOneFlag"
+                formControlName="allPackedInOneFlag"
+                #allPackedInOneFlag
+                (change)="packageRadioCheckChange($event)"
+              />
+              <label for="allPackedInOneFlag" class="form-check-label">
+                All Packed In One
+              </label>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="form-check mt-3 d-flex">
+              <input
+                class="form-check-input me-2"
+                type="checkbox"
+                id="overPackedFlag"
+                formControlName="overPackedFlag"
+                #overPackedFlag
+                (change)="packageRadioCheckChange($event)"
+              />
+              <label for="overPackedFlag" class="form-check-label">
+                Over Packed
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive rounded-1 table-resp table-height">
+          <table class="table table-sm table-bordered-costom">
+            <thead class="rowgroup scrollWithIn table-head">
+              <tr class="text-center">
+                <th scope="col" class="w-auto text-nowrap">Hazmat Id</th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Identification Number<span class="text-danger">*</span>
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Class<span class="text-danger">*</span>
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Proper Shipping Name<span class="text-danger">*</span>
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Regulation Set<span class="text-danger">*</span>
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Commodity Regulated Level Code<span class="text-danger"
+                    >*</span
+                  >
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Transportation Mode
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Transport Category
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Chemical Record Identifier<span class="text-danger">*</span>
+                </th>
+                <th scope="col" class="w-auto text-nowrap">Quantity</th>
+                <th scope="col" class="w-auto text-nowrap">
+                  UOM<span class="text-danger">*</span>
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Emergency Contact #
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Emergency contact Name
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Packaging Type<span class="text-danger">*</span>
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Packaging Type Quantity
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Packaging Group Type<span class="text-danger">*</span>
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Packaging Instruction Code<span class="text-danger">*</span>
+                </th>
+                <th scope="col" class="w-auto text-nowrap">SubRisk Class</th>
+                <th scope="col" class="w-auto text-nowrap">ADR Item Number</th>
+                <th scope="col" class="w-auto text-nowrap">
+                  ADR Packaging Group Letter
+                </th>
+                <th scope="col" class="w-auto text-nowrap">Technical Name</th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Tunnel Restriction Code
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Local Technical Name
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Local Proper Shipping Name
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Hazard Label Required
+                </th>
+                <th scope="col" class="w-auto text-nowrap">Reference #</th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Reportable Quantity
+                </th>
+                <th scope="col" class="w-auto text-nowrap">
+                  Additional Description
+                </th>
+              </tr>
+            </thead>
+            <tbody class="table-group">
+              <tr
+                *ngFor="
+                  let hazmatCommodity of hazmatCommodityInfoList.controls;
+                  let i = index
+                "
+                [formGroup]="getGroup(i)"
+              >
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <select
+                      class="form-select form-select-sm table-controls"
+                      placeholder=""
+                      formControlName="hazmatId"
+                      [id]="'hazmatId' + i"
+                      (change)="onHazmatIdChange($event, i)"
+                    >
+                      <option [selected]="true" value="0">--Select--</option>
+                      <option
+                        *ngFor="
+                          let hazmatDetail of hazmatDetailsList;
+                          trackBy: trackByFn
+                        "
+                        [value]="hazmatDetail.hazmatId"
+                      >
+                        {{ hazmatDetail.materialId }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="idNumber"
+                      [id]="'idNumber' + i"
+                      [ngClass]="{
+                        'is-invalid':
+                          hazmatCommodity.get('idNumber')?.touched &&
+                          hazmatCommodity.get('idNumber')?.errors
+                      }"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <select
+                      type="text"
+                      class="form-select form-select-sm table-controls"
+                      placeholder=""
+                      formControlName="shipperClass"
+                      [id]="'shipperClass' + i"
+                      [ngClass]="{
+                        'is-invalid':
+                          hazmatCommodity.get('shipperClass')?.touched &&
+                          hazmatCommodity.get('shipperClass')?.errors
+                      }"
+                    >
+                      <option [selected]="true" value="">--Select--</option>
+                      <option
+                        *ngFor="
+                          let class of hazmatClassList;
+                          trackBy: trackByFn
+                        "
+                        [value]="class.lookupValue"
+                      >
+                        {{ class.meaning }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="properShippingName"
+                      [id]="'properShippingName' + i"
+                      [ngClass]="{
+                        'is-invalid':
+                          hazmatCommodity.get('properShippingName')?.touched &&
+                          hazmatCommodity.get('properShippingName')?.errors
+                      }"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <select
+                      type="text"
+                      class="form-select form-select-sm table-controls"
+                      placeholder=""
+                      formControlName="regulationSet"
+                      [id]="'regulationSet' + i"
+                      [ngClass]="{
+                        'is-invalid':
+                          hazmatCommodity.get('regulationSet')?.touched &&
+                          hazmatCommodity.get('regulationSet')?.errors
+                      }"
+                    >
+                      <option [selected]="true" value="">--Select--</option>
+                      <option
+                        *ngFor="
+                          let regulationList of regulationSetList;
+                          trackBy: trackByFn
+                        "
+                        [value]="regulationList.lookupValue"
+                      >
+                        {{ regulationList.meaning }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <select
+                      type="text"
+                      class="form-select form-select-sm table-controls"
+                      placeholder=""
+                      formControlName="commodityRegulatedLevelCode"
+                      [id]="'commodityRegulatedLevelCode' + i"
+                      name="commodityRegulatedLevelCode"
+                      [ngClass]="{
+                        'is-invalid':
+                          hazmatCommodity.get('commodityRegulatedLevelCode')
+                            ?.touched &&
+                          hazmatCommodity.get('commodityRegulatedLevelCode')
+                            ?.errors
+                      }"
+                    >
+                      <option [selected]="true" value="">--Select--</option>
+                      <option
+                        *ngFor="
+                          let commodityRegulated of commodityRegulatedLevelCodeList;
+                          trackBy: trackByFn
+                        "
+                        [value]="commodityRegulated.lookupValue"
+                      >
+                        {{ commodityRegulated.meaning }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <select
+                      type="text"
+                      class="form-select form-select-sm table-controls"
+                      placeholder=""
+                      formControlName="transportationMode"
+                      [id]="'transportationMode' + i"
+                      name="transportationMode"
+                    >
+                      <option [selected]="true" value="">--Select--</option>
+                      <option
+                        *ngFor="
+                          let trasportMList of transportationModeList;
+                          trackBy: trackByFn
+                        "
+                        [value]="trasportMList.lookupValue"
+                      >
+                        {{ trasportMList.meaning }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <select
+                      type="text"
+                      class="form-select form-select-sm table-controls"
+                      placeholder=""
+                      formControlName="transportCategory"
+                      [id]="'transportCategory' + i"
+                      name="transportCategory"
+                    >
+                      <option [selected]="true" value="">--Select--</option>
+                      <option
+                        *ngFor="
+                          let trasportCList of transportCategoryList;
+                          trackBy: trackByFn
+                        "
+                        [value]="trasportCList.lookupValue"
+                      >
+                        {{ trasportCList.meaning }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="chemicalRecordId"
+                      [id]="'chemicalRecordId' + i"
+                      [ngClass]="{
+                        'is-invalid':
+                          hazmatCommodity.get('chemicalRecordId')?.touched &&
+                          hazmatCommodity.get('chemicalRecordId')?.errors
+                      }"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="quantity"
+                      [id]="'quantity' + i"
+                      [ngClass]="{
+                        'is-invalid':
+                          hazmatCommodity.get('quantity')?.touched &&
+                          hazmatCommodity.get('quantity')?.errors
+                      }"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <select
+                      type="text"
+                      class="form-select form-select-sm table-controls"
+                      placeholder=""
+                      formControlName="quantityUnits"
+                      [id]="'quantityUnits' + i"
+                      name="quantityUnits"
+                      [ngClass]="{
+                        'is-invalid':
+                          hazmatCommodity.get('quantityUnits')?.touched &&
+                          hazmatCommodity.get('quantityUnits')?.errors
+                      }"
+                    >
+                      <option [selected]="true" value="">--Select--</option>
+                      <option
+                        *ngFor="
+                          let uom of hazmatQuantityUOMList;
+                          trackBy: trackByFn
+                        "
+                        [value]="uom.lookupValue"
+                      >
+                        {{ uom.meaning }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="emergencyContactNumber"
+                      [id]="'emergencyContactNumber' + i"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="emergencyContactName"
+                      [id]="'emergencyContactName' + i"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <select
+                      type="text"
+                      class="form-select form-select-sm table-controls"
+                      placeholder=""
+                      formControlName="packagingType"
+                      [id]="'packagingType' + i"
+                      [ngClass]="{
+                        'is-invalid':
+                          hazmatCommodity.get('packagingType')?.touched &&
+                          hazmatCommodity.get('packagingType')?.errors
+                      }"
+                    >
+                      <option [selected]="true" value="">--Select--</option>
+                      <option
+                        *ngFor="
+                          let packagingType of outerPackagingTypeList;
+                          trackBy: trackByFn
+                        "
+                        [value]="packagingType.lookupValue"
+                      >
+                        {{ packagingType.meaning }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="packagingTypeQuantity"
+                      [id]="'packagingTypeQuantity' + i"
+                      [ngClass]="{
+                        'is-invalid':
+                          hazmatCommodity.get('packagingTypeQuantity')
+                            ?.touched &&
+                          hazmatCommodity.get('packagingTypeQuantity')?.errors
+                      }"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <select
+                      type="text"
+                      class="form-select form-select-sm table-controls"
+                      placeholder=""
+                      formControlName="packagingGroup"
+                      id="'packagingGroup'+i"
+                      [ngClass]="{
+                        'is-invalid':
+                          hazmatCommodity.get('packagingGroup')?.touched &&
+                          hazmatCommodity.get('packagingGroup')?.errors
+                      }"
+                    >
+                      <option [selected]="true" value="">--Select--</option>
+                      <option
+                        *ngFor="
+                          let packagingGroupType of packagingGroupTypelist;
+                          trackBy: trackByFn
+                        "
+                        [value]="packagingGroupType.lookupValue"
+                      >
+                        {{ packagingGroupType.meaning }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="packingInstruction"
+                      [id]="'packingInstruction' + i"
+                      [ngClass]="{
+                        'is-invalid':
+                          hazmatCommodity.get('packingInstruction')?.touched &&
+                          hazmatCommodity.get('packingInstruction')?.errors
+                      }"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="subRiskClass"
+                      [id]="'subRiskClass' + i"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="adrItemNumber"
+                      [id]="'adrItemNumber' + i"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="adrPackingGroupLetter"
+                      [id]="'adrPackingGroupLetter' + i"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="technicalName"
+                      [id]="'technicalName' + i"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="tunnelRestrictionCode"
+                      id="tunnelRestrictionCode"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="localTechnicalName"
+                      [id]="'localTechnicalName' + i"
+                    />
+                  </div>
+                </td>
+
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="localProperShippingName"
+                      [id]="'localProperShippingName' + i"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="labelRequired"
+                      [id]="'hazardLabelRequired' + i"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="referenceNumber"
+                      [id]="'referenceNumber' + i"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="reportableQuantity"
+                      [id]="'reportableQuantity' + i"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-floating ms-0 mb-1 m-1">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm table-controls"
+                      placeholder=""
+                      formControlName="additionalDescription"
+                      [id]="'additionalDescription' + i"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row p-1">
+          <!-- <div class="p-0 col-sm-10 text-end mt-1">Add/Remove Rows</div> -->
+          <div class="p-0 col-sm-2">
+            <button
+              type="button"
+              class="text-light btn btn-sm btn-primary fw-bold faButtons waves-effect"
+              (click)="addRow()"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="Add Row"
+              [disabled]="shipFlag"
+            >
+              <fa-icon [icon]="faCirclePlus"></fa-icon>
+            </button>
+            <button
+              class="text-light btn btn-sm btn-primary fw-bold faButtons ms-3"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="Remove Row"
+              (click)="removeRow()"
+              [disabled]="hideButtons"
+            >
+              <fa-icon [icon]="faCircleMinus" title="Remove Rows"></fa-icon>
+            </button>
+            <button
+              class="text-light btn btn-sm btn-primary fw-bold faButtons ms-3"
+              title="Remove all Rowss"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="Remove all Rows"
+              (click)="removeAllRows()"
+              [disabled]="hideButtons"
+            >
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

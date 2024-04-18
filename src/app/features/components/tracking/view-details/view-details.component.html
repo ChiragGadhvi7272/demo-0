@@ -1,0 +1,114 @@
+<div
+  class="modal fade"
+  id="viewShippedPackages"
+  tabindex="-1"
+  role="dialog"
+  novalidate
+  autocomplete="off"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-light bg-primary p-2 ps-3 text-center ps-2">
+        <div class="modal-title h5" id="exampleModalLabel">
+          {{ heading }}
+        </div>
+        <span style="float: right">
+          <button
+            type="button"
+            class="btn-close btn-close-white p-2 me-1"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </span>
+      </div>
+      <div class="modal-body">
+        <div class="viewPackagesShipped" *ngIf="typeOfView == 'wayBill'">
+          <div class="row row-cols row-cols-md-3 fw-bold h6 text-center">
+            <div class="col-md">
+              <div class="m-2">Packages in Shipment: 1</div>
+            </div>
+            <div class="col-md">
+              <div class="m-2">Status: In Transit(1)</div>
+            </div>
+            <div class="col-md"><div class="m-2">UPS Ground</div></div>
+          </div>
+          <div class="table-responsive rounded-1 table-resp">
+            <table class="table table-hover table-bordered table-sm mb-1">
+              <thead
+                class="rowgroup bg-primary border-light text-white adminScrollWithIn"
+              >
+                <tr class="text-center">
+                  <th scope="col" class="w-auto text-nowrap">
+                    Tracking Number
+                  </th>
+                  <th scope="col" class="w-auto text-nowrap">Status</th>
+                  <th scope="col" class="w-auto text-nowrap">
+                    Delivery Information
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="table-group">
+                <tr class="text-center">
+                  <td>1ZXXXXXXXXXXXXXXXX</td>
+                  <td>In Transit(1)</td>
+                  <td>Location: Jacksonville, FL, US</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="viewDetails" *ngIf="typeOfView == 'tracking'">
+          <div class="row row-cols row-cols-md-2 fw-bold h6">
+            <div class="col-md">
+              <div class="m-2">Status: In Transit</div>
+            </div>
+            <div class="col-md">
+              <div class="m-2">Shipped To: Brooklyn, NY, US</div>
+            </div>
+            <div class="col-md">
+              <div class="m-2">Tracking Number: 1ZXXXXXXXXXXXXXXXX</div>
+            </div>
+            <div class="col-md"><div class="m-2">Weight: 54 LBS</div></div>
+            <div class="col-md"></div>
+            <div class="col-md">
+              <div class="m-2">Service Type: UPS Ground</div>
+            </div>
+          </div>
+          <div class="h5 text-primary">Package Progress</div>
+          <div class="table-responsive rounded-1 table-resp">
+            <table class="table table-hover table-bordered table-sm mb-1">
+              <thead
+                class="rowgroup bg-primary border-light text-white adminScrollWithIn"
+              >
+                <tr class="text-center">
+                  <th scope="col" class="w-auto text-nowrap">Date/Time</th>
+                  <th scope="col" class="w-auto text-nowrap">Location</th>
+                  <th scope="col" class="w-auto text-nowrap">Activity</th>
+                </tr>
+              </thead>
+              <tbody class="table-group">
+                <tr class="text-center">
+                  <td>Feb,01, 2024</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr class="text-center">
+                  <td>7:17 AM</td>
+                  <td>WhiteHouse, NY, US</td>
+                  <td>Departed</td>
+                </tr>
+                <tr class="text-center">
+                  <td>Feb,02, 2024</td>
+                  <td></td>
+                  <td>Delivered</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="text-center p-1 modal-footer d-inline">Footer</div> -->
+    </div>
+  </div>
+</div>

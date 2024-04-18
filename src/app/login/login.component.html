@@ -1,0 +1,206 @@
+<div class="row loginrow" [formGroup]="loginForm" autocomplete="off">
+  <div class="col-lg-8 left-box">
+    <div class="featured-image">
+      <img
+        src="/assets/images/loginimage.png"
+        class="img-fluid"
+        alt="ShipConsole Login"
+      />
+    </div>
+  </div>
+  <div class="col-lg-4 card shadow-lg rounded-3 p-0 right-box">
+    <div class="card-header bg-primary p-3">
+    <div class="text-center">
+      <!-- <div class="logoHead"></div> -->
+      <img
+        src="/assets/images/logo-light-full.svg"
+        class="img-fluid"
+        alt="ShipConsole Login"
+      />
+    </div>
+    </div>
+    <div class="card-body pb-0 m-2">
+      <div class="form-group">
+        <div class="form-floating m-2">
+          <input
+            type="text"
+            class="form-control form-control-sm loginControls"
+            formControlName="userName"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid':
+                loginFormControls['userName'].touched &&
+                loginFormControls['userName'].errors
+            }"
+            (keydown.enter)="onLogin()"
+          />
+          <label for="userName" class="fw-bold" class="floatLabel loginLabel"
+            >User Name
+          </label>
+          <small
+            class="text-danger"
+            *ngIf="
+              loginFormControls['userName'].touched &&
+              loginFormControls['userName'].errors
+            "
+          >Please enter User Name
+          </small>
+        </div>
+        <div class="input-group mt-3">
+          <span class="form-floating m-2 mb-0 d-flex">
+            <input
+              [type]="show ? 'text' : 'password'"
+              class="form-control form-control-sm loginControls rounded-start rounded-0"
+              formControlName="password"
+              placeholder=""
+              [ngClass]="{
+                'is-invalid':
+                  loginFormControls['password'].touched &&
+                  loginFormControls['password'].errors
+              }"
+              (keydown.enter)="onLogin()"
+              style="width: 85%"
+            />
+            <label for="password" class="fw-bold" class="floatLabel loginLabel"
+              >Password
+            </label>
+            <button
+              type="button"
+              class="input-group-text rounded-end rounded-0"
+              id="basic-addon1"
+              (click)="showPassword()"
+              style="width: 15%"
+            >
+              <fa-icon class="fa-icon" [icon]="show ? faEye : faEyeSlash"></fa-icon>
+            </button>
+          </span>
+        </div>
+        <small
+        class="text-danger"
+        *ngIf="
+          loginFormControls['password'].touched &&
+          loginFormControls['password'].errors
+        "
+      >Please enter Password
+      </small>
+      </div>
+      <div class="row mt-3">
+        <div
+          class="col-lg-6 h6"
+          style="cursor: pointer"
+          (click)="openModel()"
+        >
+          <div class="pt-3">Forgot Password?</div>
+        </div>
+        <div class="col-lg-6 text-muted h6 mt-2 mt-md-0">
+          <button
+            type="submit"
+            class="btn fw-bold p-2 btn-primary w-100"
+            [disabled]="!loginForm.valid"
+            (click)="onLogin()"
+          >
+            Login <fa-icon class="fa-icon" [icon]="faSignIn"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="text-center loginCardFooter text-muted card-footer bg-white">
+      <fa-icon class="fa-icon" [icon]="faCopyright"></fa-icon> {{ copyrights }}
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="forgetPasswordModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white h6">
+        Forgot your password?
+      </div>
+      <div class="modal-body row" [formGroup]="forgetPasswordForm">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+          <div class="mb-2">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control form-control-sm loginControls"
+                formControlName="user_name"
+                id="user_name"
+                placeholder=""
+                [ngClass]="{
+                  'is-invalid':
+                    forgetPasswordFormControls['user_name'].touched &&
+                    forgetPasswordFormControls['user_name'].errors
+                }"
+              />
+              <label for="userName" class="floatLabel loginLabel">User Name </label>
+              <small
+                class="text-danger"
+                *ngIf="
+                  forgetPasswordFormControls['user_name'].touched &&
+                  forgetPasswordFormControls['user_name'].errors
+                "
+              >
+                Please enter User Name
+              </small>
+            </div>
+          </div>
+          <div class="mt-2">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control form-control-sm loginControls"
+                formControlName="email_id"
+                id="email_id"
+                placeholder=""
+                [ngClass]="{
+                  'is-invalid':
+                    forgetPasswordFormControls['email_id'].touched &&
+                    forgetPasswordFormControls['email_id'].errors
+                }"
+              />
+              <label for="email_id" class="floatLabel loginLabel">Mail ID </label>
+              <small
+                class="text-danger"
+                *ngIf="forgetPasswordFormControls['email_id'].touched &&
+                      forgetPasswordFormControls['email_id'].errors?.['required']"
+              >
+                Please enter Mail ID
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="forgetPasswordFormControls['email_id'].touched &&
+                      forgetPasswordFormControls['email_id'].errors?.['pattern']"
+              >
+                Please enter a valid Mail ID
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2"></div>
+      </div>
+      <div class="modal-footer p-1">
+        <button
+          type="button"
+          class="btn fw-bold btn-primary me-md-3 btn-block"
+          [disabled]="!forgetPasswordForm.valid"
+          (click)="validateUser()"
+        >
+          Validate <fa-icon class="fa-icon" [icon]="faCircleCheck"></fa-icon>
+        </button>
+        <button
+          type="button"
+          class="btn fw-bold btn-primary btn-block"
+          data-bs-dismiss="modal"
+        >
+          Close <fa-icon class="fa-icon" [icon]="faCircleXmark"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,2584 @@
+<div class="p-2">
+  <div class="text-primary h4 mb-0">Carrier Configurations</div>
+  <!--<p class="text-secondary m-0">Enter the required details and save</p>-->
+</div>
+<form #carrierForms="ngForm" [formGroup]="carrierConfigurationsForm" novalidate>
+  <div class="card mb-3 rounded bg-body border-primary">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md" [hidden]="!showCustomerList">
+          <div class="form-floating ms-0 mb-1 m-2">
+            <select
+              name="clientId"
+              id="clientId"
+              class="form-select form-select-sm"
+              formControlName="clientId"
+              #clientId
+              [ngClass]="{
+                'is-invalid':                
+                  carrierConfigurationsFormControls['clientId'].touched &&
+                  carrierConfigurationsFormControls['clientId'].errors?.['required']
+              }"
+              (change)="showOrgId(clientId.value)"
+            >
+              <option [selected]="true" value="">--Select--</option>
+              <option
+                *ngFor="let clients of customerNamesList; trackBy: trackByFn"
+                [value]="clients.CLIENT_ID"
+              >
+                {{ clients.COMPANY_NAME }}
+              </option>
+            </select>
+            <label for="clientId" class="floatLabel">
+              Customer Name
+              <span class="text-danger">*</span>
+            </label>
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="carrierConfigurationsFormControls['clientId'].touched &&
+            carrierConfigurationsFormControls['clientId'].errors?.['required']
+            "
+          >
+            Please select Customer Name
+          </small>
+        </div>
+        <div class="col-md">
+          <div class="form-floating ms-0 mb-1 m-2">
+            <select
+              name="orgId"
+              id="orgId"
+              class="form-select form-select-sm"
+              formControlName="orgId"
+              #orgId
+              [ngClass]="{
+                'is-invalid':        
+                carrierConfigurationsFormControls['orgId'].touched &&
+                carrierConfigurationsFormControls['orgId'].errors?.['required']
+              }"
+              (change)="showInvOrgId(orgId.value)"
+            >
+              <option [selected]="true" value="">--Select--</option>
+              <option
+                *ngFor="let orgId of orgIdList; trackBy: trackByFn"
+                [value]="orgId.ORG_ID"
+              >
+                {{ orgId.ORG_NAME }}
+              </option>
+            </select>
+            <label for="orgId" class="floatLabel">
+              {{ orgIdNameLabel }}
+              <span class="text-danger">*</span>
+            </label>
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="carrierConfigurationsFormControls['orgId'].touched &&
+            carrierConfigurationsFormControls['orgId'].errors?.['required']"
+          >
+            Please select {{ orgIdNameLabel }}
+          </small>
+        </div>
+        <div class="col-md">
+          <div class="form-floating ms-0 mb-1 m-2">
+            <select
+              name="invOrgId"
+              id="invOrgId"
+              class="form-select form-select-sm"
+              formControlName="invOrgId"
+              #invOrgId
+              [ngClass]="{
+                'is-invalid':
+                carrierConfigurationsFormControls['invOrgId'].touched &&
+                carrierConfigurationsFormControls['invOrgId'].errors?.['required']
+              }"
+              (change)="showCarrierNames(orgId.value, invOrgId.value)"
+            >
+              <option [selected]="true" value="">--Select--</option>
+              <option
+                *ngFor="let invOrgId of invOrgIdList; trackBy: trackByFn"
+                value="{{ invOrgId.INV_ORG_ID }}"
+              >
+                {{ invOrgId.INV_ORG_NAME }}
+              </option>
+            </select>
+            <label for="invOrgId" class="floatLabel">
+              {{ invOrgIdNameLabel }}
+              <span class="text-danger">*</span>
+            </label>
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="carrierConfigurationsFormControls['invOrgId'].touched &&
+            carrierConfigurationsFormControls['invOrgId'].errors?.['required']"
+          >
+            Please select {{ invOrgIdNameLabel }}
+          </small>
+        </div>
+        <div class="col-md">
+          <div class="form-floating ms-0 mb-1 m-2">
+            <select
+              name="carrierId"
+              id="carrierId"
+              class="form-select form-select-sm"
+              formControlName="carrierId"
+              #carrierId
+              [ngClass]="{
+                'is-invalid':
+                  carrierConfigurationsFormControls['carrierId'].touched &&
+                  carrierConfigurationsFormControls['carrierId'].errors?.['required']
+              }"
+              (change)="
+                showGoButton(orgId.value, invOrgId.value, carrierId.value)
+              "
+            >
+              <option [selected]="true" value="">---Select---</option>
+              <option
+                *ngFor="let carrier of carrierNamesList; trackBy: trackByFn"
+                [value]="carrier.CARRIER_ID"
+              >
+                {{ carrier.CARRIER_NAME }}
+              </option>
+            </select>
+            <label for="carrierId" class="floatLabel">
+              Carrier Name
+              <span class="text-danger">*</span>
+            </label>
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="carrierConfigurationsFormControls['carrierId'].touched &&
+            carrierConfigurationsFormControls['carrierId'].errors?.['required']"
+          >
+            Please select Carrier Name
+          </small>
+        </div>
+        <div class="col-md-1">
+          <div class="ms-0 mb-1 m-2">
+            <button
+              type="button"
+              class="btn btn-primary btn-sm fw-bold"
+              [disabled]="goED"
+              (click)="
+                getCarrierConfigurations(
+                  orgId.value,
+                  invOrgId.value,
+                  carrierId.value
+                )
+              "
+            >
+              Go
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md text-md-end mb-2 mb-md-0">
+          <button
+            type="button"
+            class="btn btn-primary btn-sm fw-bold"
+            [disabled]="hideUploadCarriersButton"
+            (click)="uploadCarriers()"
+          >
+            Upload Carriers
+            <fa-icon [icon]="faCloudUpload"></fa-icon>
+          </button>
+        </div>
+        <div class="col-md text-md-start">
+          <button
+            type="button"
+            class="btn btn-primary btn-sm fw-bold"
+            [disabled]="hideShipmethodMappingButton"
+            data-bs-toggle="modal"
+            data-bs-target="#shipMethodMappingModal"
+            (click)="onShipmethodMapping(carrierCode.value, carrierMode.value)"
+          >
+            Ship Method Mapping
+            <fa-icon [icon]="faLink"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-3 rounded bg-body border-primary">
+    <div class="m-1 mt-2 ps-4 h5 text-primary">Carrier Server Details</div>
+    <div class="card-body row row-cols p-0 mt-1 m-3 row-cols-md-4">
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="carrierCode"
+            id="carrierCode"
+            class="form-select form-select-sm"
+            formControlName="carrierCode"
+            #carrierCode
+            (change)="
+              carrierServicesDetails(carrierCode.value, carrierMode.value)
+            "
+            [ngClass]="{
+                'is-invalid':
+                carrierConfigurationsFormControls['carrierCode'].touched &&
+                carrierConfigurationsFormControls['carrierCode'].errors?.['required']
+              }"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="let carrierCodes of carrierCodesList; trackBy: trackByFn"
+              value="{{ carrierCodes.carrierCode }}"
+            >
+              {{ carrierCodes.carrierName }}
+            </option>
+          </select>
+          <label for="carrierCode" class="floatLabel">
+            Carrier Code <span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="carrierConfigurationsFormControls['carrierCode'].touched && carrierConfigurationsFormControls['carrierCode'].errors?.['required']"
+        >
+          Please select Carrier Code
+        </small>
+      </div>
+      <div class="col-md">
+        <div class="form-check mt-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="enabledFlag"
+            id="enabledFlag"
+            #enabledFlag
+            (click)="onEnableFlagChange(enabledFlag.checked)"
+          />
+          <label class="form-check-label">
+            Enable Flag
+          </label>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="carrierMode"
+            id="carrierMode"
+            class="form-select form-select-sm"
+            formControlName="carrierMode"
+            #carrierMode
+            (change)="onCarrierModeChange(carrierCode.value, carrierMode.value)"
+            [ngClass]="{
+                'is-invalid':                
+                  carrierConfigurationsFormControls['carrierMode'].touched &&
+                  carrierConfigurationsFormControls['carrierMode'].errors?.['required']
+              }"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="let modes of cModeList; trackBy: trackByFn"
+              value="{{ modes.lookupValue }}"
+            >
+              {{ modes.meaning }}
+            </option>
+          </select>
+          <label for="carrierMode" class="floatLabel">
+            Mode
+            <span class="text-danger" *ngIf="carrierCode.value != '999'"
+              >*</span
+            >
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="carrierConfigurationsFormControls['carrierMode'].touched &&
+            carrierConfigurationsFormControls['carrierMode'].errors?.['required']
+            "
+        >
+          Please select Mode
+        </small>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="carrierUrl"
+            id="carrierUrl"
+            class="form-control form-control-sm"
+            formControlName="carrierUrl"
+            [ngClass]="{
+              'is-invalid':
+                carrierConfigurationsFormControls['carrierUrl'].touched &&
+                carrierConfigurationsFormControls['carrierUrl'].errors
+            }"
+            placeholder=""
+          />
+          <label for="carrierUrl" class="floatLabel">
+            Carrier Url
+            <span
+              class="text-danger"
+              *ngIf="carrierCode.value != '999' || carrierMode.value != ''"
+              >*</span
+            >
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="carrierConfigurationsFormControls['carrierUrl'].touched &&
+          carrierConfigurationsFormControls['carrierUrl'].errors?.['required']
+          "
+        >
+          Please provide Carrier Url
+        </small>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="userName"
+            id="userName"
+            class="form-control form-control-sm"
+            formControlName="userName"
+            [ngClass]="{
+              'is-invalid':
+                carrierConfigurationsFormControls['userName'].touched &&
+                carrierConfigurationsFormControls['userName'].errors
+            }"
+            placeholder=""
+          />
+          <label for="userName" class="floatLabel">
+            UserName
+            <span
+              class="text-danger"
+              *ngIf="carrierCode.value != '999' || carrierMode.value != ''"
+              >*</span
+            >
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="carrierConfigurationsFormControls['userName'].touched &&
+          carrierConfigurationsFormControls['userName'].errors?.['required']
+          "
+        >
+          Please provide User Name
+        </small>
+      </div>
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control form-control-sm"
+            formControlName="password"
+            [ngClass]="{
+              'is-invalid':
+                carrierConfigurationsFormControls['password'].touched &&
+                carrierConfigurationsFormControls['password'].errors
+            }"
+            placeholder=""
+          />
+          <label for="password" class="floatLabel">
+            Password
+            <span
+              class="text-danger"
+              *ngIf="carrierCode.value != '999' || carrierMode.value != ''"
+              >*</span
+            >
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="carrierConfigurationsFormControls['password'].touched &&
+          carrierConfigurationsFormControls['password'].errors?.['required']
+          "
+        >
+          Please provide Password
+        </small>
+      </div>
+      <div class="col-md" *ngIf="carrierMode.value == 'OTM'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="domain"
+            id="domain"
+            class="form-control form-control-sm"
+            formControlName="domain"
+            placeholder=""
+          />
+          <label for="domain" class="floatLabel">Domain</label>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '999'">
+        <div class="form-check mt-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="generateSLI"
+            id="generateSLI"
+          />
+          <label for="enabledFlag" class="form-check-label">
+            Generate SLI
+          </label>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '999'">
+        <div class="form-check mt-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="generateGenericLabel"
+            id="generateGenericLabel"
+          />
+          <label for="generateGenericLabel" class="form-check-label">
+            Generate Generic Label
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierCode.value == '110' ||
+          carrierCode.value == '111' ||
+          carrierCode.value == '114' ||
+          carrierMode.value == 'ShipExec'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="intlDocSubType"
+            id="intlDocSubType"
+          >
+            <option
+              *ngFor="
+                let intlDocSubType of intlDocSubTypeList;
+                trackBy: trackByFn
+              "
+              [value]="intlDocSubType.lookupValue"
+            >
+              {{ intlDocSubType.meaning }}
+            </option>
+          </select>
+          <label for="intlDocSubType" class="floatLabel">
+            Intl Docs Submission Type
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierCode.value == '100' ||
+          carrierCode.value == '110' ||
+          carrierCode.value == '111' ||
+          carrierCode.value == '116'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="defaultSignatureOption"
+            id="defaultSignatureOption"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="
+                let defaultSignOption of defaultSignOptionList;
+                trackBy: trackByFn
+              "
+              [value]="defaultSignOption.lookupValue"
+            >
+              {{ defaultSignOption.meaning }}
+            </option>
+          </select>
+          <label for="defaultSignatureOption" class="floatLabel">
+            Default Signature Option
+          </label>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '111'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="hubId"
+            id="hubId"
+            [ngClass]="{
+                'is-invalid':                  
+                  carrierConfigurationsFormControls['hubId'].touched &&
+                  carrierConfigurationsFormControls['hubId'].errors?.['required']
+              }"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="let hubId of hubIdList; trackBy: trackByFn"
+              value="{{ hubId.lookupValue }}"
+            >
+              {{ hubId.meaning }}
+            </option>
+          </select>
+          <label for="hubId" class="floatLabel">
+            SmartPost HubId<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="carrierConfigurationsFormControls['hubId'].touched &&
+          carrierConfigurationsFormControls['hubId'].errors?.['required']
+          "
+        >
+          Please select Hub ID
+        </small>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '111'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="op900LabelFormat"
+            id="op900LabelFormat"
+            [ngClass]="{
+                'is-invalid':                
+                  carrierConfigurationsFormControls['op900LabelFormat'].touched &&
+                  carrierConfigurationsFormControls['op900LabelFormat'].errors?.['required']
+              }"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="
+                let op900LabelFormat of op900LabelFormatList;
+                trackBy: trackByFn
+              "
+              value="{{ op900LabelFormat.lookupValue }}"
+            >
+              {{ op900LabelFormat.meaning }}
+            </option>
+          </select>
+          <label for="op900LabelFormat" class="floatLabel">
+            Hazmat Op900 Label Format<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="carrierConfigurationsFormControls['op900LabelFormat'].touched &&
+            carrierConfigurationsFormControls['op900LabelFormat'].errors?.['required']
+            "
+        >
+          Please select Op900 Label Format
+        </small>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '123'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            formControlName="apiKey"
+            id="apiKey"
+            placeholder=""
+          />
+          <label for="apiKey" class="floatLabel"> API Key </label>
+        </div>
+      </div>
+
+      <div class="col-md" *ngIf="carrierCode.value == '114'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="dhlRegionCode"
+            id="dhlRegionCode"
+            [ngClass]="{
+                'is-invalid':                
+                  carrierConfigurationsFormControls['dhlRegionCode'].touched &&
+                  carrierConfigurationsFormControls['dhlRegionCode'].errors?.['required']
+              }"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="let regionCode of regionCodeList; trackBy: trackByFn"
+              value="{{ regionCode.lookupValue }}"
+            >
+              {{ regionCode.meaning }}
+            </option>
+          </select>
+          <label for="dhlRegionCode" class="floatLabel">
+            Region Code<span class="text-danger">*</span>
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="carrierConfigurationsFormControls['dhlRegionCode'].touched &&
+            carrierConfigurationsFormControls['dhlRegionCode'].errors?.['required']
+            "
+        >
+          Please select Region Code
+        </small>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '116'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="uspsPriceOption"
+            id="uspsPriceOption"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="
+                let priceOptions of uspsPriceOptionsList;
+                trackBy: trackByFn
+              "
+              value="{{ priceOptions.lookupValue }}"
+            >
+              {{ priceOptions.meaning }}
+            </option>
+          </select>
+          <label for="uspsPriceOption" class="floatLabel">
+            USPS Price Options
+          </label>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '116'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="uspsReceiptOptions"
+            id="uspsReceiptOptions"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="
+                let receiptOptions of uspsReceiptOptionsList;
+                trackBy: trackByFn
+              "
+              value="{{ receiptOptions.lookupValue }}"
+            >
+              {{ receiptOptions.meaning }}
+            </option>
+          </select>
+          <label for="uspsReceiptOptions" class="floatLabel">
+            USPS Receipt Options
+          </label>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '116'">
+        <div class="form-check mt-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="holdForManifest"
+            id="holdForManifest"
+            placeholder=""
+          />
+          <label for="holdForManifest" class="form-check-label">
+            Hold For Manifest
+          </label>
+        </div>
+      </div>
+
+      <div class="col-md" *ngIf="carrierMode.value == 'ShipExec'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="companyId"
+            id="companyId"
+            class="form-control form-control-sm"
+            formControlName="companyId"
+            placeholder=""
+          />
+          <label for="companyId" class="floatLabel"> Company ID </label>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierMode.value == 'ShipExec'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="siteId"
+            id="siteId"
+            class="form-control form-control-sm"
+            formControlName="siteId"
+            placeholder=""
+          />
+          <label for="siteId" class="floatLabel"> Site ID </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierCode.value == '100' ||
+          carrierCode.value == '110' ||
+          carrierCode.value == '111'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="defaultRtnShipMethod"
+            id="defaultRtnShipMethod"
+            class="form-control form-control-sm"
+            formControlName="defaultRtnShipMethod"
+            placeholder=""
+          />
+          <label for="defaultRtnShipMethod" class="floatLabel">
+            Default Return ShipMethod
+          </label>
+        </div>
+      </div>
+      <!-- <div class="col-md">
+        <div class="form-check mt-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="customCIDocument"
+            id="customCIDocument"
+          />
+
+          <label for="customCIDocument" class="form-check-label">
+            Custom CI Document
+          </label>
+        </div>
+      </div> -->
+      <div
+        class="col-md"
+        *ngIf="
+          (carrierCode.value == '999' && carrierMode.value != 'ShipExec') ||
+          carrierCode.value == '114'
+        "
+      >
+        <div class="form-check mt-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="generateSed"
+            id="generateSed"
+            placeholder=""
+          />
+          <label for="generateSed" class="form-check-label">
+            Generate SED ?
+          </label>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="m-2 mt-2">
+          <label for="accountDetailsModel" class="mt-2">
+            Account Details <span class="text-danger">*</span>
+          </label>
+          <button
+            type="button"
+            class="bg-white border-0 ms-1"
+            data-bs-toggle="modal"
+            data-bs-target="#accountDetailsModel"
+            [disabled]="isDisabled"
+            (click)="getAccountNumbersList()"
+          >
+            <fa-icon
+              [icon]="faUpRightFromSquare"
+              class="fa-icon text-primary"
+              [class.disabled]="isDisabled"
+            ></fa-icon>
+          </button>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '112'">
+        <div class="m-2 mt-2">
+          <label for="fxfrBill" class="mt-2 me-2">
+            Fedex Freight Billing Details <span class="text-danger">*</span>
+          </label>
+          <fa-icon
+            [icon]="faUpRightFromSquare"
+            class="fa-icon text-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#fedexFreightBilling"
+          ></fa-icon>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '113'">
+        <div class="m-2 mt-2">
+          <label for="fxfrBill" class="mt-2 me-2">
+            TNT Details <span class="text-danger">*</span> </label
+          ><fa-icon
+            [icon]="faUpRightFromSquare"
+            class="fa-icon text-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#tntDetails"
+          ></fa-icon>
+        </div>
+        <label for="tntDetails" class="floatLabel"> </label>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="carrierCode.value == '127' && carrierMode.value == 'ShipExec'"
+      >
+        <div class="m-2 mt-2">
+          <label for="StarTrackEODDetailsLabel" class="mt-2 me-2">
+            StarTrack EOD Details <span class="text-danger">*</span>
+          </label>
+          <fa-icon
+            [icon]="faUpRightFromSquare"
+            class="fa-icon text-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#starTrackModal"
+          ></fa-icon>
+        </div>
+      </div>
+
+      <div class="col-md" *ngIf="carrierCode.value == '100'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="requestOption"
+            id="requestOption"
+            class="form-select form-select-sm"
+            formControlName="requestOption"
+            #requestOption
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="
+                let requestOption of requestOptionsList;
+                trackBy: trackByFn
+              "
+              value="{{ requestOption.lookupValue }}"
+            >
+              {{ requestOption.meaning }}
+            </option>
+          </select>
+          <label for="requestOption" class="floatLabel">
+            Request Option<span class="text-danger">*</span>
+          </label>
+          <small
+            class="text-danger"
+            *ngIf="carrierConfigurationsFormControls['requestOption'].touched && 
+            carrierConfigurationsFormControls['requestOption'].errors?.['required']"
+          >
+            Please select Request Option
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-3 rounded bg-body border-primary">
+    <div class="m-1 mt-2 ps-4 h5 text-primary">Printer Details</div>
+    <div class="card-body row row-cols p-0 mt-1 m-3 row-cols-md-4">
+      <div class="col-md">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="labelFormat"
+            id="labelFormat"
+            class="form-select form-select-sm"
+            formControlName="labelFormat"
+            [ngClass]="{
+                'is-invalid':                
+                  carrierConfigurationsFormControls['labelFormat'].touched &&
+                  carrierConfigurationsFormControls['labelFormat'].errors?.['required']
+              }"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="let labelFormat of labelFormatList; trackBy: trackByFn"
+              value="{{ labelFormat.lookupValue }}"
+            >
+              {{ labelFormat.meaning }}
+            </option>
+          </select>
+          <label for="labelFormat" class="floatLabel">
+            Label Format
+            <span
+              class="text-danger"
+              *ngIf="carrierCode.value != '999' || carrierMode.value != ''"
+              >*</span
+            >
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="carrierConfigurationsFormControls['labelFormat'].touched &&
+            carrierConfigurationsFormControls['labelFormat'].errors?.['required']
+            "
+        >
+          Please select Label Format
+        </small>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          (carrierCode.value == '100' && carrierMode.value == 'UPS Direct') ||
+          carrierCode.value == '110' ||
+          carrierCode.value == '111' ||
+          carrierCode.value == '114' ||
+          carrierCode.value == '115' ||
+          carrierCode.value == '116'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="labelStockOrientation"
+            id="labelStockOrientation"
+            class="form-select form-select-sm"
+            formControlName="labelStockOrientation"
+            [ngClass]="{
+                'is-invalid':                
+                  carrierConfigurationsFormControls['labelStockOrientation'].touched &&
+                  carrierConfigurationsFormControls['labelStockOrientation'].errors?.['required']
+              }"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="
+                let labelStockOrientation of labelStockOrientationList;
+                trackBy: trackByFn
+              "
+              value="{{ labelStockOrientation.lookupValue }}"
+            >
+              {{ labelStockOrientation.meaning }}
+            </option>
+          </select>
+          <label for="labelStockOrientation" class="floatLabel">
+            Label Stock Type
+            <span
+              class="text-danger"
+              *ngIf="
+                carrierCode.value == '100' ||
+                carrierCode.value == '110' ||
+                carrierCode.value == '111'
+              "
+              >*</span
+            >
+          </label>
+        </div>
+        <small
+          class="text-danger"
+          *ngIf="carrierConfigurationsFormControls['labelStockOrientation'].touched &&
+            carrierConfigurationsFormControls['labelStockOrientation'].errors?.['required']
+            "
+        >
+          Please select Label Stock Type
+        </small>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierCode.value == '100' ||
+          carrierCode.value == '110' ||
+          carrierCode.value == '111'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="docTabLocation"
+            id="docTabLocation"
+            class="form-select form-select-sm"
+            formControlName="docTabLocation"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="
+                let docTabLocation of docTabLocationList;
+                trackBy: trackByFn
+              "
+              value="{{ docTabLocation.lookupValue }}"
+            >
+              {{ docTabLocation.meaning }}
+            </option>
+          </select>
+          <label for="docTabLocation" class="floatLabel">
+            DocTab Location
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierMode.value == 'ShipExec' || carrierMode.value == 'ConnectShip'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="labelModelSymbol"
+            id="labelModelSymbol"
+            class="form-control form-control-sm"
+            formControlName="labelModelSymbol"
+            placeholder=""
+          />
+          <label for="labelModelSymbol" class="floatLabel">
+            Label Model Symbol
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierMode.value == 'ShipExec' || carrierMode.value == 'ConnectShip'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="labelStockSymbol"
+            id="labelStockSymbol"
+            class="form-control form-control-sm"
+            formControlName="labelStockSymbol"
+            placeholder=""
+          />
+          <label for="labelStockSymbol" class="floatLabel">
+            Label Stock Symbol
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierMode.value == 'ShipExec' || carrierMode.value == 'ConnectShip'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="labelPort"
+            id="labelPort"
+            class="form-control form-control-sm"
+            formControlName="labelPort"
+            placeholder=""
+          />
+          <label for="labelPort" class="floatLabel"> Label Port </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierMode.value == 'ShipExec' || carrierMode.value == 'ConnectShip'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="docModelSymbol"
+            id="docModelSymbol"
+            class="form-control form-control-sm"
+            formControlName="docModelSymbol"
+            placeholder=""
+          />
+          <label for="docModelSymbol" class="floatLabel">
+            Document Model Symbol
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierMode.value == 'ShipExec' || carrierMode.value == 'ConnectShip'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="docStockSymbol"
+            id="docStockSymbol"
+            class="form-control form-control-sm"
+            formControlName="docStockSymbol"
+            placeholder=""
+          />
+          <label for="docStockSymbol" class="floatLabel">
+            Document Stock Symbol
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierMode.value == 'ShipExec' || carrierMode.value == 'ConnectShip'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="documentPort"
+            id="documentPort"
+            class="form-control form-control-sm"
+            formControlName="documentPort"
+            placeholder=""
+          />
+          <label for="documentPort" class="floatLabel"> Document Port </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierMode.value == 'ShipExec' || carrierMode.value == 'ConnectShip'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="eodLabelFormat"
+            id="eodLabelFormat"
+            class="form-select form-select-sm"
+            formControlName="eodLabelFormat"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="
+                let eodLabelFormat of eodLabelFormatList;
+                trackBy: trackByFn
+              "
+              value="{{ eodLabelFormat.lookupValue }}"
+            >
+              {{ eodLabelFormat.meaning }}
+            </option>
+          </select>
+          <label for="eodLabelFormat" class="floatLabel">
+            EOD CS DOC Formats
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierMode.value == 'ShipExec' || carrierMode.value == 'ConnectShip'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="eodDocPrinterSymbol"
+            id="eodDocPrinterSymbol"
+            class="form-control form-control-sm"
+            formControlName="eodDocPrinterSymbol"
+            placeholder=""
+          />
+          <label for="eodDocPrinterSymbol" class="floatLabel">
+            EOD CS DOC Printer Symbol
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierMode.value == 'ShipExec' || carrierMode.value == 'ConnectShip'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            name="eodDocStockLabel"
+            id="eodDocStockLabel"
+            class="form-control form-control-sm"
+            formControlName="eodDocStockLabel"
+            placeholder=""
+          />
+          <label for="eodDocStockLabel" class="floatLabel">
+            EOD CS DOC Stock Symbol
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierMode.value == 'ShipExec' || carrierMode.value == 'ConnectShip'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            formControlName="eodDocPort"
+            id="eodDocPort"
+            placeholder=""
+          />
+          <label for="eodDocPort" class="floatLabel"> EOD CS DOCPORT </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierMode.value == 'ShipExec' ||
+          carrierMode.value == 'ConnectShip' ||
+          carrierMode.value == 'SCConnectShip' ||
+          carrierCode.value == '116'
+        "
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="intlLabelFormat"
+            id="intlLabelFormat"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="
+                let intlLabelFormat of intlLabelFormatList;
+                trackBy: trackByFn
+              "
+              value="{{ intlLabelFormat.lookupValue }}"
+            >
+              {{ intlLabelFormat.meaning }}
+            </option>
+          </select>
+          <label for="intlLabelFormat" class="floatLabel">
+            International Label Format
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="carrierCode.value == '999' && carrierMode.value != 'ShipExec'"
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="bolLabelFormat"
+            id="bolLabelFormat"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="
+                let bolLabelFormat of bolLabelFormatList;
+                trackBy: trackByFn
+              "
+              value="{{ bolLabelFormat.lookupValue }}"
+            >
+              {{ bolLabelFormat.meaning }}
+            </option>
+          </select>
+          <label for="bolLabelFormat" class="floatLabel">
+            BOL Label Format
+          </label>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '115'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="stampsPaperSize"
+            id="stampsPaperSize"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="let size of paperSizeList; trackBy: trackByFn"
+              value="{{ size.lookupValue }}"
+            >
+              {{ size.meaning }}
+            </option>
+          </select>
+          <label for="stampsPaperSize" class="floatLabel"> Paper Size </label>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '115'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="intlLabelOrientation"
+            id="intlLabelOrientation"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="
+                let intlPrintLayout of intlPrintLayoutList;
+                trackBy: trackByFn
+              "
+              value="{{ intlPrintLayout.lookupValue }}"
+            >
+              {{ intlPrintLayout.meaning }}
+            </option>
+          </select>
+          <label for="intlLabelOrientation" class="floatLabel">
+            International Print Layout
+          </label>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '115'">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="nonDelOption"
+            id="nonDelOption"
+          >
+            <option value="" [selected]="true">---Select---</option>
+            <option
+              *ngFor="
+                let nonDeliveryOption of nonDeliveryOptionsList;
+                trackBy: trackByFn
+              "
+              value="{{ nonDeliveryOption.lookupValue }}"
+            >
+              {{ nonDeliveryOption.meaning }}
+            </option>
+          </select>
+          <label for="nonDelOption" class="floatLabel">
+            Non Delivery Option
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="carrierCode.value == '100' && carrierMode.value == 'UPS Direct'"
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="cn22LabelFormat"
+            id="cn22LabelFormat"
+          >
+            <option value="">---Select---</option>
+            <option
+              *ngFor="
+                let cn22LableFormat of cn22LabelFormatList;
+                trackBy: trackByFn
+              "
+              value="{{ cn22LableFormat.lookupValue }}"
+            >
+              {{ cn22LableFormat.meaning }}
+            </option>
+          </select>
+          <label for="cn22LabelFormat" class="floatLabel">
+            CN22 Label Formats
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="carrierCode.value == '100' && carrierMode.value == 'UPS Direct'"
+      >
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="cn22FormLabelSize"
+            id="cn22FormLabelSize"
+          >
+            <option value="">---Select---</option>
+            <option
+              *ngFor="
+                let cn22LableSize of cn22LabelSizeList;
+                trackBy: trackByFn
+              "
+              value="{{ cn22LableSize.lookupValue }}"
+            >
+              {{ cn22LableSize.meaning }}
+            </option>
+          </select>
+          <label for="cn22FormLabelSize" class="floatLabel">
+            CN22 Form Label Size
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="
+          carrierCode.value == '999' &&
+          (carrierMode.value == 'ConnectShip' ||
+            carrierMode.value == 'SCConnectShip')
+        "
+      >
+        <div class="form-check mt-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="genericLabelWithoutRateFlag"
+            id="genericLabelWithoutRateFlag"
+          />
+          <label for="genericLabelWithoutRateFlag" class="form-check-label">
+            Generate Label Without Rate
+          </label>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '114'">
+        <div class="form-check mt-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="dhlLogoFlag"
+            id="dhlLogoFlag"
+          />
+          <label for="dhlLogoFlag" class="form-check-label">
+            Is DHL logo Required?
+          </label>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '114'">
+        <label for="dhlLogoImage" class="form-label mt-1 mb-0">
+          Upload company logo for DHL label
+        </label>
+        <input
+          id="dhlLogoImage"
+          formControlName="dhlLogoImage"
+          type="file"
+          class="form-control"
+          (change)="handleUpload($event)"
+        />
+        <!-- Upload
+            <fa-icon [icon]="faCircleUp"></fa-icon>  -->
+      </div>
+
+      <div class="col-md" *ngIf="carrierMode.value == 'ShipExec'">
+        <div class="m-2 mt-2">
+          <label for="shipExecDocFormat" class="mt-2 me-2">
+            ShipExec Document Format
+          </label>
+          <fa-icon
+            [icon]="faUpRightFromSquare"
+            class="fa-icon text-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#shipExecDocument"
+          ></fa-icon>
+        </div>
+      </div>
+      <div
+        class="col-md"
+        *ngIf="carrierCode.value == '100' && carrierMode.value == 'ShipExec'"
+      >
+        <div class="m-2 mt-2">
+          <label for="worldEaseDocFormat" class="mt-2 me-2">
+            World Ease Document Formats
+          </label>
+          <fa-icon
+            [icon]="faUpRightFromSquare"
+            class="fa-icon text-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#worldEaseDocument"
+          ></fa-icon>
+        </div>
+      </div>
+      <div class="col-md" *ngIf="carrierCode.value == '110'">
+        <div class="m-2 mt-2">
+          <label for="fedExIPDDocument" class="mt-2 me-2">
+            FedEx IPD Document Formats
+          </label>
+          <fa-icon
+            [icon]="faUpRightFromSquare"
+            class="fa-icon text-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#fedExDocument"
+          ></fa-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="
+      carrierCode.value == '100' ||
+      carrierCode.value == '110' ||
+      carrierCode.value == '111' ||
+      carrierCode.value == '114' ||
+      carrierMode.value == 'shipExec'
+    "
+  >
+    <div class="card mb-2 rounded bg-body border-primary">
+      <div class="m-1 mt-2 ps-4 h5 text-primary">
+        Email Notification Details
+      </div>
+      <div
+        class="card-body row row-cols p-0 mt-1 m-3 row-cols-md-4"
+        formGroupName="emailNotificationInfo"
+      >
+        <div class="col-md">
+          <div class="form-check mt-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="emailNotificationFlag"
+              id="emailNotificationFlag"
+              #emailNotificationFlag
+              (change)="enableRestFields()"
+            />
+            <label for="dhlLogoFlag" class="form-check-label">
+              Email Notification Required?
+            </label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-floating ms-0 mb-1 m-2">
+            <input
+              class="form-control form-control-sm"
+              type="text"
+              formControlName="senderEmailAddress"
+              id="senderEmailAddress"
+              [ngClass]="{
+                'is-invalid':
+                  emailNotificationInfoControls['senderEmailAddress'].touched &&
+                  emailNotificationInfoControls['senderEmailAddress'].errors
+              }"
+              placeholder=""
+            />
+            <label for="senderEmailAddress" class="floatLabel">
+              Sender Email
+              <span class="text-danger" *ngIf="emailNotificationFlag.value"
+                >*</span
+              >
+            </label>
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="emailNotificationInfoControls['senderEmailAddress'].touched &&
+            emailNotificationInfoControls['senderEmailAddress'].errors?.['required']
+          "
+          >
+            Please provide Sender Email
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="emailNotificationInfoControls['senderEmailAddress'].touched &&
+            emailNotificationInfoControls['senderEmailAddress'].errors?.['pattern']
+        "
+          >
+            Please enter valid Sender Email
+          </small>
+        </div>
+        <div class="col-md">
+          <div class="form-check mt-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="reference1Flag"
+              id="reference1Flag"
+            />
+            <label class="floatLabel"> Reference 1 Required? </label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-check mt-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="reference2Flag"
+              id="reference2Flag"
+            />
+            <label class="floatLabel"> Reference 2 Required? </label>
+          </div>
+        </div>
+        <!-- <div class="col-md" *ngIf="carrierCode.value == '100'">
+          <div class="form-check mt-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="intransitNotificationFlag"
+              id="intransitNotificationFlag"
+            />
+            <label class="floatLabel"> InTransit Notification </label>
+          </div>
+        </div> -->
+        <div class="col-md">
+          <div class="form-check mt-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="shipNotificationFlag"
+              id="shipNotificationFlag"
+            />
+            <label class="floatLabel"> Ship Notification </label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-check mt-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="exceptionNotificationFlag"
+              id="exceptionNotificationFlag"
+            />
+            <label class="floatLabel"> Exception Notification </label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-check mt-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="deliveryNotification"
+              id="deliveryNotification"
+              #deliveryNotification
+            />
+            <label class="floatLabel"> Delivery Notification </label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-check mt-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="emailCustomerName"
+              id="emailCustomerName"
+            />
+            <label class="floatLabel"> Customer Name </label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-check mt-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="emailItemName"
+              id="emailItemName"
+            />
+            <label class="floatLabel"> Item Numbers On the Delivery </label>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="form-check mt-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="emailSoNumber"
+              id="emailSoNumber"
+            />
+            <label class="floatLabel">Sales Order Number</label>
+          </div>
+        </div>
+        <div class="col-md ps-3 p-0 d-flex" *ngIf="carrierCode.value != '100'">
+          <div class="mt-3 floatLabel">
+            Format
+            <span class="ms-2">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="formatType"
+                formControlName="formatType"
+                id="r1"
+                value="1"
+              />
+              <label class="form-check-label">TEXT</label>
+              <input
+                class="form-check-input ms-3"
+                type="radio"
+                name="formatType"
+                formControlName="formatType"
+                id="r2"
+                value="2"
+              />
+              <label class="form-check-label">HTML</label>
+              <input
+                class="form-check-input ms-3"
+                type="radio"
+                name="formatType"
+                formControlName="formatType"
+                value="3"
+                id="r3"
+              />
+              <label class="form-check-label">WIRELESS</label>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center mb-4">
+    <button
+      type="submit"
+      class="btn btn-primary btn-sm fw-bold"
+      [disabled]="isDisabled"
+      (click)="onSubmit()"
+    >
+      Save
+      <fa-icon [icon]="faCircleCheck"></fa-icon>
+    </button>
+    <button
+      type="button"
+      name="clearButton"
+      id="clearButton"
+      value="Clear"
+      class="btn btn-primary btn-sm text-light ms-3"
+      [disabled]="isDisabled"
+      (click)="clearForm()"
+    >
+      Clear
+      <fa-icon [icon]="faCircleXmark"></fa-icon>
+    </button>
+  </div>
+  <!---------Fedex Freight Billing Address modal--------------->
+  <div
+    class="modal fade"
+    id="fedexFreightBilling"
+    aria-labelledby="fxfrInfo"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-light p-1 ps-2">
+          <h5 class="modal-title" id="fxfrInfo">
+            Fedex Freight Billing Details
+          </h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white p-2 me-1"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body" formGroupName="fxfrInfo">
+          <div
+            class="fedexFreightBillingDetails row row-cols-sm-1 row-cols-md-3 row-cols-lg-3"
+          >
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  formControlName="fxfrAccountNumber"
+                  id="fxfrAccountNumber"
+                  [ngClass]="{
+                    'is-invalid':
+                      fxfrInfoControls['fxfrAccountNumber'].touched &&
+                      fxfrInfoControls['fxfrAccountNumber'].errors
+                  }"
+                  placeholder=""
+                />
+                <label for="fxfrAccountNumber" class="floatLabel">
+                  Fedex Freight Account Number<span class="text-danger">*</span>
+                </label>
+              </div>
+              <small
+                class="text-danger"
+                *ngIf="fxfrInfoControls['fxfrAccountNumber'].touched &&
+                fxfrInfoControls['fxfrAccountNumber'].errors?.['required']
+            "
+              >
+                Please provide Fedex Freight Account Number
+              </small>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <select
+                  class="form-select form-select-sm"
+                  formControlName="class"
+                  id="class"
+                >
+                  <option value="" [selected]="true">---Select---</option>
+                  <option
+                    *ngFor="
+                      let fxfrClasss of fxfrClassCodeList;
+                      trackBy: trackByFn
+                    "
+                    value="{{ fxfrClasss.lookupValue }}"
+                  >
+                    {{ fxfrClasss.meaning }}
+                  </option>
+                </select>
+                <label for="class" class="floatLabel">
+                  Fedex Freight Class
+                </label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  id="description"
+                  formControlName="description"
+                  placeholder=""
+                />
+                <label for="description" class="floatLabel">
+                  Fedex Freight Description
+                </label>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <h5>Billing Address</h5>
+          <hr />
+          <div class="row row-cols-sm-1 row-cols-md-3 row-cols-lg-3 mt-2">
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  formControlName="billingLocationName"
+                  id="billingLocationName"
+                  placeholder=""
+                />
+                <label for="billingLocationName" class="floatLabel">
+                  Location Name
+                </label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  formControlName="billingCompanyName"
+                  id="billingCompanyName"
+                  placeholder=""
+                />
+                <label for="billingCompanyName" class="floatLabel">
+                  Company Name
+                </label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  formControlName="billingContactName"
+                  id="billingContactName"
+                  placeholder=""
+                />
+                <label for="billingContactName" class="floatLabel">
+                  Contact Name
+                </label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  formControlName="billingAddr1"
+                  id="billingAddr1"
+                  placeholder=""
+                />
+                <label for="billingAddr1" class="floatLabel"> Address 1 </label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  formControlName="billingAddr2"
+                  id="billingAddr2"
+                  placeholder=""
+                />
+                <label for="billingAddr2" class="floatLabel"> Address 2 </label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  formControlName="billingCity"
+                  id="billingCity"
+                  placeholder=""
+                />
+                <label for="billingCity" class="floatLabel"> City </label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  formControlName="billingState"
+                  id="billingState"
+                  placeholder=""
+                />
+                <label for="billingState" class="floatLabel"> State </label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  formControlName="billingPostalCode"
+                  id="billingPostalCode"
+                  placeholder=""
+                />
+                <label for="billingPostalCode" class="floatLabel">
+                  Postal Code
+                </label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  formControlName="billingPhone"
+                  id="billingPhone"
+                  placeholder=""
+                />
+                <label for="billingPhone" class="floatLabel">
+                  Phone Number
+                </label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating ms-0 mb-1 m-2">
+                <select
+                  formControlName="billingCountry"
+                  class="form-select form-select-sm select"
+                  id="billingCountry"
+                  formControlName="billingCountry"
+                >
+                  <option value="">---Select---</option>
+                  <option
+                    *ngFor="let country of countryCodesList; trackBy: trackByFn"
+                    [value]="country.countryCode"
+                  >
+                    {{ country.countryName }}
+                  </option>
+                </select>
+                <label for="billingCountry" class="floatLabel"> Country </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer p-1">
+          <div class="col-md-9 text-danger fw-bold me-3">
+            Note: Please save Carrier Configuration page after saving popup
+            details
+          </div>
+          <div class="col-md">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary fw-bold me-3"
+              data-bs-dismiss="modal"
+            >
+              Save
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---------Fedex Freight Billing Address modal--------------->
+  <!---------ShipExec Document Format modal--------------->
+  <div
+    class="modal fade"
+    id="shipExecDocument"
+    aria-labelledby="shipExecLabelInfo"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-light p-1 ps-2">
+          <h5 class="modal-title" id="shipExecLabelInfo">
+            ShipExec Document Formats
+          </h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white p-2 me-1"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body" formGroupName="shipExecLabelInfo">
+          <div class="shipExecDocument">
+            <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="domLabelFormat"
+                    id="domLabelFormat"
+                    placeholder=""
+                  />
+                  <label for="domLabelFormat" class="floatLabel">
+                    Domestic Label Format
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="seIntlLabelFormat"
+                    id="seIntlLabelFormat"
+                    placeholder=""
+                  />
+                  <label for="seIntlLabelFormat" class="floatLabel">
+                    International Label Format
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="ciDocFormat"
+                    id="ciDocFormat"
+                    placeholder=""
+                  />
+                  <label for="ciDocFormat" class="floatLabel">
+                    Commercial Invoice Document Format
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="uscoDocFormat"
+                    id="uscoDocFormat"
+                    placeholder=""
+                  />
+                  <label for="uscoDocFormat" class="floatLabel">
+                    USCO Document Format
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="addLabelFormat"
+                    id="addLabelFormat"
+                    placeholder=""
+                  />
+                  <label for="addLabelFormat" class="floatLabel">
+                    Additional Label Format
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="addDocFormat1"
+                    id="addDocFormat1"
+                    placeholder=""
+                  />
+                  <label for="addDocFormat1" class="floatLabel">
+                    Additional Document Format 1
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="addDocFormat2"
+                    id="addDocFormat2"
+                    placeholder=""
+                  />
+                  <label for="addDocFormat2" class="floatLabel">
+                    Additional Document Format 2
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="addDocFormat3"
+                    id="addDocFormat3"
+                    placeholder=""
+                  />
+                  <label for="addDocFormat3" class="floatLabel">
+                    Additional Document Format 3
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="addDocFormat4"
+                    id="addDocFormat4"
+                    placeholder=""
+                  />
+                  <label for="addDocFormat4" class="floatLabel">
+                    Additional Document Format 4
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="addDocFormat5"
+                    id="addDocFormat5"
+                    placeholder=""
+                  />
+                  <label for="addDocFormat5" class="floatLabel">
+                    Additional Document Format 5
+                  </label>
+                </div>
+              </div>
+              <div class="col-md" *ngIf="carrierCode.value == '999'">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <select
+                    class="form-select form-select-sm"
+                    formControlName="shipExecBolLabelFormat"
+                    id="shipExecBolLabelFormat"
+                  >
+                    <option value="" [selected]="true">---Select---</option>
+                    <option
+                      *ngFor="
+                        let bolFormat of shipExecBolFormatList;
+                        trackBy: trackByFn
+                      "
+                      value="{{ bolFormat.lookupValue }}"
+                    >
+                      {{ bolFormat.meaning }}
+                    </option>
+                  </select>
+                  <label for="shipExecBolLabelFormat" class="floatLabel">
+                    BOL Label Format
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer p-1">
+          <div class="col-md-9 text-danger fw-bold me-3">
+            Note: Please save Carrier Configuration page after saving popup
+            details
+          </div>
+          <div class="col-md">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary fw-bold me-3"
+              data-bs-dismiss="modal"
+            >
+              Save
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---------ShipExec Document Format modal--------------->
+  <!---------Star Track modal--------------->
+  <div
+    class="modal fade"
+    id="starTrackModal"
+    aria-labelledby="starTrackModal"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-light p-1 ps-2">
+          <h5 class="modal-title" id="starTrackModal">StarTrack EOD Details</h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white p-2 me-1"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="StarTrackEODDetailsLabel" formGroupName="starTrackInfo">
+            <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="eodUserName"
+                    id="eodUserName"
+                    placeholder=""
+                  />
+                  <label for="eodUserName" class="floatLabel">
+                    StarTrack EOD UserName
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="password"
+                    formControlName="eodPassword"
+                    id="eodPassword"
+                    placeholder=""
+                  />
+                  <label for="eodPassword" class="floatLabel">
+                    StarTrack EOD Password
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="eodAccountNumber"
+                    id="eodAccountNumber"
+                    placeholder=""
+                  />
+                  <label for="eodAccountNumber" class="floatLabel">
+                    StarTrack EOD AccountNumber
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="eodUrl"
+                    id="eodUrl"
+                    placeholder=""
+                  />
+                  <label for="eodUrl" class="floatLabel">
+                    StarTrack EOD URL
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer p-1">
+          <div class="col-md-9 text-danger fw-bold me-3">
+            Note: Please save Carrier Configuration page after saving popup
+            details
+          </div>
+          <div class="col-md">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary fw-bold me-3"
+              data-bs-dismiss="modal"
+            >
+              Save
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Star Track modal-->
+  <!---------World Ease Document Format modal--------------->
+  <div
+    class="modal fade"
+    id="worldEaseDocument"
+    aria-labelledby="worldEaseDocument"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-light p-1 ps-2">
+          <h5 class="modal-title" id="worldEaseDocument">
+            World Ease Document Formats
+          </h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white p-2 me-1"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="worldEaseInfo" formGroupName="worldEaseInfo">
+            <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="weLabelFormat"
+                    id="weLabelFormat"
+                    placeholder=""
+                  />
+                  <label for="weLabelFormat" class="floatLabel">
+                    Label Format
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="docBoxLabelFormat"
+                    id="docBoxLabelFormat"
+                    placeholder=""
+                  />
+                  <label for="docBoxLabelFormat" class="floatLabel">
+                    Doc Box Label Format
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="masterInvoiceFormat"
+                    id="masterInvoiceFormat"
+                    placeholder=""
+                  />
+                  <label for="masterInvoiceFormat" class="floatLabel">
+                    Master Invoice Format
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="consolidatedInvoiceFormat"
+                    id="consolidatedInvoiceFormat"
+                    placeholder=""
+                  />
+                  <label for="consolidatedInvoiceFormat" class="floatLabel"
+                    >Consolidated Invoice Format</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer p-1">
+          <div class="col-md-9 text-danger fw-bold me-3">
+            Note: Please save Carrier Configuration page after saving popup
+            details
+          </div>
+          <div class="col-md">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary fw-bold me-3"
+              data-bs-dismiss="modal"
+            >
+              Save
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---------World Ease Document Format modal--------------->
+  <!---------FEDEX IPD Document Format modal--------------->
+  <div
+    class="modal fade"
+    id="fedExDocument"
+    aria-labelledby="fedExDocument"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-light p-1 ps-2">
+          <h5 class="modal-title" id="fedExDocument">
+            FedEx IPD Document Formats
+          </h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white p-2 me-1"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div
+            class="fedexDirectDistInfo row"
+            formGroupName="fedexDirectDistInfo"
+          >
+            <div class="row row-cols-sm-1 row-cols-md-3 row-cols-lg-3">
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="format1"
+                    id="format1"
+                    placeholder=""
+                  />
+                  <label for="format1" class="floatLabel"> Format 1 </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="format2"
+                    id="format2"
+                    placeholder=""
+                  />
+                  <label for="format2" class="floatLabel"> Format 2 </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="format3"
+                    id="format3"
+                    placeholder=""
+                  />
+                  <label for="format3" class="floatLabel"> Format 3 </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="format4"
+                    id="format4"
+                    placeholder=""
+                  />
+                  <label for="format4" class="floatLabel">Format 4</label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="format5"
+                    id="format5"
+                    placeholder=""
+                  />
+                  <label for="format5" class="floatLabel">Format 5</label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="format6"
+                    id="format6"
+                    placeholder=""
+                  />
+                  <label for="format6" class="floatLabel">Format 6</label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    formControlName="format7"
+                    id="format7"
+                    placeholder=""
+                  />
+                  <label for="format7" class="floatLabel">Format 7</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer p-1">
+          <div class="col-md-9 text-danger fw-bold me-3">
+            Note: Please save Carrier Configuration page after saving popup
+            details
+          </div>
+          <div class="col-md">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary fw-bold me-3"
+              data-bs-dismiss="modal"
+            >
+              Save
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---------FEDEX IPD Document Format modal--------------->
+  <!---------TNT Details--------------->
+  <div
+    class="modal fade"
+    id="tntDetails"
+    aria-labelledby="tntDetails"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-light p-1 ps-2">
+          <h5 class="modal-title" id="tntDetails">TNT Details</h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white p-2 me-1"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="tntInfo" formGroupName="tntInfo">
+            <div class="row row-cols-sm-1 row-cols-md-3 row-cols-lg-3">
+              <div class="col-md">
+                <div class="form-floating ms-0 mb-1 m-2">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    formControlName="rateRequestUrl"
+                    id="rateRequestUrl"
+                    [ngClass]="{
+                    'is-invalid':
+                      tntInfoControls['rateRequestUrl'].touched &&
+                      tntInfoControls['rateRequestUrl'].errors?.['required']
+                  }"
+                    placeholder=""
+                  />
+                  <label for="rateRequestUrl" class="floatLabel">
+                    Rate Request URL<span class="text-danger">*</span>
+                  </label>
+                </div>
+                <small
+                  class="text-danger"
+                  *ngIf="tntInfoControls['rateRequestUrl'].touched &&
+                tntInfoControls['rateRequestUrl'].errors?.['required']
+            "
+                >
+                  Please provide Rate Request URL
+                </small>
+              </div>
+              <div class="col-md">
+                <div class="form-check mt-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    formControlName="enableShipTag"
+                    id="enableShipTag"
+                  />
+                  <label for="enableShipTag" class="form-check-label">
+                    Enable Ship Tag
+                  </label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-check mt-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    formControlName="enableBookTag"
+                    id="enableBookTag"
+                  />
+                  <label for="enableBookTag" class="form-check-label">
+                    Enable Book Tag
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer p-1">
+          <div class="col-md-9 text-danger fw-bold me-3">
+            Note: Please save Carrier Configuration page after saving popup
+            details
+          </div>
+          <div class="col-md">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary fw-bold me-3"
+              data-bs-dismiss="modal"
+            >
+              Save
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---------TNT Details--------------->
+</form>
+<app-account-numbers
+  [clientId]="clientIdTemp"
+  [orgId]="orgId.value"
+  [invOrgId]="invOrgId.value"
+  [carrierId]="carrierId.value"
+  [carrierCode]="carrierCode.value"
+  [carrierAcctNumbersInfoList]="carrierAcctNumbersInfoList"
+></app-account-numbers>
+<app-shipmethod-mapping
+  [shipMethodInfoList]="shipMethodInfoList"
+  [carrierServiceLevelCodesList]="carrierServiceLevelCodesList"
+  (updatedShipMethodInfoList)="onUpdateShipmethodMappingList($event)"
+></app-shipmethod-mapping>

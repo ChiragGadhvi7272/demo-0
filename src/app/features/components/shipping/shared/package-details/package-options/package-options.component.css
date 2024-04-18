@@ -1,0 +1,11 @@
+.modal-dialog{
+    max-width: 75% !important;
+}
+.leftFloat{
+    width: 40%;
+}
+
+.rightFloat{
+    background-color: #E3F7FF;
+}
+

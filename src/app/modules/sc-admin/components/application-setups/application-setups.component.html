@@ -1,0 +1,98 @@
+<div [formGroup]="applicationSetupsForm">
+  <div class="p-2">
+    <span class="text-primary h4">Application setups</span>
+    <!--<p class="text-secondary m-0 mt-1">Enter the required* details and save</p>-->
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card border-primary">
+        <div class="card-body">
+          <div class="form-floating ms-0 mb-1 m-2">
+            <select
+              name="loggerMode"
+              id="loggerMode"
+              class="form-select form-select-sm"
+              formControlName="loggerMode"
+              #loggerMode
+              [ngClass]="{
+                'is-invalid':
+                  applicationSetupControls['loggerMode'].touched &&
+                  applicationSetupControls['loggerMode'].errors
+              }"
+              (change)="onLoggerModeChange(loggerMode.value)"
+            >
+              <option [defaultSelected]="true" value="">---Select---</option>
+              <option
+                *ngFor="
+                  let loggerMode of loggerModeDetailsList;
+                  trackBy: trackByFn
+                "
+                [value]="loggerMode.lookupCode"
+              >
+                {{ loggerMode.meaning }}
+              </option>
+            </select>
+            <label for="loggerMode" class="floatLabel"
+              >Logger Mode<span class="text-danger">*</span>
+            </label>
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="
+              applicationSetupControls['loggerMode'].touched &&
+              applicationSetupControls['loggerMode'].errors?.['required']
+          "
+            >Please select valid logger mode</small
+          >
+          <div class="form-floating ms-0 mb-1 m-2 mt-3" [hidden]="showLogs">
+            <input
+              type="text"
+              class="form-control-sm form-control"
+              formControlName="logFile"
+              id="logFile"
+              name="logFile"
+              #logFile
+              [ngClass]="{
+                'is-invalid':
+                  applicationSetupControls['logFile'].touched &&
+                  applicationSetupControls['logFile'].errors
+              }"
+              placeholder=""
+            />
+            <label for="logFile" class="floatLabel"
+              >Logger File Path<span class="text-danger">*</span></label
+            >
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="
+              applicationSetupControls['logFile'].touched &&
+              applicationSetupControls['logFile'].errors?.['required']
+          "
+            >Please enter valid log file path</small
+          >
+
+          <div class="mt-4 text-center">
+            <button
+              type="submit"
+              class="btn btn-primary btn-sm me-3"
+              [disabled]="!applicationSetupsForm.valid"
+              (click)="onSubmit()"
+            >
+              Save
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+            <a
+              type="button"
+              routerLink="/{{ role }}"
+              class="btn btn-primary btn-sm me-3"
+            >
+              Close
+              <fa-icon [icon]="faCircleXmark"></fa-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

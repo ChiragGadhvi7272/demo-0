@@ -1,0 +1,149 @@
+<div
+  class="modal fade"
+  id="shipMethodMappingModal"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header p-2 ps-3 text-light bg-primary">
+        <h5 class="modal-title" id="exampleModalLabel">Ship Method Mapping</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white p-2 me-1"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive rounded-1 table-resp">
+          <table class="table table-hover table-bordered table-sm mb-1">
+            <thead
+              class="rowgroup bg-primary border-light text-white adminScrollWithIn"
+            >
+              <tr class="text-center">
+                <th class="w-auto text-nowrap">ShipMethod</th>
+                <th class="w-auto text-nowrap">Carrier Service Level Code</th>
+                <th class="w-auto text-nowrap">Validation</th>
+                <th class="w-auto text-nowrap">Enabled</th>
+                <th class="w-auto text-nowrap">User Defined Ship Method</th>
+                <th class="w-auto text-nowrap">International</th>
+            </tr>
+          </thead>
+          <tbody class="table-group">
+            <tr *ngFor="let shipMethodMapping of shipMethodInfoList">
+              <td scope="row">
+                <span>{{ shipMethodMapping.shipMethodMeaning }}</span>
+              </td>
+              <td>
+                <select
+                  class="form-select form-select-sm"
+                  (change)="
+                    updateCarrierServiceLevel(shipMethodMapping, $event)
+                  "
+                  [disabled]="!shipMethodMapping.enableFlag"
+                >
+                  <option value="">--Select--</option>
+                  <option
+                    *ngFor="
+                      let carrierServiceLevelCodes of carrierServiceLevelCodesList
+                    "
+                    [value]="carrierServiceLevelCodes.serviceLevelCode"
+                    [selected]="
+                      shipMethodMapping.carrierServiceLevel ===
+                      carrierServiceLevelCodes.serviceLevelCode
+                    "
+                  >
+                    {{ carrierServiceLevelCodes.serviceLevelDesc }}
+                  </option>
+                </select>
+                <div
+                  *ngIf="
+                    (shipMethodMapping.enableFlag &&
+                      shipMethodMapping.internationalFlag &&
+                      !shipMethodMapping.carrierServiceLevel) ||
+                    (shipMethodMapping.enableFlag &&
+                      !shipMethodMapping.carrierServiceLevel)
+                  "
+                  class="text-danger"
+                >
+                  Please select a Carrier Service Level.
+                </div>
+              </td>
+              <td>
+                <select
+                  class="form-select form-select-sm"
+                  (change)="
+                    updateShipMethodValidationCode(shipMethodMapping, $event)
+                  "
+                  [disabled]="!shipMethodMapping.enableFlag"
+                >
+                  <option value="">--Select--</option>
+                  <option
+                    *ngFor="
+                      let shipmethodValidationCode of shipmethodValidationCodeList
+                    "
+                    [value]="shipmethodValidationCode.lookupCode"
+                    [selected]="
+                      shipMethodMapping.shipMethodValidationCode ===
+                      shipmethodValidationCode.lookupCode
+                    "
+                  >
+                    {{ shipmethodValidationCode.meaning }}
+                  </option>
+                </select>
+              </td>
+              <td>
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [checked]="shipMethodMapping.enableFlag"
+                  (change)="updateEnableFlag(shipMethodMapping, $event)"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  [value]="shipMethodMapping.userShipMethodMeaning"
+                  (input)="
+                    updateUserShipMethodMeaning(shipMethodMapping, $event)
+                  "
+                  [disabled]="!shipMethodMapping.enableFlag"
+                />
+              </td>
+              <td>
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [checked]="shipMethodMapping.internationalFlag"
+                  (change)="updateInternationalFlag(shipMethodMapping, $event)"
+                  [disabled]="!shipMethodMapping.enableFlag"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+      <div class="modal-footer p-1">
+        <div class="col-md-8 text-center text-danger fw-bold p-2 ps-3">
+          Note: Please save Carrier Configurations after saving Ship Method
+          Mapping
+        </div>
+        <div class="col-md text-md-end">
+          <button
+            type="button"
+            class="btn btn-primary btn-sm me-3"
+            data-bs-dismiss="modal"
+            (click)="onSubmit()"
+            [disabled]="isButtonDisabled"
+          >
+            Save
+            <fa-icon [icon]="faCircleCheck"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

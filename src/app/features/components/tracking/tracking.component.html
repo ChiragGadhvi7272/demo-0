@@ -1,0 +1,197 @@
+<div [formGroup]="trackingForm" novalidate>
+  <div class="p-2">
+    <div class="text-primary h4 mb-0">Track Shipment</div>
+
+        </div>
+
+  <div class="card">
+    <div class="card-body pt-0 pb-1 p-0">
+      <div class="text-primary text-center bg-white h5 mt-2">
+        Search Details
+      </div>
+      <div class="row mb-1 p-2 pt-0 pb-0">
+        <div class="col-md">
+                            <div class="form-floating m-1">
+                                <input
+                                type="date"
+                                class="form-control form-control-sm"
+                                startKey="start"
+                                endKey="end"
+                                selected="selected"
+                                placeholder="Start Date"
+                                name="fromDate"
+                                id="fromDate"
+                                formControlName="fromDate"
+                                [ngClass]="{
+                                    'is-invalid':
+                                    trackingControls['fromDate'].touched &&
+                                    trackingControls['fromDate'].errors
+                                }"
+                                />
+                                <label for="fromDate" class="floatLabel"
+                                >From Date<span class="text-danger">*</span></label
+                                >
+                            </div>
+                            <small
+                                class="text-danger"
+                                *ngIf="trackingControls['fromDate'].touched && trackingControls['fromDate'].errors?.['required']"
+                            >
+                                Please select valid Start Date
+                            </small>
+                            </div>
+        
+        <div class="col-md">
+                            <div class="form-floating m-1">
+                                <input
+                                type="date"
+                                class="form-control form-control-sm"
+                                startKey="start"
+                                endKey="end"
+                                selected="selected"
+                                placeholder="Start Date"
+                                name="toDate"
+                                id="toDate"
+                                formControlName="toDate"
+                                [ngClass]="{
+                                    'is-invalid':
+                                    trackingControls['toDate'].touched &&
+                                    trackingControls['toDate'].errors
+                                }"
+                                />
+                                <label for="toDate" class="floatLabel"
+                                >From Date<span class="text-danger">*</span></label
+                                >
+                            </div>
+                            <small
+                                class="text-danger"
+                                *ngIf="trackingControls['toDate'].touched && trackingControls['fromDate'].errors?.['required']"
+                            >
+                                Please select valid to Date
+                            </small>
+                            </div>
+        
+        <div class="col-md">
+                            <div class="form-floating m-1">
+                                <select
+                                name="type"
+                                class="form-select form-select-sm select"
+                                id="type"
+                                formControlName="type"
+                                >
+                                <option [defaultSelected]="true" value="">---Select---</option>
+                                </select>
+            <label for="type" class="m-0 p-0 fw-bold floatLabel"> Type </label>
+                            </div>
+                            
+                            </div>
+        
+        <div class="col-md">
+                            <div class="form-floating m-1">
+                                <select
+                                name="value"
+                                class="form-select form-select-sm select"
+                                id="value"
+                                formControlName="value"
+                                >
+                                <option [defaultSelected]="true" value="">---Select---</option>
+                                </select>
+                                <label for="value" class="m-0 p-0 fw-bold floatLabel">
+                                Value
+                                </label>
+                            </div>
+                            
+                            </div>
+
+        <div class="col-md-2 mt-2">
+          <button class="btn btn-sm btn-primary fw-bold">
+            Submit <fa-icon [icon]="faCircleCheck"></fa-icon>
+                            </button>
+                        </div>
+
+                    </div>                                      
+      <hr class="m-0" />
+      <div class="text-primary text-center bg-white h5 mt-2">
+        Tracking Information
+                </div>
+      <div
+        class="row row-cols row-cols-md-2 fw-bold h6 m-3 mt-1 mb-1 p-2 pt-0 pb-0"
+      >
+        <div class="col-md">
+          <div class="m-2">Shipment #: DSSB</div>
+            </div>
+            
+        <div class="col-md">
+          <div class="m-2">
+            WayBill:
+            <span
+              style="background-color: #b2d2e5; cursor: pointer"
+              data-bs-toggle="modal"
+              data-bs-target="#viewShippedPackages"
+              (click)="viewDetails('wayBill')"
+              >1ZXXXXXXXXXXXXXXXX</span
+            >
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="m-2">Shipment ID: 6968</div>
+        </div>
+        <div class="col-md">
+          <div class="m-2">Shipment Date: 27-02-2024</div>
+                            </div>
+        <div class="col-md">
+          <div class="m-2">Customer Name: Mediatech Corporation</div>
+        </div>
+        <div class="col-md">
+          <div class="m-2">Shipment Cost: 16.75</div>
+                    </div>
+        <div class="col-md">
+          <div class="m-2">
+            Destination Address: 1700 S Finley Road Lambard, IL, 60148, US
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="m-2">
+            Shipment Carrier: UPS, Shipment Method: UPS Ground
+                            </div>
+        </div>
+      </div>
+      <div class="table-responsive rounded-1 table-resp p-3 pt-0 pb-0">
+        <table class="table table-hover table-bordered table-sm mb-1">
+          <thead
+            class="rowgroup bg-primary border-light text-white adminScrollWithIn"
+          >
+            <tr class="text-center">
+              <th scope="col" class="w-auto text-nowrap">#</th>
+              <th scope="col" class="w-auto text-nowrap">Weight</th>
+              <th scope="col" class="w-auto text-nowrap">UOM</th>
+              <th scope="col" class="w-auto text-nowrap">
+                UPS Tracking Number
+              </th>
+              <th scope="col" class="w-auto text-nowrap">POD</th>
+                                        </tr>
+                                    </thead>
+          <tbody class="table-group">
+                                        <tr class="text-center">
+                                        <td>1</td>
+                                        <td>10</td>
+                                        <td>LB</td>
+              <td
+                data-bs-toggle="modal"
+                data-bs-target="#viewShippedPackages"
+                (click)="viewDetails('tracking')"
+              >
+                <span style="background-color: #b2d2e5; cursor: pointer"
+                  >1ZXXXXXXXXXXXXXXX</span
+                >
+                                            </td>
+                                            <td>
+                                            <button class="btn btn-sm btn-primary">Show POD</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> 
+                    </div>                  
+  <app-view-details [typeOfView]="typeOfView"></app-view-details>
+    </div>   

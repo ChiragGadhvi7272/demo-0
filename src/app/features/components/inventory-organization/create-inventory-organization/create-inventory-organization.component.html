@@ -1,0 +1,268 @@
+<div
+  class="modal fade"
+  id="invDetailsModel"
+  tabindex="-1"
+  role="dialog"
+  [formGroup]="createEditInvDetailsForm"
+  novalidate
+  autocomplete="off"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-light bg-primary p-2 ps-3 text-center ps-2">
+        <div class="modal-title h5" id="exampleModalLabel">
+          {{ this.createUpdate }}
+        </div>
+        <span style="float: right;">
+          <button type="button" class="btn-close btn-close-white p-2 me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+        </span>
+      </div>
+      <div class="modal-body">
+        <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                type="text"
+                name="orgName"
+                class="form-control form-control-sm"
+                id="orgName"
+                formControlName="orgName"
+                placeholder=""
+                [ngClass]="{
+                  'is-invalid':
+                    createEditInvDetailsFormControls['orgName'].touched &&
+                    createEditInvDetailsFormControls['orgName'].errors
+                }"
+              />
+              <label for="orgName" class="floatLabel"
+                >{{orgIdNameLabel}}<span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['orgName'].touched && createEditInvDetailsFormControls['orgName'].errors?.['required']"
+              >
+                Please enter {{orgIdNameLabel}}
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['orgName'].touched && createEditInvDetailsFormControls['orgName'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(250)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['orgName'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                type="text"
+                name="orgId"
+                class="form-control form-control-sm"
+                id="orgId"
+                formControlName="orgId"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditInvDetailsFormControls['orgId'].touched &&
+                    createEditInvDetailsFormControls['orgId'].errors,
+                  'disabled-input': isEdit
+                }"
+                [readOnly]="isEdit"
+                placeholder=""
+              />
+              <label for="orgId" class="floatLabel"
+                >{{orgIdLabel}}<span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['orgId'].touched && createEditInvDetailsFormControls['orgId'].errors?.['required']"
+                >Please enter {{orgIdLabel}}</small
+              >
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['orgId'].touched && createEditInvDetailsFormControls['orgId'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(250)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['orgId'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                type="text"
+                name="invOrgName"
+                class="form-control form-control-sm"
+                id="invOrgName"
+                formControlName="invOrgName"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditInvDetailsFormControls['invOrgName'].touched &&
+                    createEditInvDetailsFormControls['invOrgName'].errors
+                }"
+                placeholder=""
+              />
+              <label for="invOrgName" class="floatLabel"
+                >{{invOrgIdNameLabel}}<span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['invOrgName'].touched && createEditInvDetailsFormControls['invOrgName'].errors?.['required']"
+              >
+                Please enter {{invOrgIdNameLabel}}
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['invOrgName'].touched && createEditInvDetailsFormControls['invOrgName'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(250)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['invOrgName'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                type="text"
+                name="invOrgId"
+                class="form-control form-control-sm"
+                id="invOrgId"
+                formControlName="invOrgId"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditInvDetailsFormControls['invOrgId'].touched &&
+                    createEditInvDetailsFormControls['invOrgId'].errors,
+                  'disabled-input': isEdit
+                }"
+                [readOnly]="isEdit"
+                placeholder=""
+              />
+              <label for="invOrgId" class="floatLabel"
+                >{{invOrgIdLabel}}<span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['invOrgId'].touched && createEditInvDetailsFormControls['invOrgId'].errors?.['required']"
+              >
+                Please enter {{invOrgIdLabel}}
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['invOrgId'].touched && createEditInvDetailsFormControls['invOrgId'].errors?.['maxlength']"
+              >
+                Exceeded maximum length of characters(250)
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['invOrgId'].errors?.['pattern']"
+              >
+                White Spaces are not allowed
+              </small>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                name="weighingScaleName"
+                id="weighingScaleName"
+                class="form-select form-select-sm"
+                formControlName="weighingScaleName"
+              >
+                <option value="" [defaultSelected]="true">---Select---</option>
+                <option
+                  *ngFor="
+                    let weightScale of weighingScalesList;
+                    trackBy: trackByFn
+                  "
+                  [value]="weightScale.lookupCode"
+                >
+                  {{ weightScale.meaning }}
+                </option>
+              </select>
+              <label for="weighingScaleName" class="floatLabel"
+                >Weighing Scale Name
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                name="status"
+                id="status"
+                class="form-select form-select-sm"
+                formControlName="status"
+                [ngClass]="{
+                  'is-invalid':
+                    createEditInvDetailsFormControls['status'].touched &&
+                    createEditInvDetailsFormControls['status'].errors
+                }"
+              >
+                <option
+                  *ngFor="let status of statusList; trackBy: trackByFn"
+                  [value]="status.lookupCode"
+                >
+                  {{ status.meaning }}
+                </option>
+              </select>
+              <label for="status" class="floatLabel"
+                >Status <span class="text-danger">*</span></label
+              >
+              <small
+                class="text-danger"
+                *ngIf="createEditInvDetailsFormControls['status'].touched && createEditInvDetailsFormControls['status'].errors?.['required']"
+                >Please select status</small
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center p-1 modal-footer d-inline">
+        <button
+          type="submit"
+          class="btn btn-primary btn-sm me-2"
+          [hidden]="isEdit"
+          *ngIf="roleId == 3"
+          (click)="onSubmit('create')"
+          data-bs-dismiss="modal"
+        >
+          Save
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary updateButton btn-sm me-2" 
+          [hidden]="!isEdit || isSCUser"
+          *ngIf="roleId == 3"
+          (click)="onSubmit('update')"
+          data-bs-dismiss="modal"
+        >
+          Update
+          <fa-icon [icon]="faCircleCheck"></fa-icon>
+        </button>
+        <button
+          type="reset"
+          class="btn btn-primary btn-sm me-2"
+          (click)="resetForms()"
+          [hidden]="isEdit"
+        >
+          Reset
+          <fa-icon [icon]="faRefresh"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

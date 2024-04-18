@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --region us-west-2 ecr get-login-password | docker login --username AWS --password-stdin 118400147842.dkr.ecr.us-west-2.amazonaws.com
+  build:
+    commands:
+      - echo Building Spring Boot application...
+  post_build:
+    commands:
+      - echo Building Docker image...
+      - docker build -t shipconsole-ui:latest .
+      - docker tag shipconsole-ui:latest 118400147842.dkr.ecr.us-west-2.amazonaws.com/shipconsole-ui:latest
+      - docker push 118400147842.dkr.ecr.us-west-2.amazonaws.com/shipconsole-ui:latest
+
+artifacts:
+  files:
+    - Dockerfile
+    - appspec.yml
+    - start_container.sh
+    - stop_container.sh

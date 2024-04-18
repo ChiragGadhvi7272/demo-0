@@ -1,0 +1,7 @@
+{
+  "deliveryLabel": "Fulfillment Id",
+  "orgIdLabel": "Subsidiary Id",
+  "invOrgIdLabel": "Location Id",
+  "orgIdNameLabel": "Subsidiary",
+  "invOrgIdNameLabel": "Location"
+}

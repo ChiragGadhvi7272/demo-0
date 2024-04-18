@@ -1,0 +1,106 @@
+/*.loginCompCss {
+  background-image: url("/assets/images/loginimage.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: left;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  overflow: hidden !important;
+}
+*/
+/* .logoHead { 
+  background-repeat: no-repeat;
+  margin-left: 5rem !important;
+} */
+
+
+.featured-image {
+  margin: 0;
+  position: absolute;
+  top: 48%;
+  left: 32%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.loginlinks {
+  text-decoration: none;
+  color: #74788d;
+}
+.right-box {
+  /* margin-top: 1rem; */
+  margin-right: auto;
+  /* position: right; */
+  background-color: white;
+  /* width: 33.3% !important; */
+  /* padding: 4% 2.5%; */
+  text-align: center;
+  /* border-radius: 12px; */
+}
+
+/* @media (max-width: 1200px) { */
+.right-box img {
+  width: 50%;
+  padding-bottom: 10px;
+}
+/* .form-control-sm {
+  height: calc(2.6rem + 2px) !important;
+} */
+.featured-image img {
+  width: 85%;
+  margin: 5px 0 0 35px;
+}
+/* } */
+.btn-block {
+  /* background-color: #00467f !important; */
+  border-radius: 8px;
+  margin-top: 0px;
+}
+.btn-block:hover {
+  color: var(--bs-btn-hover-color);
+  background-color: var(--bs-btn-hover-bg) !important;
+  border-color: var(--bs-btn-hover-border-color);
+}
+.btn-block-bt {
+  /* background-color: #00467f; */
+  border-radius: 8px;
+  width: 100%;
+}
+.btn-outline {
+  width: 100%;
+  /* border-color: #00467f; */
+  border-radius: 8px;
+  width: 100%;
+  /* color: #00467f; */
+}
+.footertext {
+  color: #74788d;
+}
+@media only screen and (max-width: 992px) {
+  .featured-image {
+    margin: 0;
+    position: relative;
+    top: 48%;
+    left: 45%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+@media only screen and (max-width: 992px) {
+  .featured-image {
+    margin: 0;
+    position: relative;
+    top: 48%;
+    left: 45%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+ 

@@ -1,0 +1,241 @@
+<div
+  *ngIf="ciDetailsFlag"
+  [formGroup]="intlCiInfo"
+  novalidate
+  autocomplete="off"
+>
+  <div class="card mt-2 border-top">
+    <div class="card-body p-1">
+      <div
+        class="btn btn-sm fw-bold border-0 text-primary text-start shadow-none w-100"
+        (click)="toggleCI()"
+      >
+        Commercial Invoice
+        <span class="float-end">
+          <fa-icon
+            [icon]="ciDetailsFlag ? faChevronUp : faChevronDown"
+          ></fa-icon>
+        </span>
+      </div>
+      <div class="border-top" *ngIf="toggleCiDetailsFlag">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="invoiceValue"
+                name="invoiceValue"
+                formControlName="invoiceValue"
+                placeholder=""
+              />
+              <label for="invoiceValue" class="floatLabel">
+                Invoice Value
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="invoiceNumber"
+                name="invoiceNumber"
+                formControlName="invoiceNumber"
+                [ngClass]="{
+                  'is-invalid':
+                    intlCiInfo.get('invoiceNumber')?.touched &&
+                    intlCiInfo.get('invoiceNumber')?.errors
+                }"
+                placeholder=""
+                required
+              />
+              <label for="invoiceValue" class="floatLabel">
+                Invoice Number<span class="text-danger">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="date"
+                id="invoiceDate"
+                name="invoiceDate"
+                placeholder=""
+                formControlName="invoiceDate"
+                required
+                [ngClass]="{
+                  'is-invalid':
+                    intlCiInfo.get('invoiceDate')?.touched &&
+                    intlCiInfo.get('invoiceDate')?.errors
+                }"
+              />
+              <label for="invoiceDate" class="floatLabel">
+                Invoice Date <span class="text-danger">*</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                class="form-select form-select-sm"
+                id="currencyCode"
+                name="currencyCode"
+                formControlName="currencyCode"
+              >
+                <option value="">--Select--</option>
+                <option
+                  *ngFor="let currency of currencyCodesList; trackBy: trackByFn"
+                  [value]="currency.currencyCode"
+                  [selected]=""
+                >
+                  {{ currency.currencyCode }}
+                </option>
+              </select>
+              <label for="currencyCode" class="floatLabel">
+                Currency Code <span class="text-danger">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                name="reasonForExport"
+                id="reasonForExport"
+                class="form-select form-select-sm"
+                formControlName="reasonForExport"
+              >
+                <option value="" [defaultSelected]="true">--Select--</option>
+                <option
+                  *ngFor="let reason of reasonForExportList; trackBy: trackByFn"
+                  [value]="reason.lookupValue"
+                >
+                  {{ reason.lookupValue }}
+                </option>
+              </select>
+
+              <label for="reasonForExport" class="floatLabel">
+                Reason For Export <span class="text-danger">*</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <select
+                name="termsOfSale"
+                id="termsOfSale"
+                class="form-select form-select-sm"
+                formControlName="termsOfSale"
+              >
+                <option value="" [defaultSelected]="true">--Select--</option>
+                <option
+                  *ngFor="let term of termsOfSaleList; trackBy: trackByFn"
+                  [value]="term.lookupValue"
+                >
+                  {{ term.lookupValue }}
+                </option>
+              </select>
+
+              <label for="termsOfSale" class="floatLabel">
+                Terms Of Sale
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="additionalComments"
+                name="additionalComments"
+                formControlName="additionalComments"
+                placeholder=""
+              />
+              <label for="additionalComments" class="floatLabel">
+                Additional Comments
+              </label>
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="number"
+                id="discount"
+                name="discount"
+                formControlName="discount"
+                placeholder=""
+              />
+              <label for="discount" class="floatLabel"> Discount </label>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="number"
+                id="freightCharges"
+                name="freightCharges"
+                formControlName="freightCharges"
+                placeholder=""
+              />
+              <label for="freightCharges" class="floatLabel">
+                Freight Charges
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="number"
+                id="insuranceCharges"
+                name="insuranceCharges"
+                formControlName="insuranceCharges"
+                placeholder=""
+              />
+              <label for="insuranceCharges" class="floatLabel">
+                Insurance Charges
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="number"
+                id="otherCharges"
+                name="otherCharges"
+                formControlName="otherCharges"
+                placeholder=""
+              />
+              <label for="otherCharges" class="floatLabel">
+                Other Charges
+              </label>
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="declarationStatement"
+                name="declarationStatement"
+                formControlName="declarationStatement"
+                placeholder=""
+              />
+              <label for="declarationStatement" class="floatLabel">
+                Declaration Statement
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

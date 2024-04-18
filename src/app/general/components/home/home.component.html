@@ -1,0 +1,18 @@
+<div class="container-fluid">
+  <app-dashboard
+    [sideNavStatus]="sideNavStatus"
+    [ngClass]="{ 'app-side-nav-open': sideNavStatus }"
+  ></app-dashboard>
+  <div
+    class="display-area copyright"
+    [ngClass]="{ 'display-area-shrink': sideNavStatus }"
+  >
+    <router-outlet> </router-outlet>
+    <!-- </main> -->
+  </div>
+</div>
+<footer class="footer text-end">
+  <span class="fw-bold text-muted me-3">
+    <fa-icon [icon]="faCopyright"></fa-icon> {{ copyrights }}
+  </span>
+</footer>

@@ -1,0 +1,798 @@
+<div class="card mb-3 p-1 border-primary">
+  <div
+    class="form-check mt-2 ms-2 text-start cursor-pointer"
+    [formGroup]="returnShipmentInfo"
+    novalidate
+  >
+    <input
+      class="form-check-input"
+      type="checkbox"
+      #returnFlag
+      formControlName="returnFlag"
+      (change)="onReturnCheck($event)"
+      id="returnFlag"
+    />
+    <label for="returnFlag" class="form-check-label h6 text-primary fw-bold">
+      Return Shipment
+    </label>
+  </div>
+  <div
+    class="card-body pt-0"
+    *ngIf="
+      !this.returnShipmentFlag ? returnFlag.checked : this.returnShipmentFlag
+    "
+  >
+    <div
+      class="row row-cols pt-0 p-2 row-cols-md-3"
+      [formGroup]="returnShipmentInfo"
+      novalidate
+    >
+      <div class="col-md">
+        <div class="form-floating mb-1 m-2">
+          <input
+            type="text"
+            placeholder=""
+            name="description"
+            class="form-control form-control-sm"
+            id="description"
+            formControlName="description"
+            [ngClass]="{
+              'is-invalid':
+                returnShipmentInfoControls['description'].touched &&
+                returnShipmentInfoControls['description'].errors
+            }"
+          />
+          <label for="description" class="fw-bold" class="floatLabel">
+            Return Description
+            <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+          </label>
+          <small
+            class="text-danger"
+            *ngIf="returnShipmentInfoControls['description'].touched 
+                                && returnShipmentInfoControls['description'].errors?.['required']"
+          >
+            Please enter Return Description
+          </small>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating mb-1 m-2">
+          <select
+            name="labelDeliveryMethod"
+            class="form-select form-select-sm select"
+            id="labelDeliveryMethod"
+            formControlName="labelDeliveryMethod"
+          >
+            <option [defaultSelected]="true" value="">---Select---</option>
+            <option
+              *ngFor="
+                let labelDeliveryMethod of labelDeliveryMethodList;
+                trackBy: trackByFn
+              "
+              [value]="labelDeliveryMethod.meaning"
+            >
+              {{ labelDeliveryMethod.meaning }}
+            </option>
+          </select>
+          <label for="labelDeliveryMethod" class="fw-bold" class="floatLabel">
+            Label Delivery Method
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row row-cols pt-0 p-2 row-cols-md-3">
+      <div class="col-md" [formGroup]="returnShipFromAddrInfo" novalidate>
+        <div class="card border-primary" #shipFromLocation>
+          <div class="card-body p-1">
+            <div class="h6 headersDetails fw-bold">Ship From</div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  placeholder=""
+                  id="customerName"
+                  formControlName="customerName"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipFromAddrInfoControls['customerName'].touched &&
+                      shipFromAddrInfoControls['customerName'].errors
+                  }"
+                />
+                <label for="customerName" class="fw-bold" class="floatLabel"
+                  >Company Name
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger"
+                  *ngIf="shipFromAddrInfoControls['customerName'].touched 
+                                && shipFromAddrInfoControls['customerName'].errors?.['required']"
+                >
+                  Please enter Company Name
+                </small>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipFromAddrInfoControls['customerName'].touched 
+                                && shipFromAddrInfoControls['customerName'].errors?.['maxlength']"
+                >
+                  Exceeded maximum length of characters(35)
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="contactName"
+                  formControlName="contactName"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipFromAddrInfoControls['contactName'].touched &&
+                      shipFromAddrInfoControls['contactName'].errors
+                  }"
+                />
+                <label for="contactName" class="fw-bold" class="floatLabel"
+                  >Contact Name
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipFromAddrInfoControls['contactName'].touched 
+                                && shipFromAddrInfoControls['contactName'].errors?.['required']"
+                >
+                  Please enter Contact Name
+                </small>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipFromAddrInfoControls['contactName'].touched 
+                                && shipFromAddrInfoControls['contactName'].errors?.['maxlength']"
+                >
+                  Exceeded maximum length of characters(35)
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="addressLine1"
+                  formControlName="addressLine1"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipFromAddrInfoControls['addressLine1'].touched &&
+                      shipFromAddrInfoControls['addressLine1'].errors
+                  }"
+                />
+                <label for="addressLine1" class="fw-bold" class="floatLabel"
+                  >Address Line 1
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipFromAddrInfoControls['addressLine1'].touched 
+                                && shipFromAddrInfoControls['addressLine1'].errors?.['required']"
+                >
+                  Please enter Address Line1
+                </small>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipFromAddrInfoControls['addressLine1'].touched 
+                                && shipFromAddrInfoControls['addressLine1'].errors?.['maxlength']"
+                >
+                  Exceeded maximum length of characters(35)
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="addressLine2"
+                  formControlName="addressLine2"
+                />
+                <label for="addressLine2" class="fw-bold" class="floatLabel"
+                  >Address Line 2</label
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="city"
+                  formControlName="city"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipFromAddrInfoControls['city'].touched &&
+                      shipFromAddrInfoControls['city'].errors
+                  }"
+                />
+                <label for="city" class="fw-bold" class="floatLabel"
+                  >City
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipFromAddrInfoControls['city'].touched 
+                                    && shipFromAddrInfoControls['city'].errors?.['required']"
+                >
+                  Please enter City
+                </small>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipFromAddrInfoControls['city'].touched 
+                                    && shipFromAddrInfoControls['city'].errors?.['maxlength']"
+                >
+                  Exceeded maximum length of characters(35)
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="state"
+                  formControlName="state"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipFromAddrInfoControls['state'].touched &&
+                      shipFromAddrInfoControls['state'].errors
+                  }"
+                />
+                <label for="state" class="fw-bold" class="floatLabel"
+                  >State
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipFromAddrInfoControls['state'].touched 
+                && shipFromAddrInfoControls['state'].errors?.['required']"
+                >
+                  Please enter State
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="postalCode"
+                  formControlName="postalCode"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipFromAddrInfoControls['postalCode'].touched &&
+                      shipFromAddrInfoControls['postalCode'].errors
+                  }"
+                />
+                <label for="postalCode" class="fw-bold" class="floatLabel"
+                  >ZIP Code
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipFromAddrInfoControls['postalCode'].touched 
+                && shipFromAddrInfoControls['postalCode'].errors?.['required']"
+                >
+                  Please enter ZIP Code
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <select
+                  name="countryCode"
+                  class="form-select form-select-sm select"
+                  id="countryCode"
+                  formControlName="countryCode"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipFromAddrInfoControls['countryCode'].touched &&
+                      shipFromAddrInfoControls['countryCode'].errors
+                  }"
+                >
+                  <option [defaultSelected]="true" value="">
+                    ---Select Country---
+                  </option>
+                  <option
+                    *ngFor="let country of countryCodesList; trackBy: trackByFn"
+                    [value]="country.countryCode"
+                  >
+                    {{ country.countryName }}
+                  </option>
+                </select>
+                <label for="countryCode" class="fw-bold" class="floatLabel"
+                  >Country
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipFromAddrInfoControls['countryCode'].touched 
+                                    && shipFromAddrInfoControls['countryCode'].errors?.['required']"
+                >
+                  Please select the Country
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="phoneNumber"
+                  formControlName="phoneNumber"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipFromAddrInfoControls['phoneNumber'].touched &&
+                      shipFromAddrInfoControls['phoneNumber'].errors
+                  }"
+                />
+                <label for="phoneNumber" class="fw-bold" class="floatLabel"
+                  >Phone Number
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipFromAddrInfoControls['phoneNumber'].touched 
+                                    && shipFromAddrInfoControls['phoneNumber'].errors?.['required']"
+                >
+                  Please Enter Phone Number
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md" [formGroup]="returnShipToAddrInfo" novalidate>
+        <div class="card border-primary" #shipToLocation>
+          <div class="card-body p-1">
+            <div class="h6 headersDetails fw-bold">Ship To</div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  placeholder=""
+                  id="customerName"
+                  formControlName="customerName"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipToAddrInfoControls['customerName'].touched &&
+                      shipToAddrInfoControls['customerName'].errors
+                  }"
+                />
+                <label for="customerName" class="fw-bold" class="floatLabel"
+                  >Company Name
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipToAddrInfoControls['customerName'].touched 
+                            && shipToAddrInfoControls['customerName'].errors?.['required']"
+                >
+                  Please enter Company Name
+                </small>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipToAddrInfoControls['customerName'].touched 
+                            && shipToAddrInfoControls['customerName'].errors?.['maxlength']"
+                >
+                  Exceeded maximum length of characters(100)
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="contactName"
+                  formControlName="contactName"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipToAddrInfoControls['contactName'].touched &&
+                      shipToAddrInfoControls['contactName'].errors
+                  }"
+                />
+                <label for="contactName" class="fw-bold" class="floatLabel"
+                  >Contact Name
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipToAddrInfoControls['contactName'].touched 
+                            && shipToAddrInfoControls['contactName'].errors?.['required']"
+                >
+                  Please enter Contact Name
+                </small>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipToAddrInfoControls['contactName'].touched 
+                            && shipToAddrInfoControls['contactName'].errors?.['maxlength']"
+                >
+                  Exceeded maximum length of characters(35)
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="addressLine1"
+                  formControlName="addressLine1"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipToAddrInfoControls['addressLine1'].touched &&
+                      shipToAddrInfoControls['addressLine1'].errors
+                  }"
+                />
+                <label for="addressLine1" class="fw-bold" class="floatLabel"
+                  >Address Line 1
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipToAddrInfoControls['addressLine1'].touched 
+                            && shipToAddrInfoControls['addressLine1'].errors?.['required']"
+                >
+                  Please enter Address Line1
+                </small>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipToAddrInfoControls['addressLine1'].touched 
+                            && shipToAddrInfoControls['addressLine1'].errors?.['maxlength']"
+                >
+                  Exceeded maximum length of characters(35)
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="addressLine2"
+                  formControlName="addressLine2"
+                />
+                <label for="addressLine2" class="fw-bold" class="floatLabel"
+                  >Address Line 2</label
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="city"
+                  formControlName="city"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipToAddrInfoControls['city'].touched &&
+                      shipToAddrInfoControls['city'].errors
+                  }"
+                />
+                <label for="city" class="fw-bold" class="floatLabel"
+                  >City
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipToAddrInfoControls['city'].touched 
+                                && shipToAddrInfoControls['city'].errors?.['required']"
+                >
+                  Please enter City
+                </small>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipToAddrInfoControls['city'].touched 
+                                && shipToAddrInfoControls['city'].errors?.['maxlength']"
+                >
+                  Exceeded maximum length of characters(35)
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="state"
+                  formControlName="state"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipToAddrInfoControls['state'].touched &&
+                      shipToAddrInfoControls['state'].errors
+                  }"
+                />
+                <label for="state" class="fw-bold" class="floatLabel"
+                  >State
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipToAddrInfoControls['state'].touched 
+                && shipToAddrInfoControls['state'].errors?.['required']"
+                >
+                  Please enter State
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="postalCode"
+                  formControlName="postalCode"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipToAddrInfoControls['postalCode'].touched &&
+                      shipToAddrInfoControls['postalCode'].errors
+                  }"
+                />
+                <label for="postalCode" class="fw-bold" class="floatLabel"
+                  >ZIP Code
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipToAddrInfoControls['postalCode'].touched 
+                && shipToAddrInfoControls['postalCode'].errors?.['required']"
+                >
+                  Please ZIP Code
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <select
+                  name="countryCode"
+                  class="form-select form-select-sm select"
+                  id="countryCode"
+                  formControlName="countryCode"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipToAddrInfoControls['countryCode'].touched &&
+                      shipToAddrInfoControls['countryCode'].errors
+                  }"
+                >
+                  <option [defaultSelected]="true" value="">
+                    ---Select Country---
+                  </option>
+                  <option
+                    *ngFor="let country of countryCodesList; trackBy: trackByFn"
+                    [value]="country.countryCode"
+                  >
+                    {{ country.countryName }}
+                  </option>
+                </select>
+                <label for="countryCode" class="fw-bold" class="floatLabel"
+                  >Country
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipToAddrInfoControls['countryCode'].touched 
+                                && shipToAddrInfoControls['countryCode'].errors?.['required']"
+                >
+                  Please select the Country
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="phoneNumber"
+                  formControlName="phoneNumber"
+                  [ngClass]="{
+                    'is-invalid':
+                      shipToAddrInfoControls['phoneNumber'].touched &&
+                      shipToAddrInfoControls['phoneNumber'].errors
+                  }"
+                />
+                <label for="phoneNumber" class="fw-bold" class="floatLabel"
+                  >Phone Number
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="shipToAddrInfoControls['phoneNumber'].touched 
+                && shipToAddrInfoControls['phoneNumber'].errors?.['required']"
+                >
+                  Please Enter Phone Number
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md" [formGroup]="returnCarrierInfo" novalidate>
+        <div class="card border-primary">
+          <div class="card-body p-1">
+            <div class="h6 headersDetails fw-bold">Shipping Service</div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <select
+                  name="shipMethodName"
+                  class="form-select form-select-sm select"
+                  id="shipMethodName"
+                  formControlName="shipMethodName"
+                  [ngClass]="{
+                    'is-invalid':
+                      carrierInfoControls['shipMethodName'].touched &&
+                      carrierInfoControls['shipMethodName'].errors
+                  }"
+                >
+                  <option [defaultSelected]="true" value="">
+                    ---Select--
+                  </option>
+                  <option
+                    *ngFor="
+                      let shipMethod of shipMethodMappingInfoList;
+                      trackBy: trackByFn
+                    "
+                    [value]="shipMethod.shipMethodMeaning"
+                  >
+                    {{ shipMethod.shipMethodMeaning }}
+                  </option>
+                </select>
+                <label for="shipMethodName" class="fw-bold" class="floatLabel"
+                  >Ship Method
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+                <small
+                  class="text-danger text-center"
+                  *ngIf="carrierInfoControls['shipMethodName'].touched &&
+                                carrierInfoControls['shipMethodName'].errors?.['required']
+                                "
+                >
+                  Please select shipMethod
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <select
+                  name="carrierPayCode"
+                  id="carrierPayCode"
+                  class="form-select-sm form-select"
+                  formControlName="carrierPayCode"
+                  #carrierPayCode
+                  [ngClass]="{
+                    'is-invalid':
+                      carrierInfoControls['carrierPayCode'].touched &&
+                      carrierInfoControls['carrierPayCode'].errors
+                  }"
+                  (change)="onPaymethodChange(carrierPayCode.value)"
+                >
+                  <option value="" [defaultSelected]="true">--Select--</option>
+                  <option
+                    *ngFor="
+                      let payMethod of CarrierPayMethodList;
+                      trackBy: trackByFn
+                    "
+                    [value]="payMethod.lookupValue"
+                  >
+                    {{ payMethod.meaning }}
+                  </option>
+                </select>
+                <label for="carrierPayCode" class="fw-bold" class="floatLabel"
+                  >Pay Method
+                  <span class="text-danger" *ngIf="returnFlag.checked">*</span>
+                </label>
+
+                <small
+                  class="text-danger text-center"
+                  *ngIf="
+                                carrierInfoControls['carrierPayCode'].touched &&
+                                carrierInfoControls['carrierPayCode'].errors?.['required']
+                                "
+                  >Please select Carrier Pay Method</small
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="accountNumber"
+                  formControlName="accountNumber"
+                  [ngClass]="{
+                    'is-invalid':
+                      carrierInfoControls['accountNumber'].touched &&
+                      carrierInfoControls['accountNumber'].errors
+                  }"
+                />
+                <label for="accountNumber" class="fw-bold" class="floatLabel"
+                  >A/C Number<span
+                    class="text-danger"
+                    *ngIf="returnFlag.checked"
+                    >*</span
+                  ></label
+                >
+                <small
+                  class="text-danger text-center"
+                  *ngIf="
+                    carrierInfoControls['accountNumber'].touched &&
+                    carrierInfoControls['accountNumber'].errors?.['required']
+                    "
+                  >Please Enter account Number</small
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="declaredValue"
+                  formControlName="declaredValue"
+                />
+                <label for="declaredValue" class="fw-bold" class="floatLabel"
+                  >Declared Value</label
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="trackingNumber"
+                  formControlName="trackingNumber"
+                  readonly="true"
+                />
+                <label for="trackingNumber" class="fw-bold" class="floatLabel"
+                  >Tracking Number</label
+                >
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating mb-1 m-2">
+                <input
+                  type="text"
+                  placeholder=""
+                  class="form-control form-control-sm"
+                  id="returnCharges"
+                  formControlName="returnCharges"
+                  readonly="true"
+                />
+                <label for="returnCharges" class="fw-bold" class="floatLabel"
+                  >Return Shipment Cost</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-payterm-details></app-payterm-details>

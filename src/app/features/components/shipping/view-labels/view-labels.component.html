@@ -1,0 +1,110 @@
+<div
+  class="modal fade"
+  id="viewLabel"
+  aria-labelledby="viewLabelPopUp"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" style="width: auto">
+    <div class="modal-content">
+      <div class="modal-header p-1 ps-3 text-light bg-primary">
+        <h5 class="modal-title" id="viewLabelPopUp">Documents</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white p-2 me-1"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body p-2 table-responsive">
+        <div *ngIf="intlFlag">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered table-sm m-0">
+              <thead class="rowgroup bg-primary border-light text-white">
+                <tr>
+                  <th class="w-auto text-nowrap text-center">S.No</th>
+                  <th class="w-auto text-nowrap text-center">Intl Document</th>
+                  <th *ngIf="hazmatFlag" class="w-auto text-nowrap text-center">
+                    Hazmat Document
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="table-group">
+                <tr *ngFor="let ciDoc of intlDocumentList; let i = index">
+                  <td class="text-center">{{ i + 1 }}</td>
+                  <td class="text-center">
+                    <a
+                      [href]="intlLabelPath + ciDoc + '.' + intlLabelFormat"
+                      target="_blank"
+                      >{{ deliveryId + "_" + (i + 1) }}</a
+                    >
+                  </td>
+
+                  <td *ngIf="hazmatFlag" class="text-center">
+                    <a
+                      *ngIf="dgFormList[i]"
+                      [href]="labelPath + dgFormList[i] + '.pdf'"
+                      target="_blank"
+                      >{{ deliveryId + "_DGForm_" + (i + 1) }}</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div *ngIf="!intlFlag && hazmatFlag">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered table-sm m-0">
+              <thead class="rowgroup bg-primary border-light text-white">
+                <tr>
+                  <th class="w-auto text-nowrap text-center">S.No</th>
+                  <th class="w-auto text-nowrap text-center">
+                    Hazmat Document
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="table-group">
+                <tr *ngFor="let dgform of dgFormList; let i = index">
+                  <td class="text-center">{{ i + 1 }}</td>
+                  <td class="text-center">
+                    <a [href]="labelPath + dgform + '.pdf'" target="_blank">{{
+                      deliveryId + "_DGForm_" + (i + 1)
+                    }}</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-sm m-0">
+            <thead class="rowgroup bg-primary border-light text-white">
+              <tr>
+                <th class="w-auto text-nowrap text-center">Package No</th>
+                <th class="w-auto text-nowrap text-center">Tracking No</th>
+                <th class="w-auto text-nowrap text-center">
+                  Return Tracking No
+                </th>
+              </tr>
+            </thead>
+            <tbody class="table-group">
+              <tr *ngFor="let packageInfo of shipmentPackagesInfoList">
+                <td class="text-center">{{ packageInfo.packageNum }}</td>
+                <td class="text-center">
+                  <a [href]="packageInfo.viewLabelPath" target="_blank">{{
+                    packageInfo.trackingNumber
+                  }}</a>
+                </td>
+                <td class="text-center">
+                  <a [href]="packageInfo.returnViewLabelPath" target="_blank">{{
+                    packageInfo.returnShipmentInfo.carrierInfo.trackingNumber
+                  }}</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

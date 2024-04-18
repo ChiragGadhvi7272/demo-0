@@ -1,0 +1,42 @@
+.faButtons {
+  font-size: 21px;
+  position: absolute;
+  top: -7px;
+  cursor: pointer;
+  color: #0e45b7 !important;
+}
+
+.faButtons:hover {
+  color: #485ec4 !important;
+}
+.text-muted {
+  font-size: 14px;
+}
+.fa-icon {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.form-check-input{
+  padding: 6px;
+  position: relative;
+  bottom: 2px;
+}
+.disabled-icon {
+  opacity: 0.5; /* Reduce opacity to make it look disabled */
+  color: gray; /* Change color to gray */
+  pointer-events: none; /* Prevent interactions with the icon */
+}
+.addressDetails {
+  height: 50px;
+} 
+.headersDetails {
+  margin-bottom: 0.15rem!important;
+  margin-top: 0.35rem!important;
+}
+.disabled-input {
+  color: #555555fa;
+  background-color: #f2f2f2;
+  display: block;
+  pointer-events: none;
+}

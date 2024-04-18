@@ -1,0 +1,19 @@
+.modal-dialog {
+  max-width: 60% !important;
+}
+.modal {
+  z-index: 10000001;
+}
+.popUpControls {
+  padding: 0.175rem 0.75rem;
+}
+.table-sm > :not(caption) > * > * {
+  padding: 0.2rem 0.2rem;
+}
+ 
+.btnInGrid {
+  font-size: 12.5px;
+  font-weight: bold;
+  margin-top: 0.7rem;
+  padding: 0.3rem;
+}

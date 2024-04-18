@@ -1,0 +1,111 @@
+<app-commodity-details
+  [shipFlag]="shipFlag"
+  [shipmentLinesInfoList]="shipmentLinesInfoList"
+  [uomList]="uomList"
+  [weightUomList]="weightUomList"
+></app-commodity-details>
+
+<div
+  *ngIf="shipmentHeadersInfo"
+  [formGroup]="shipmentHeadersInfo"
+  novalidate
+  autocomplete="off"
+>
+  <div class="p-1 pt-0">
+    <div class="row">
+      <div class="col-sm-3" *ngIf="!mailInnovationFlag">
+        <div class="form-check mt-3 d-flex">
+          <input
+            class="form-check-input me-2"
+            type="checkbox"
+            id="ciFlag"
+            #ciFlag
+            formControlName="ciFlag"
+            (change)="setValidationsToCI(ciFlag.checked)"
+          />
+          <label for="ciFlag" class="form-check-label">
+            Commercial Invoice
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-3" *ngIf="!mailInnovationFlag">
+        <div class="form-check mt-3 d-flex">
+          <input
+            class="form-check-input me-2"
+            type="checkbox"
+            id="uscoFlag"
+            formControlName="uscoFlag"
+            #uscoFlag
+            (change)="setValidationsToUsco(uscoFlag.checked)"
+          />
+          <label for="uscoFlag" class="form-check-label">
+            U.S Certificate Of Origin</label
+          >
+        </div>
+      </div>
+
+      <div class="col-sm-2" *ngIf="mailInnovationFlag">
+        <div class="form-check mt-3 d-flex">
+          <input
+            class="form-check-input me-2"
+            type="checkbox"
+            id="cn22Flag"
+            formControlName="cn22Flag"
+          />
+          <label for="cn22Flag" class="form-check-label"> CN22</label>
+        </div>
+      </div>
+
+      <div class="col-sm-4" *ngIf="carrierCode == 110">
+        <div class="form-floating ms-0 mb-1 m-2">
+          <select
+            name="intlDocSubmissionType"
+            id="intlDocSubmissionType"
+            class="form-select form-control-sm"
+            formControlName="intlDocSubmissionType"
+          >
+            <option value="">---Select---</option>
+            <option
+              *ngFor="let intlDoc of intlDocSubTypeList; trackBy: trackByFn"
+              [value]="intlDoc.lookupValue"
+            >
+              {{ intlDoc.meaning }}
+            </option>
+          </select>
+          <label for="intlDocSubmissionType" class="floatLabel">
+            Intl Docs Submission Type
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mb-2 headerCol">
+  <app-ein-or-tax-id
+    [intlDutiesTaxesInfo]="getIntlDutiesTaxesInfo()"
+    [paymethodsList]="paymethodsList"
+    [usppiIdList]="usppiIdList"
+  ></app-ein-or-tax-id>
+
+  <app-sold-to-details [intlSoldToInfo]="getIntlSoldToInfo()">
+  </app-sold-to-details>
+
+  <app-ci-details
+    *ngIf="!mailInnovationFlag"
+    [intlCiInfo]="getIntlCiInfo()"
+    [reasonForExportList]="reasonForExportList"
+    [termsOfSaleList]="termsOfSaleList"
+  ></app-ci-details>
+
+  <app-usco-details
+    [intlUscoInfo]="getIntlUscoInfo()"
+    *ngIf="!mailInnovationFlag"
+  >
+  </app-usco-details>
+  <app-cn22-details
+    *ngIf="mailInnovationFlag"
+    [intlCN22Info]="getIntlCN22Info()"
+    [cn22TypeList]="cn22TypeList"
+  >
+  </app-cn22-details>
+</div>

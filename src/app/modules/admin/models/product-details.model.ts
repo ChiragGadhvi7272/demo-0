@@ -1,0 +1,33 @@
+export class ProductDetails {
+  productId: number = 0;
+  orgId: string = '';
+  invOrgId: string = '';
+  clientId: number = 0;
+  partId: string = '';
+  partNumber: string = '';
+  description: string = '';
+  quantity: number = 0;
+  quantityUnitCode: string = '';
+  eCCN: string = '';
+  htsCode: string = '';
+  listPrice: number = 0;
+  currencyCode: string = '';
+  weightUnitCode: string = '';
+  netWeight: number = 0;
+  status: string = '';
+  unitValue: number = 0;
+  legalDesc: string = '';
+  productFamily: string = '';
+  countryOfOrigin: string = '';
+  listMainIcs: string = '';
+  encryption: string = '';
+  fpgasOrcplds: string = '';
+  wirelessFunction: string = '';
+  lotSerialNumber: string = '';
+  total: number = 0;
+  manualHold: string = '';
+  exportUom: string = '';
+  eodOrgCode: string = '';
+  companyCode: string = '';
+  licenseNumber: string = '';
+}

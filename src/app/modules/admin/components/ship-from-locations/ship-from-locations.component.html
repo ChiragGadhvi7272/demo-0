@@ -1,0 +1,300 @@
+<div class="p-2">
+  <div class="text-primary h4 mb-0">Ship From Locations</div>
+</div>
+<div [formGroup]="shipFromLocationDetailsForm" novalidate>
+  <div class="card">
+    <div class="p-1">
+      <div class="row">
+        <!-- Operating Unit -->
+        <div class="col-md-3">
+          <div class="form-floating m-1">
+            <select
+              name="operatingUnit"
+              class="form-select form-select-sm select"
+              id="operatingUnit"
+              formControlName="operatingUnit"
+              #operatingUnit
+              [ngClass]="{
+                'is-invalid':
+                  shipFromLocationDetailsFormControls['operatingUnit'].errors &&
+                  shipFromLocationDetailsFormControls['operatingUnit'].touched
+              }"
+              (change)="getOrganizationList(operatingUnit.value)"
+            >
+              <option [defaultSelected]="true" value="">---Select---</option>
+              <option
+                *ngFor="
+                  let operatingUnit of operatingUnitList;
+                  trackBy: trackByFn
+                "
+                value="{{ operatingUnit.ORG_ID }}"
+              >
+                {{ operatingUnit.ORG_NAME }}
+              </option>
+            </select>
+            <label for="operatingUnit" class="fw-bold floatLabel">
+              {{ orgIdNameLabel }}<span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="
+                shipFromLocationDetailsFormControls['operatingUnit'].errors?.['required'] &&
+                  shipFromLocationDetailsFormControls['operatingUnit'].touched
+              "
+              >Please select {{ orgIdNameLabel }}</small
+            >
+          </div>
+        </div>
+        <!-- Organization -->
+        <div class="col-md-3">
+          <div class="form-floating m-1">
+            <select
+              name="organization"
+              class="form-select form-select-sm select"
+              id="organization"
+              formControlName="organization"
+              #organization
+              [ngClass]="{
+                'is-invalid':
+                  shipFromLocationDetailsFormControls['organization'].errors &&
+                  shipFromLocationDetailsFormControls['organization'].touched
+              }"
+              (change)="onInvOrgIdChange()"
+            >
+              <option [defaultSelected]="true" value="">---Select---</option>
+              <option
+                *ngFor="let org of organizationList; trackBy: trackByFn"
+                value="{{ org.INV_ORG_ID }}"
+              >
+                {{ org.INV_ORG_NAME }}
+              </option>
+            </select>
+            <label for="organization" class="fw-bold floatLabel">
+              {{ invOrgIdNameLabel }}<span class="text-danger">*</span>
+            </label>
+            <small
+              class="text-danger text-center"
+              *ngIf="
+                shipFromLocationDetailsFormControls['organization'].errors?.['required'] &&
+                  shipFromLocationDetailsFormControls['organization'].touched
+              "
+              >Please select {{ invOrgIdNameLabel }}</small
+            >
+          </div>
+        </div>
+
+        <div class="col-md-4 mt-1">
+          <div class="m-1">
+            <button
+              type="button"
+              class="btn btn-primary btn-sm me-3"
+              [disabled]="!shipFromLocationDetailsForm.valid"
+              (click)="
+                getShipFromLocations(
+                  clientId,
+                  operatingUnit.value,
+                  organization.value
+                )
+              "
+            >
+              Go
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </button>
+
+            <button
+              type="button"
+              (click)="
+                createEditShipFromLocationDetails(
+                  shipFromLocations,
+                  organization.value
+                )
+              "
+              data-bs-toggle="modal"
+              data-bs-target="#shipFromLocationDetails"
+              class="btn btn-sm btn-primary"
+              [disabled]="!shipFromLocationDetailsForm.valid"
+            >
+              Create
+              <fa-icon [icon]="faCirclePlus"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-2 pb-0 border-top" [hidden]="showTable">  
+        <div class="table-responsive rounded-1 table-resp" [style]="tableHeight">
+          <table class="table table-hover table-bordered table-sm mb-1">
+            <thead
+              class="rowgroup bg-primary border-light text-white adminScrollWithIn"
+            >
+            <tr>
+                <th scope="col"  class="w-auto text-nowrap">Edit</th>
+                <th scope="col"  class="w-auto text-nowrap">Location Name</th>
+                <th scope="col"  class="w-auto text-nowrap">Contact Name</th>
+                <th scope="col"  class="w-auto text-nowrap">City</th>
+                <th scope="col"  class="w-auto text-nowrap">State</th>
+                <th scope="col"  class="w-auto text-nowrap">Postal Code</th>
+                <th scope="col"  class="w-auto text-nowrap">Country</th>
+                <th scope="col"  class="w-auto text-nowrap">Contact Number</th>
+            </tr>
+          </thead>
+
+          <tbody class="table-group">
+            <tr
+              *ngFor="
+                let shipFromLocations of shipFromLocationsList
+                  | paginate : paginationConfig
+              "
+            >
+              <td scope="row" class="text-center">
+                <button
+                  class="btn btn-primary btn-sm"
+                  (click)="
+                    createEditShipFromLocationDetails(
+                      shipFromLocations,
+                      organization.value
+                    )
+                  "
+                  data-bs-toggle="modal"
+                  data-bs-target="#shipFromLocationDetails"
+                >
+                  <fa-icon [icon]="faEdit"></fa-icon>
+                </button>
+              </td>
+
+              <!-- Location Name -->
+              <td>
+                <div
+                  *ngIf="
+                    shipFromLocations.locationName != null;
+                    else isInActive
+                  "
+                  class=""
+                >
+                  {{ shipFromLocations.locationName }}
+                </div>
+                <ng-template #isInActive
+                  ><div class="text-center">--</div></ng-template
+                >
+              </td>
+              <!-- Contact Name -->
+              <td>
+                <div
+                  *ngIf="shipFromLocations.contactName != null; else isInActive"
+                  class=""
+                >
+                  {{ shipFromLocations.contactName }}
+                </div>
+                <ng-template #isInActive
+                  ><div class="text-center">--</div></ng-template
+                >
+              </td>
+              <!-- City -->
+              <td>
+                <div
+                  *ngIf="shipFromLocations.city != null; else isInActive"
+                  class=""
+                >
+                  {{ shipFromLocations.city }}
+                </div>
+                <ng-template #isInActive
+                  ><div class="text-center">--</div></ng-template
+                >
+              </td>
+              <!-- stateProvinceCode -->
+              <td>
+                <div
+                  *ngIf="
+                    shipFromLocations.stateProvinceCode != null;
+                    else isInActive
+                  "
+                  class=""
+                >
+                  {{ shipFromLocations.stateProvinceCode }}
+                </div>
+                <ng-template #isInActive
+                  ><div class="text-center">--</div></ng-template
+                >
+              </td>
+              <!-- Postal Code -->
+              <td>
+                <div
+                  *ngIf="shipFromLocations.postalCode != null; else isInActive"
+                  class=""
+                >
+                  {{ shipFromLocations.postalCode }}
+                </div>
+                <ng-template #isInActive
+                  ><div class="text-center">--</div></ng-template
+                >
+              </td>
+              <!-- countryCode -->
+              <td>
+                <div
+                  *ngIf="shipFromLocations.countryCode != null; else isInActive"
+                  class=""
+                >
+                  {{ shipFromLocations.countryCode }}
+                </div>
+                <ng-template #isInActive
+                  ><div class="text-center">--</div></ng-template
+                >
+              </td>
+              <!-- contact Number -->
+              <td>
+                <div
+                  *ngIf="shipFromLocations.phoneNumber != null; else isInActive"
+                  class=""
+                >
+                  {{ shipFromLocations.phoneNumber }}
+                </div>
+                <ng-template #isInActive
+                  ><div class="text-center">--</div></ng-template
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer text-center" [hidden]="showTable">
+        <div class="row">
+          <div class="col-md-1">
+            <div class="form-floating ms-1">
+              <select
+                class="form-select form-select-sm fw-bold"
+                (change)="showNoOfRows()"
+                name="changeRows"
+                id="changeRows"
+                formControlName="changeRows"
+              >
+                <option
+                  *ngFor="let option of listPerPage; trackBy: trackByFn"
+                  [value]="option"
+                >
+                  {{ option }}
+                </option>
+              </select>
+              <label for="loggerMode" class="floatLabel">Rows </label>
+            </div>
+          </div>
+        <div class="col-md-9 mt-1">
+            <pagination-controls
+              (pageChange)="onPageChange($event)"
+            ></pagination-controls>
+          </div>
+        <div class="col-md-2 mt-2">
+            <div class="fw-bold">
+              No. of Rows: {{ shipFromLocationsList.length }}
+            </div>
+          </div>
+        </div>
+      </div>
+    <app-create-update-ship-from-location
+      [clientId]="clientId"
+      [orgId]="orgId"
+      [invOrgId]="invOrgId"
+    >
+    </app-create-update-ship-from-location>
+  </div>
+</div>

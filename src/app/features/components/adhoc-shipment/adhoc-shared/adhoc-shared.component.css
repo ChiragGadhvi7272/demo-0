@@ -1,0 +1,22 @@
+.freightCost {
+  font-size: 0.9rem !important;
+  padding: 5px;
+}
+/* .nav-pills .nav-link {
+  border-radius: 20px 20px 0px 0px !important;
+} */
+@media screen and (min-width: 1530px) and (max-width: 1919px) {
+  .freightCost {
+    font-size: 1rem !important;
+    padding: 3px;
+  }
+}
+@media screen and (min-width: 1920px) and (max-width: 2047px) {
+  .freightCost {
+    font-size: 1.3rem !important;
+    padding: 5px;
+  }
+  .freightInputs {
+    height: calc(3.5rem + 2px) !important;
+  }
+}

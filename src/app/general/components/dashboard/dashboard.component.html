@@ -1,0 +1,41 @@
+<div class="side-nav-content">
+  <img
+    routerLink="/{{ role }}"
+    class="image_logo py-2 ms-1"
+    src="/assets/images/logo-light-full.svg"
+    height="100%"
+  />
+  <ul
+    class="nav-list ms-1"
+    [ngClass]="{ 'nav-list-open': sideNavStatus }"
+    *ngFor="let item of sideNavList"
+  >
+    <li class="nav-list-item" [hidden]="!item._show">
+      <a [routerLink]="item._route"
+        ><fa-icon [icon]="item._icon" class="ms-2 h5"></fa-icon>
+        <span class="ms-3">
+          {{ item._name }}
+        </span>
+      </a>
+    </li>
+  </ul> 
+  <ul class="nav-list">
+    <li class="nav-list-item" role="button" (click)="logout()">
+      <fa-icon class="ms-3 h5" [icon]="faSignOutAlt"></fa-icon>
+      <span class="ms-3">Logout</span>
+    </li>
+  </ul>
+  <hr class="mt-1 m-0 p-1" />
+  <ul class="nav-list">
+    <li class="nav-list-item" role="button" (click)="changePassword()">
+      <fa-icon class="ms-3 h5" [icon]="faUndoAlt"></fa-icon>
+      <span class="ms-3">Change Password</span>
+    </li>
+  </ul>
+  <ul class="list-group">
+    <li class="nav-list-item">
+      <fa-icon class="ms-3 h5" [icon]="faDesktopAlt"></fa-icon>
+      <span class="ms-2">Version : {{ version }}</span>
+    </li>
+  </ul>
+</div> 

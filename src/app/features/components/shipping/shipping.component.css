@@ -1,0 +1,232 @@
+.stepper-wrapper {
+  font-family: Arial;
+  display: flex;
+  justify-content: space-between;
+}
+.mainCard {
+  position: relative;
+  right: 13px;
+}
+.stepper-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+}
+
+.center-text {
+  text-align: center;
+}
+.btnSpacing {
+  margin-right: 0.55rem;
+  padding: 0.4rem;
+  font-size: 14px;
+  font-weight: bold;
+}
+.with-padding {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+::placeholder {
+  font-size: 12.5px !important;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  position: relative;
+  color: #000 !important;
+}
+
+.stepper-item::before {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: -50%;
+  z-index: 2;
+}
+.stepper-item::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 2;
+}
+.stepper-item .step-counter {
+  position: relative;
+  top: 4px;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #0072c6;
+}
+.stepper-item.active {
+  font-weight: 400;
+}
+.stepper-item.completed .step-counter {
+  background-color: #0072c6;
+  color: white;
+  font-weight: 400;
+}
+.step-counter:hover {
+  color: #fff;
+  background-color: #0072c6 !important;
+  border-color: #4458b8 !important;
+  cursor: pointer;
+}
+.stepper-item.completed::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #0072c6;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 3;
+}
+.stepper-item:first-child::before {
+  content: none;
+}
+.stepper-item:last-child::after {
+  content: none;
+}
+.step-name {
+  position: relative;
+  top: 5px;
+}
+.alignItems {
+  display: inline-grid;
+  align-items: center;
+}
+.app-container {
+  position: relative;
+}
+.app-loading-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.deliveryInput {
+  border-radius: 7px 0 0 7px;
+}
+.searchInput {
+  border-radius: 0 7px 7px 0 !important;
+}
+@keyframes ripple {
+  0% {
+    transform: scale(5);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(25, 25);
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(25);
+  }
+}
+
+.headerCol {
+  height: 526px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+.headerCol::-webkit-scrollbar {
+  width: 11px;
+}
+.headerCol::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+.headerCol::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG);
+  border-radius: 6px;
+  border: 3px solid var(--scrollbarBG);
+}
+.btn:focus:not(:active)::after {
+  animation: ripple 1.5s ease-out;
+}
+/* .btn:active {
+  transform: scale(0.9) translate(0px, 5px);
+  box-shadow: none;
+} */
+/*for not auto response when screen load*/
+.btn:after {
+  visibility: hidden;
+}
+.btn:focus:after {
+  visibility: visible;
+}
+.col-md-3 {
+  width: 28%;
+}
+.col-md-9 {
+  width: 72%;
+}
+@media (max-width: 992px) {
+  .col-md-3,
+  .col-md-9 {
+    width: auto;
+  }
+  .headerCol {
+    height: auto;
+  }
+  .btnSpacing {
+    width: 100%; 
+    margin-top: 0.5rem;
+  }
+}
+@media screen and (min-width: 1440px) and (max-width: 1679px) {
+  .stepper-item .step-counter {
+    width: 50px;
+    height: 50px;
+  }
+  .headerCol {
+    height: 598px;
+  }
+  .btnSpacing {
+    margin-right: 0.65rem;
+    padding: 0.45rem;
+    font-size: 1rem;
+  }
+}
+@media screen and (min-width: 1680px) and (max-width: 1919px) {
+  .stepper-item .step-counter {
+    width: 50px;
+    height: 50px;
+  }
+  .headerCol {
+    height: 600px;
+  }
+}
+@media screen and (min-width: 1920px) and (max-width: 2047px) {
+  .stepper-item .step-counter {
+    width: 50px;
+    height: 50px;
+  }
+  .headerCol {
+    height: auto;
+    overflow-y: hidden;
+  }
+
+  .btnSpacing {
+    margin-right: 0.85rem;
+    padding: 0.4rem 1rem 0.4rem 1rem;
+    font-size: 15px;
+    font-weight: bold;
+  }
+}

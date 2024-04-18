@@ -1,0 +1,152 @@
+<!-- <p>address validation works!</p> -->
+<div
+  class="modal fade"
+  id="emailNotification"
+  tabindex="-1"
+  aria-labelledby="editAddressLabel"
+  aria-hidden="true"
+  [formGroup]="emailInfo"
+  *ngIf="emailInfo && checkEmailNotification"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-light bg-primary p-2 ps-3">
+        <h5 class="modal-title" id="editAddressLabel">E-Mail Notification</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white p-2 me-1"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                placeholder=" "
+                id="senderEmails"
+                name="senderEmails"
+                formControlName="senderEmails"
+                [ngClass]="{
+                  'is-invalid':
+                    this.emailInfo.controls['senderEmails'].touched &&
+                    this.emailInfo.controls['senderEmails'].errors
+                }"
+              />
+              <label class="floatLabel" for="senderEmails"
+                >Sender<span
+                  *ngIf="checkEmailNotification"
+                  class="text-danger fw-bold"
+                  >*</span
+                ></label
+              >
+            </div>
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                placeholder=" "
+                id="recipientEmailAddress1"
+                name="recipientEmailAddress1"
+                formControlName="recipientEmailAddress1"
+              />
+              <label class="floatLabel" for="recipientEmailAddress1"
+                >Recipient 1</label
+              >
+            </div>
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                placeholder=" "
+                id="recipientEmailAddress2"
+                name="recipientEmailAddress2"
+                formControlName="recipientEmailAddress2"
+              />
+              <label class="floatLabel" for="recipientEmailAddress2"
+                >Recipient 2</label
+              >
+            </div>
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                placeholder=" "
+                id="recipientEmailAddress3"
+                name="recipientEmailAddress3"
+                formControlName="recipientEmailAddress3"
+              />
+              <label class="floatLabel" for="recipientEmailAddress3"
+                >Recipient 3</label
+              >
+            </div>
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                placeholder=" "
+                id="recipientEmailAddress4"
+                name="recipientEmailAddress4"
+                formControlName="recipientEmailAddress4"
+              />
+              <label class="floatLabel" for="recipientEmailAddress4"
+                >Recipient 4</label
+              >
+            </div>
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                placeholder=" "
+                id="recipientEmailAddress5"
+                name="recipientEmailAddress5"
+                formControlName="recipientEmailAddress5"
+              />
+              <label class="floatLabel" for="recipientEmailAddress5"
+                >Recipient 5</label
+              >
+            </div>
+          </div>
+          <div class="col-md-6 mt-2">
+            <div class="form-floating">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                placeholder=" "
+                id="emailMessage"
+                name="emailMessage"
+                formControlName="emailMessage"
+              />
+              <label class="floatLabel" for="emailMessage"
+                >Personal message (optional)</label
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer p-1">
+        <button
+          type="button"
+          class="btn btn-sm btn-primary me-3"
+          [disabled]="shipFlag"
+          data-bs-dismiss="modal"
+        >
+          Save <fa-icon [icon]="faCheckCircle"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

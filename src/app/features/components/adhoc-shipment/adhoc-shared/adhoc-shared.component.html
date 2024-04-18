@@ -1,0 +1,129 @@
+<div class="card mb-2" style="border-radius: 15px 15px 5px 5px !important">
+  <div class="border-bottom">
+    <div class="nav nav-pills" role="tablist">
+      <div class="col-md-6 text-center fw-bold nav-mob">
+        <a
+          (click)="setActiveComponent('adhocPackageComponent')"
+          [class]="pkgComponentIndicator"
+          data-bs-toggle="tab"
+          href="#package"
+          role="tab"
+        >
+          <span class="">Package Details</span>
+        </a>
+      </div>
+      <div class="col-md-6 text-center fw-bold nav-mob">
+        <a
+          (click)="setActiveComponent('adhocInternationalComponent')"
+          [class]="intlComponentIndicator"
+          data-bs-toggle="tab"
+          href="#international-shipping"
+          role="tab"
+        >
+          <span class="">International Shipping</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="component-container card-body p-2">
+    <!-- <app-adhoc-package-details
+      *ngIf="activeComponent === 'adhocPackageComponent'"
+      [shipmentPackagesInfoList]="getshipmentPackagesList"
+      [clientId]="clientId"
+      [orgId]="orgId"
+      [invOrgId]="invOrgId"
+      [erpType]="erpType"
+      [shipFlag]="shipFlag"
+      [carrierId]="carrierId"
+      [carrierCode]="carrierCode"
+      [carrierMode]="carrierMode"
+      [packageCount]="packageCount"
+      [freightShoppingFlag]="freightShoppingFlag"
+      [defaultFocus]="defaultFocus"
+    >
+    </app-adhoc-package-details> -->
+    <app-package-details
+      *ngIf="activeComponent === 'adhocPackageComponent'"
+      [shipmentPackagesInfoList]="getShipmentPackagesList"
+      [clientId]="clientId"
+      [orgId]="orgId"
+      [invOrgId]="invOrgId"
+      [erpType]="erpType"
+      [shipFlag]="shipFlag"
+      [packageCount]="packageCount"
+      [freightShoppingFlag]="freightShoppingFlag"
+      (addPackageEvent)="addPackage($event)"
+      (removePackageEvent)="removePackage($event)"
+      [defaultFocus]="defaultFocus"
+      [activeComponent]="activeComponent"
+    ></app-package-details>
+    <hr class="m-0" *ngIf="activeComponent === 'adhocPackageComponent'" />
+    <div
+      class="align-center"
+      *ngIf="activeComponent === 'adhocPackageComponent'"
+    >
+      <div class="row">
+        <div class="col-md-2 mt-1">
+          <button
+            *ngIf="!shipFlag"
+            type="button"
+            class="text-light btn btn-sm btn-primary faButtons waves-effect"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="Rate Shopping"
+            [disabled]="true"
+          >
+            <fa-icon [icon]="faMoneyBill1Wave"></fa-icon>
+            Rate Shopping
+          </button>
+          <button
+            *ngIf="shipFlag"
+            type="button"
+            class="text-light btn btn-sm btn-primary faButtons waves-effect"
+            data-bs-toggle="modal"
+            data-bs-target="#CostDetails"
+            title="costs model"
+          >
+            <fa-icon [icon]="faMoneyBill1Wave"></fa-icon>
+            Costs
+          </button>
+        </div>
+        <div class="col-md mt-2 fw-bold freightCost" *ngIf="!shipFlag">
+          Estimated Freight: <span class="text-success">$0.00</span>, Estimated
+          Negotiated: <span class="text-success">$0.00</span>
+        </div>
+      </div>
+    </div>
+    <hr class="m-0 mt-1" *ngIf="activeComponent === 'adhocPackageComponent'" />
+    <app-adhoc-carrier-details
+      [shipmentHeadersInfo]="shipmentHeadersInfo"
+      [clientId]="clientId"
+      [orgId]="orgId"
+      [invOrgId]="invOrgId"
+      [shipFlag]="shipFlag"
+      [AdhocPaymethodsList]="paymethodsList"
+      [AdhocAccountNumbersList]="accountNumbersList"
+      *ngIf="activeComponent === 'adhocPackageComponent'"
+    ></app-adhoc-carrier-details>
+    <hr
+      class="m-0 mt-1"
+      *ngIf="activeComponent === 'adhocPackageComponent' && erpType == 'EBS'"
+    />
+    <app-adhoc-printer-details
+      [printerInfo]="getPrinterInfo"
+      *ngIf="activeComponent === 'adhocPackageComponent' && erpType == 'EBS'"
+    ></app-adhoc-printer-details>
+    <app-international-details
+      [clientId]="clientId"
+      [orgId]="orgId"
+      [invOrgId]="invOrgId"
+      [erpType]="erpType"
+      [ciFlag]="ciFlag"
+      [uscoFlag]="uscoFlag"
+      [shipFlag]="shipFlag"
+      [shipmentHeadersInfo]="shipmentHeadersInfo"
+      [activeComponent]="activeComponent"
+      *ngIf="activeComponent === 'adhocInternationalComponent'"
+    ></app-international-details>
+  </div>
+</div>

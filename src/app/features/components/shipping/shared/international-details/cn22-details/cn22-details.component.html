@@ -1,0 +1,81 @@
+<div
+  *ngIf="intlCN22Info"
+  [formGroup]="intlCN22Info"
+  novalidate
+  autocomplete="off"
+>
+  <div class="card mt-2 border-top">
+    <div class="card-body p-1">
+      <div
+        class="btn btn-sm fw-bold border-0 text-primary text-start shadow-none w-100"
+        (click)="toggleCn22Details()"
+      >
+        CN22 Details
+        <span class="float-end">
+          <fa-icon [icon]="cn22Details ? faChevronUp : faChevronDown"></fa-icon>
+        </span>
+      </div>
+      <div class="border-top" *ngIf="cn22Details">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+                <select
+                  name="cn22Type"
+                  id="cn22Type"
+                  class="form-select form-control-sm"
+                  formControlName="cn22Type"
+                  [ngClass]="{
+                    'is-invalid':                
+                      cn22FormControls['cn22Type'].touched &&
+                      cn22FormControls['cn22Type'].errors?.['required']
+                  }"
+                >
+                  <option value="">---Select---</option>
+                  <option
+                    *ngFor="let cn22Type of cn22TypeList; trackBy: trackByFn"
+                    [value]="cn22Type.lookupValue"
+                  >
+                    {{ cn22Type.meaning }}
+                  </option>
+                </select>
+                <label for="cn22Type" class="floatLabel">
+                  Content Type
+                </label>
+                <small
+                     class="text-danger"
+                    *ngIf="cn22FormControls['cn22Type'].touched && cn22FormControls['cn22Type'].errors?.['required']">
+                         Please select Content Type
+                 </small>
+              </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-floating ms-0 mb-1 m-2">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                id="cn22OtherDescription"
+                name="cn22OtherDescription"
+                formControlName="cn22OtherDescription"
+                placeholder=""
+                [ngClass]="{
+                    'is-invalid':                
+                      cn22FormControls['cn22OtherDescription'].touched &&
+                      cn22FormControls['cn22OtherDescription'].errors?.['required']
+                  }"
+              />
+              <label for="cn22OtherDescription" class="floatLabel">
+                Other Description<span class="text-danger">*</span>
+              </label>
+              <small
+            class="text-danger"
+              *ngIf="cn22FormControls['cn22OtherDescription'].touched &&
+                         cn22FormControls['cn22OtherDescription'].errors?.['required']" >
+               Please provide Description
+             </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
